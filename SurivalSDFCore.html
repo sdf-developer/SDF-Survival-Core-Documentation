@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SurvivalSDF — Comandos</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #060810;
+    --bg2: #0c1018;
+    --surface: #111622;
+    --surface2: #161d2e;
+    --border: #1e2d4a;
+    --accent: #00e5ff;
+    --accent2: #7c3aed;
+    --gold: #fbbf24;
+    --green: #10b981;
+    --red: #ef4444;
+    --text: #e2e8f0;
+    --text-dim: #64748b;
+    --glow: 0 0 20px rgba(0,229,255,0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper { position: relative; z-index: 1; max-width: 1300px; margin: 0 auto; padding: 40px 24px; }
+
+  /* HEADER */
+  header {
+    text-align: center;
+    margin-bottom: 52px;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .logo-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-transform: uppercase;
+    border: 1px solid rgba(0,229,255,0.3);
+    padding: 4px 16px;
+    margin-bottom: 20px;
+    background: rgba(0,229,255,0.05);
+  }
+
+  h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 900;
+    letter-spacing: 2px;
+    line-height: 1;
+    background: linear-gradient(135deg, #fff 0%, var(--accent) 50%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: var(--text-dim);
+    font-weight: 300;
+    letter-spacing: 1px;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin: 28px 0 40px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  .stat-num {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 40px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .filter-btn {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(0,229,255,0.08);
+    box-shadow: var(--glow);
+  }
+
+  .filter-btn[data-cat="staff"].active { border-color: var(--red); color: var(--red); background: rgba(239,68,68,0.08); box-shadow: 0 0 20px rgba(239,68,68,0.2); }
+  .filter-btn[data-cat="usuario"].active { border-color: var(--green); color: var(--green); background: rgba(16,185,129,0.08); box-shadow: 0 0 20px rgba(16,185,129,0.2); }
+
+  /* SECTIONS */
+  .section {
+    margin-bottom: 48px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-icon { font-size: 22px; }
+
+  .section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .section-count {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+  }
+
+  /* COMMAND GRID */
+  .cmd-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 12px;
+  }
+
+  /* COMMAND CARD */
+  .cmd-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px 18px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s;
+    cursor: default;
+  }
+
+  .cmd-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+  }
+
+  .cmd-card.admin::before { background: var(--red); }
+  .cmd-card.usuario::before { background: var(--green); }
+  .cmd-card.ambos::before { background: linear-gradient(to bottom, var(--red), var(--green)); }
+
+  .cmd-card:hover {
+    border-color: rgba(0,229,255,0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    background: var(--surface2);
+  }
+
+  .cmd-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .cmd-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .cmd-name span { color: var(--accent); }
+
+  .badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .badge.admin { background: rgba(239,68,68,0.15); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); }
+  .badge.usuario { background: rgba(16,185,129,0.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.3); }
+  .badge.ambos { background: rgba(251,191,36,0.12); color: #fcd34d; border: 1px solid rgba(251,191,36,0.3); }
+  .badge.vip { background: rgba(251,191,36,0.18); color: #fde68a; border: 1px solid rgba(251,191,36,0.45); }
+
+  .cmd-card.vip::before { background: linear-gradient(to bottom, #fbbf24, #f59e0b); }
+  .filter-btn[data-cat="vip"].active { border-color: var(--gold); color: var(--gold); background: rgba(251,191,36,0.08); box-shadow: 0 0 20px rgba(251,191,36,0.2); }
+
+  .cmd-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  .cmd-perm {
+    margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: rgba(100,116,139,0.7);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .perm-node {
+    background: rgba(0,229,255,0.05);
+    border: 1px solid rgba(0,229,255,0.1);
+    padding: 2px 6px;
+    color: rgba(0,229,255,0.5);
+    font-size: 9px;
+  }
+
+  .cmd-aliases {
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .cmd-aliases em { color: rgba(0,229,255,0.5); font-style: normal; }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin-top: 48px;
+    padding: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item { display: flex; align-items: center; gap: 8px; }
+  .legend-dot { width: 12px; height: 3px; border-radius: 2px; }
+
+  /* Search */
+  .search-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+
+  .search-box {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 20px;
+    width: 100%;
+    max-width: 480px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-box:focus { border-color: var(--accent); }
+  .search-box::placeholder { color: var(--text-dim); }
+
+  /* hidden */
+  .cmd-card.hidden { display: none; }
+  .section.all-hidden { display: none; }
+
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="logo-tag">// Plugin Documentation</div>
+    <h1>SurvivalSDF Core</h1>
+    <p class="subtitle">Referencia completa de comandos y permisos</p>
+
+    <div class="stats-bar">
+      <div class="stat"><span class="stat-num" id="total-count">0</span> Comandos totales</div>
+      <div class="stat"><span class="stat-num" style="color:var(--red)" id="admin-count">0</span> Staff</div>
+      <div class="stat"><span class="stat-num" style="color:var(--gold)" id="vip-count">0</span> VIP</div>
+      <div class="stat"><span class="stat-num" style="color:var(--green)" id="user-count">0</span> Jugadores</div>
+    </div>
+  </header>
+
+  <div class="search-wrap">
+    <input class="search-box" id="searchBox" type="text" placeholder="Buscar comando o permiso..." autocomplete="off">
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" data-cat="all">Todos</button>
+    <button class="filter-btn" data-cat="usuario">👤 Jugador</button>
+    <button class="filter-btn" data-cat="staff">🛡 Staff</button>
+    <button class="filter-btn" data-cat="homes">🏠 Homes</button>
+    <button class="filter-btn" data-cat="economy">💰 Economía</button>
+    <button class="filter-btn" data-cat="combat">⚔ Combate</button>
+    <button class="filter-btn" data-cat="chat">💬 Chat</button>
+    <button class="filter-btn" data-cat="utility">🔧 Utilidad</button>
+    <button class="filter-btn" data-cat="clan">🏴 Clanes</button>
+    <button class="filter-btn" data-cat="vip">⭐ VIP</button>
+  </div>
+
+  <!-- HOMES -->
+  <div class="section" data-section="homes">
+    <div class="section-header">
+      <span class="section-icon">🏠</span>
+      <span class="section-title">Sistema de Homes</span>
+      <span class="section-count" id="count-homes"></span>
+    </div>
+    <div class="cmd-grid">
+
+      <div class="cmd-card usuario" data-cat="homes usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>home <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Teletransporta al jugador a su home. Sin argumento muestra la lista de homes disponibles.</div>
+        <div class="cmd-aliases">Alias: <em>/homes</em></div>
+        <div class="cmd-perm"><span class="perm-node">core.home</span><span class="perm-node">core.home.nocooldown</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="homes usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>sethome <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Establece un home en la posición actual. Número máximo de homes según el permiso <em>core.homes.N</em> (1–20).</div>
+        <div class="cmd-perm"><span class="perm-node">core.sethome</span><span class="perm-node">core.homes.1–20</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="homes usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>delhome <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Elimina un home guardado del jugador.</div>
+        <div class="cmd-perm"><span class="perm-node">core.delhome</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="homes staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>homescheck <span style="color:#94a3b8;font-weight:300">[jugador]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Permite al staff ver y gestionar los homes de cualquier jugador desde un menú GUI.</div>
+        <div class="cmd-perm"><span class="perm-node">core.homescheck</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- KITS -->
+  <div class="section" data-section="kits">
+    <div class="section-header">
+      <span class="section-icon">🎒</span>
+      <span class="section-title">Sistema de Kits</span>
+      <span class="section-count" id="count-kits"></span>
+    </div>
+    <div class="cmd-grid">
+
+      <div class="cmd-card usuario" data-cat="utility usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>kit <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Abre el menú de kits disponibles. Si se especifica nombre, reclama ese kit. Cada kit tiene su propio permiso y cooldown.</div>
+        <div class="cmd-aliases">Alias: <em>/kits</em></div>
+        <div class="cmd-perm"><span class="perm-node">core.kits</span><span class="perm-node">core.kit.[nombre]</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="utility staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>createkit <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Crea un nuevo kit con el inventario actual del administrador.</div>
+        <div class="cmd-perm"><span class="perm-node">core.createkit</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="utility staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>deletekit <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Elimina un kit existente del sistema.</div>
+        <div class="cmd-perm"><span class="perm-node">core.deletekit</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ECONOMÍA -->
+  <div class="section" data-section="economy">
+    <div class="section-header">
+      <span class="section-icon">💰</span>
+      <span class="section-title">Economía</span>
+      <span class="section-count" id="count-economy"></span>
+    </div>
+    <div class="cmd-grid">
+
+      <div class="cmd-card usuario" data-cat="economy usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>balance <span style="color:#94a3b8;font-weight:300">[jugador]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Muestra el saldo del jugador. Con argumento, consulta el saldo de otro jugador (requiere permiso extra).</div>
+        <div class="cmd-aliases">Alias: <em>/bal</em></div>
+        <div class="cmd-perm"><span class="perm-node">core.balance</span><span class="perm-node">core.balance.others</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="economy usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>baltop</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Muestra el ranking de los jugadores más ricos del servidor con interfaz paginada.</div>
+        <div class="cmd-aliases">Alias: <em>/balancetop</em></div>
+        <div class="cmd-perm"><span class="perm-node">core.baltop</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="economy usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>pay <span style="color:#94a3b8;font-weight:300">[jugador] [cantidad]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Transfiere dinero a otro jugador del servidor.</div>
+        <div class="cmd-perm"><span class="perm-node">core.pay</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="economy staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>eco <span style="color:#94a3b8;font-weight:300">[give|set|take] [jugador] [cantidad]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Gestiona el dinero de los jugadores. Permite dar, quitar o establecer saldo directamente.</div>
+        <div class="cmd-perm"><span class="perm-node">core.eco</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MENSAJERÍA / CHAT -->
+  <div class="section" data-section="chat">
+    <div class="section-header">
+      <span class="section-icon">💬</span>
+      <span class="section-title">Chat y Mensajería</span>
+      <span class="section-count" id="count-chat"></span>
+    </div>
+    <div class="cmd-grid">
+
+      <div class="cmd-card usuario" data-cat="chat usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>msg <span style="color:#94a3b8;font-weight:300">[jugador] [mensaje]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Envía un mensaje privado a otro jugador.</div>
+        <div class="cmd-aliases">Alias: <em>/tell</em></div>
+        <div class="cmd-perm"><span class="perm-node">core.msg</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="chat usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>r <span style="color:#94a3b8;font-weight:300">[mensaje]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Responde al último jugador que te envió un mensaje privado.</div>
+        <div class="cmd-perm"><span class="perm-node">core.msg</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="chat usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>msgtoggle</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Activa o desactiva la recepción de mensajes privados.</div>
+        <div class="cmd-aliases">Alias: <em>/tpm</em></div>
+        <div class="cmd-perm"><span class="perm-node">core.msgtoggle</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="chat usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>ignore <span style="color:#94a3b8;font-weight:300">[jugador]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Ignora o deja de ignorar los mensajes de un jugador específico.</div>
+        <div class="cmd-perm"><span class="perm-node">core.ignore</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="chat usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>helpop <span style="color:#94a3b8;font-weight:300">[mensaje]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Envía una solicitud de ayuda al staff online. Tiene cooldown configurable.</div>
+        <div class="cmd-perm"><span class="perm-node">core.helpop</span><span class="perm-node">core.helpop.ver (staff)</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="chat staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>broadcast <span style="color:#94a3b8;font-weight:300">[mensaje]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Envía un mensaje global a todos los jugadores del servidor con formato especial.</div>
+        <div class="cmd-aliases">Alias: <em>/alert</em></div>
+        <div class="cmd-perm"><span class="perm-node">core.broadcast</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="chat staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clearchat</div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Limpia el chat para todos los jugadores del servidor.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clearchat</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="chat staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>mutechat</div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Silencia o activa el chat global del servidor. Solo el staff puede escribir mientras está muteado.</div>
+        <div class="cmd-perm"><span class="perm-node">core.mutechat</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="chat staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>delaychat <span style="color:#94a3b8;font-weight:300">[segundos]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Establece el cooldown entre mensajes de chat para los jugadores.</div>
+        <div class="cmd-perm"><span class="perm-node">core.delaychat</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="chat staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>staffchat <span style="color:#94a3b8;font-weight:300">[mensaje]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Canal de chat privado exclusivo para miembros del staff.</div>
+        <div class="cmd-perm"><span class="perm-node">core.staff.chat</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TPA -->
+  <div class="section" data-section="tpa">
+    <div class="section-header">
+      <span class="section-icon">✈️</span>
+      <span class="section-title">Sistema TPA</span>
+      <span class="section-count" id="count-tpa"></span>
+    </div>
+    <div class="cmd-grid">
+
+      <div class="cmd-card usuario" data-cat="utility usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>tpa <span style="color:#94a3b8;font-weight:300">[jugador]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Envía una solicitud de teletransporte a otro jugador.</div>
+        <div class="cmd-perm"><span class="perm-node">core.tpa</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="utility usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>tpahere <span style="color:#94a3b8;font-weight:300">[jugador]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Solicita que otro jugador se teletransporte a tu posición.</div>
+        <div class="cmd-perm"><span class="perm-node">core.tpa</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="utility usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>tpaccept</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Acepta una solicitud de teletransporte pendiente.</div>
+        <div class="cmd-perm"><span class="perm-node">core.tpa</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="utility usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>tpadeny</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Rechaza una solicitud de teletransporte pendiente.</div>
+        <div class="cmd-perm"><span class="perm-node">core.tpa</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="utility staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>tpall</div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Teletransporta a todos los jugadores del servidor a la posición del ejecutor.</div>
+        <div class="cmd-perm"><span class="perm-node">core.tpall</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- AFK -->
+  <div class="section" data-section="afk">
+    <div class="section-header">
+      <span class="section-icon">💤</span>
+      <span class="section-title">AFK</span>
+      <span class="section-count" id="count-afk"></span>
+    </div>
+    <div class="cmd-grid">
+
+      <div class="cmd-card vip" data-cat="utility vip">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>afk</div>
+          <div class="badge vip">⭐ VIP</div>
+        </div>
+        <div class="cmd-desc">Marca al jugador como AFK (ausente). Se desactiva automáticamente al moverse.</div>
+        <div class="cmd-perm"><span class="perm-node">core.afk</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="utility staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>afkzone create <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Crea una nueva zona AFK con el nombre indicado en la posición actual. Los jugadores dentro reciben beneficios por estar inactivos.</div>
+        <div class="cmd-perm"><span class="perm-node">core.afkzone.admin</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="utility staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>afkzone delete <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Elimina una zona AFK existente del servidor de forma permanente.</div>
+        <div class="cmd-perm"><span class="perm-node">core.afkzone.admin</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="utility staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>afkzone list</div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Lista todas las zonas AFK configuradas en el servidor con sus nombres y ubicaciones.</div>
+        <div class="cmd-perm"><span class="perm-node">core.afkzone.admin</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CLANES -->
+  <div class="section" data-section="clan">
+    <div class="section-header">
+      <span class="section-icon">🏴</span>
+      <span class="section-title">Sistema de Clanes</span>
+      <span class="section-count" id="count-clan"></span>
+    </div>
+    <div class="cmd-grid">
+
+      <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan create <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Crea un nuevo clan con el nombre especificado. El jugador pasa a ser el líder.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan invite <span style="color:#94a3b8;font-weight:300">[jugador]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Invita a un jugador a unirse al clan. Solo el líder o capitanes pueden invitar.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan join <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Acepta una invitación y se une al clan indicado.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan leave</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Abandona el clan actual del jugador.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan kick <span style="color:#94a3b8;font-weight:300">[jugador]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Expulsa a un miembro del clan. Solo el líder o capitanes pueden usar este comando.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan promote <span style="color:#94a3b8;font-weight:300">[jugador]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Asciende a un miembro del clan a un rango superior (capitán). Solo el líder puede promover.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan disband</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Disuelve el clan permanentemente. Solo el líder puede ejecutar este comando. Requiere confirmación.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan sethome</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Establece la base del clan en la posición actual. Solo el líder o capitanes pueden cambiarlo.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan home</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Teletransporta al jugador a la base del clan. Tiene cooldown configurable.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span><span class="perm-node">core.clan.home.nocooldown</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan deposit <span style="color:#94a3b8;font-weight:300">[cantidad]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Ingresa dinero en el banco del clan. Todos los miembros pueden contribuir a las finanzas del clan.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan withdraw <span style="color:#94a3b8;font-weight:300">[cantidad]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Retira dinero del banco del clan. Solo el líder o capitanes pueden retirar fondos.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan ally <span style="color:#94a3b8;font-weight:300">[clan]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Envía o acepta una solicitud de alianza con otro clan. Los aliados no reciben daño entre ellos.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan rally</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Convoca a todos los miembros del clan enviándoles una alerta para que se unan en un punto de reunión.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan stats <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Muestra estadísticas detalladas del clan: kills, muertes, banco, nivel y miembros activos.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan top</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Muestra el ranking de los mejores clanes del servidor ordenados por puntuación o kills.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan info <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Muestra información general sobre un clan: miembros, líder, nivel y alianzas.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan chat <span style="color:#94a3b8;font-weight:300">[mensaje]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Envía un mensaje al chat privado del clan, visible solo para los miembros.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- COMBATE / KOTH -->
+  <div class="section" data-section="combat">
+    <div class="section-header">
+      <span class="section-icon">⚔️</span>
+      <span class="section-title">Combate y KOTH</span>
+      <span class="section-count" id="count-combat"></span>
+    </div>
+    <div class="cmd-grid">
+
+      <div class="cmd-card usuario" data-cat="combat usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>bounty <span style="color:#94a3b8;font-weight:300">[jugador] [cantidad]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Pone una recompensa económica sobre la cabeza de un jugador. Cualquiera que lo mate recibirá el dinero automáticamente.</div>
+        <div class="cmd-perm"><span class="perm-node">core.bounty</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="combat usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>bountylist</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Muestra la lista de todas las recompensas activas en el servidor ordenadas por cantidad.</div>
+        <div class="cmd-perm"><span class="perm-node">core.bounty</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="combat usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>koth list</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Muestra todos los eventos KOTH disponibles en el servidor con su estado actual (activo, inactivo, programado).</div>
+        <div class="cmd-perm"><span class="perm-node">—</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="combat staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>koth create <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Crea un nuevo evento KOTH con el nombre indicado. Después se configura la zona de captura y el loot.</div>
+        <div class="cmd-perm"><span class="perm-node">core.koth.admin</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="combat staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>koth delete <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Elimina un evento KOTH existente y toda su configuración de forma permanente.</div>
+        <div class="cmd-perm"><span class="perm-node">core.koth.admin</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="combat staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>koth setcapzone <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Define la zona de captura del KOTH en la posición actual del admin. Los jugadores deben permanecer dentro para ganar.</div>
+        <div class="cmd-perm"><span class="perm-node">core.koth.admin</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="combat staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>koth settime <span style="color:#94a3b8;font-weight:300">[nombre] [segundos]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Establece el tiempo total de captura necesario para ganar el evento KOTH en segundos.</div>
+        <div class="cmd-perm"><span class="perm-node">core.koth.admin</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="combat staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>koth setloot <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Abre el editor de recompensas del KOTH. Configura los ítems y dinero que recibirá el ganador.</div>
+        <div class="cmd-perm"><span class="perm-node">core.koth.admin</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="combat staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>koth schedule add <span style="color:#94a3b8;font-weight:300">[nombre] [hora]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Programa un inicio automático del KOTH a una hora concreta del día. Permite múltiples horarios por evento.</div>
+        <div class="cmd-perm"><span class="perm-node">core.koth.admin</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="combat staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>koth schedule <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Muestra los horarios programados de un evento KOTH específico.</div>
+        <div class="cmd-perm"><span class="perm-node">core.koth.admin</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STAFF -->
+  <div class="section" data-section="staff">
+    <div class="section-header">
+      <span class="section-icon">🛡️</span>
+      <span class="section-title">Herramientas Staff</span>
+      <span class="section-count" id="count-staff"></span>
+    </div>
+    <div class="cmd-grid">
+
+      <div class="cmd-card admin" data-cat="staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>staffmode</div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Activa/desactiva el modo staff. Proporciona herramientas especiales de moderación y visibilidad.</div>
+        <div class="cmd-perm"><span class="perm-node">core.staff.mode</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>vanish</div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Hace invisible al staff para los jugadores normales. Ideal para moderación encubierta.</div>
+        <div class="cmd-aliases">Alias: <em>/v</em></div>
+        <div class="cmd-perm"><span class="perm-node">core.staff.vanish</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>freeze <span style="color:#94a3b8;font-weight:300">[jugador]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Paraliza a un jugador impidiéndole moverse. Útil para investigaciones o screensh ares.</div>
+        <div class="cmd-aliases">Alias: <em>/ss</em></div>
+        <div class="cmd-perm"><span class="perm-node">core.staff.freeze</span></div>
+      </div>
+
+      <div class="cmd-card vip" data-cat="staff vip">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>invsee <span style="color:#94a3b8;font-weight:300">[jugador]</span></div>
+          <div class="badge vip">⭐ VIP</div>
+        </div>
+        <div class="cmd-desc">Abre el inventario de otro jugador para inspeccionarlo en tiempo real.</div>
+        <div class="cmd-perm"><span class="perm-node">core.invsee</span></div>
+      </div>
+
+      <div class="cmd-card vip" data-cat="staff vip">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>find <span style="color:#94a3b8;font-weight:300">[jugador]</span></div>
+          <div class="badge vip">⭐ VIP</div>
+        </div>
+        <div class="cmd-desc">Muestra la ubicación exacta (mundo, coordenadas) de un jugador online.</div>
+        <div class="cmd-perm"><span class="perm-node">core.find</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>gm <span style="color:#94a3b8;font-weight:300">[0|1|2|3] [jugador]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Cambia el modo de juego. Atajos: /gms (survival), /gmc (creative), /gma (adventure), /gmspec (spectator).</div>
+        <div class="cmd-aliases">Alias: <em>/gms /gmc /gma /gmspec</em></div>
+        <div class="cmd-perm"><span class="perm-node">core.gamemode</span></div>
+      </div>
+
+      <div class="cmd-card vip" data-cat="staff vip">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>fly <span style="color:#94a3b8;font-weight:300">[jugador]</span></div>
+          <div class="badge vip">⭐ VIP</div>
+        </div>
+        <div class="cmd-desc">Activa/desactiva el vuelo. Sin argumento aplica al propio jugador; con argumento requiere permiso extra de admin.</div>
+        <div class="cmd-perm"><span class="perm-node">core.fly</span><span class="perm-node">core.fly.others</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>slots</div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Gestiona el número de slots del servidor o muestra información de capacidad actual.</div>
+        <div class="cmd-perm"><span class="perm-node">core.slots</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>reload</div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Recarga la configuración del plugin SurvivalSDFCore sin reiniciar el servidor.</div>
+        <div class="cmd-perm"><span class="perm-node">core.reload</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>spawner <span style="color:#94a3b8;font-weight:300">[tipo]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Da un spawner del tipo de mob especificado al jugador. Para gestión de economía y tiendas.</div>
+        <div class="cmd-perm"><span class="perm-node">core.spawner.give</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- UTILIDAD GENERAL -->
+  <div class="section" data-section="utility">
+    <div class="section-header">
+      <span class="section-icon">🔧</span>
+      <span class="section-title">Utilidad General</span>
+      <span class="section-count" id="count-utility"></span>
+    </div>
+    <div class="cmd-grid">
+
+      <div class="cmd-card usuario" data-cat="utility usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>spawn</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Teletransporta al jugador al spawn principal. Tiene cooldown. Los admins pueden enviar a otros jugadores.</div>
+        <div class="cmd-perm"><span class="perm-node">core.spawn</span><span class="perm-node">core.spawn.nocooldown</span><span class="perm-node">core.spawn.others</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="utility staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>setspawn</div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Establece el punto de spawn del servidor en la posición actual del administrador.</div>
+        <div class="cmd-perm"><span class="perm-node">core.setspawn</span></div>
+      </div>
+
+      <div class="cmd-card vip" data-cat="utility vip">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>back</div>
+          <div class="badge vip">⭐ VIP</div>
+        </div>
+        <div class="cmd-desc">Regresa a la última ubicación antes del teletransporte o muerte del jugador.</div>
+        <div class="cmd-perm"><span class="perm-node">core.back</span><span class="perm-node">core.back.nocooldown</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="utility usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>ping <span style="color:#94a3b8;font-weight:300">[jugador]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Muestra el ping (latencia) propio o de otro jugador. Ver ping ajeno requiere permiso extra.</div>
+        <div class="cmd-perm"><span class="perm-node">core.ping</span><span class="perm-node">core.ping.others</span></div>
+      </div>
+
+      <div class="cmd-card vip" data-cat="utility vip">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>near</div>
+          <div class="badge vip">⭐ VIP</div>
+        </div>
+        <div class="cmd-desc">Muestra los jugadores cercanos al ejecutor con sus distancias aproximadas.</div>
+        <div class="cmd-perm"><span class="perm-node">core.near</span></div>
+      </div>
+
+      <div class="cmd-card vip" data-cat="utility vip">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>craft</div>
+          <div class="badge vip">⭐ VIP</div>
+        </div>
+        <div class="cmd-desc">Abre la mesa de crafteo portátil desde cualquier lugar sin necesitar bloque.</div>
+        <div class="cmd-perm"><span class="perm-node">core.craft</span></div>
+      </div>
+
+      <div class="cmd-card vip" data-cat="utility vip">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>anvil</div>
+          <div class="badge vip">⭐ VIP</div>
+        </div>
+        <div class="cmd-desc">Abre el yunque portátil desde cualquier lugar.</div>
+        <div class="cmd-perm"><span class="perm-node">core.anvil</span></div>
+      </div>
+
+      <div class="cmd-card vip" data-cat="utility vip">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>enderchest</div>
+          <div class="badge vip">⭐ VIP</div>
+        </div>
+        <div class="cmd-desc">Abre el ender chest portátil desde cualquier lugar sin necesitar bloque.</div>
+        <div class="cmd-aliases">Alias: <em>/ec</em></div>
+        <div class="cmd-perm"><span class="perm-node">core.enderchest</span></div>
+      </div>
+
+      <div class="cmd-card vip" data-cat="utility vip">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>repair <span style="color:#94a3b8;font-weight:300">[all]</span></div>
+          <div class="badge vip">⭐ VIP</div>
+        </div>
+        <div class="cmd-desc">Repara el objeto en mano. Con <em>all</em>, repara todo el inventario (permiso extra). Tiene cooldown.</div>
+        <div class="cmd-aliases">Alias: <em>/fix</em> &nbsp;·&nbsp; <em>/fix all</em></div>
+        <div class="cmd-perm"><span class="perm-node">core.repair</span><span class="perm-node">core.repair.all</span><span class="perm-node">core.repair.nocooldown</span></div>
+      </div>
+
+      <div class="cmd-card vip" data-cat="utility vip">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>condense</div>
+          <div class="badge vip">⭐ VIP</div>
+        </div>
+        <div class="cmd-desc">Compacta los materiales del inventario a su forma de bloque (ej: 9 lingotes → 1 bloque de hierro).</div>
+        <div class="cmd-perm"><span class="perm-node">core.condense</span></div>
+      </div>
+
+      <div class="cmd-card vip" data-cat="utility vip">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>hat</div>
+          <div class="badge vip">⭐ VIP</div>
+        </div>
+        <div class="cmd-desc">Coloca el objeto en mano como casco cosmético en la cabeza.</div>
+        <div class="cmd-perm"><span class="perm-node">core.hat</span></div>
+      </div>
+
+      <div class="cmd-card vip" data-cat="utility vip">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>skull <span style="color:#94a3b8;font-weight:300">[jugador]</span></div>
+          <div class="badge vip">⭐ VIP</div>
+        </div>
+        <div class="cmd-desc">Da una cabeza de jugador con la skin especificada o del ejecutor.</div>
+        <div class="cmd-perm"><span class="perm-node">core.skull</span></div>
+      </div>
+
+      <div class="cmd-card vip" data-cat="utility vip">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>rename <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
+          <div class="badge vip">⭐ VIP</div>
+        </div>
+        <div class="cmd-desc">Renombra el objeto en mano con soporte de colores y formato.</div>
+        <div class="cmd-perm"><span class="perm-node">core.rename</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="utility staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>ci</div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Limpia el inventario completo del jugador que ejecuta el comando.</div>
+        <div class="cmd-perm"><span class="perm-node">core.ci</span></div>
+      </div>
+
+      <div class="cmd-card vip" data-cat="utility vip">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>feed <span style="color:#94a3b8;font-weight:300">[jugador]</span></div>
+          <div class="badge vip">⭐ VIP</div>
+        </div>
+        <div class="cmd-desc">Restaura el hambre al máximo. Tiene cooldown configurable.</div>
+        <div class="cmd-perm"><span class="perm-node">core.feed</span><span class="perm-node">core.feed.nocooldown</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="utility usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>scoreboard</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Activa o desactiva el scoreboard lateral para el jugador.</div>
+        <div class="cmd-perm"><span class="perm-node">core.scoreboard.toggle</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="utility usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>list</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Muestra la lista de jugadores online organizados por rango (staff, VIP, jugadores).</div>
+        <div class="cmd-perm"><span class="perm-node">core.vip (VIP tag)</span><span class="perm-node">core.staff.ver-vanish</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> Permiso de Jugador</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div> Exclusivo VIP</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> Permiso de Staff</div>
+    <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(90deg,var(--red),var(--green))"></div> Mixto (base jugador, extras staff)</div>
+    <div class="legend-item" style="margin-left:16px; font-size:11px; opacity:.6">SurvivalSDFCore Plugin · Todos los permisos con prefijo <em>core.*</em></div>
+  </div>
+
+</div>
+
+<script>
+  // Count cards
+  const allCards = document.querySelectorAll('.cmd-card');
+  document.getElementById('total-count').textContent = allCards.length;
+  document.getElementById('admin-count').textContent = document.querySelectorAll('.cmd-card.admin').length;
+  document.getElementById('vip-count').textContent = document.querySelectorAll('.cmd-card.vip').length;
+  document.getElementById('user-count').textContent = document.querySelectorAll('.cmd-card.usuario').length;
+
+  // Count per section
+  function updateSectionCounts() {
+    document.querySelectorAll('.section').forEach(sec => {
+      const visible = sec.querySelectorAll('.cmd-card:not(.hidden)').length;
+      const id = 'count-' + sec.dataset.section;
+      const el = document.getElementById(id);
+      if (el) el.textContent = visible + ' comandos';
+      sec.classList.toggle('all-hidden', visible === 0);
+    });
+  }
+
+  // Filter buttons
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilters();
+    });
+  });
+
+  function applyFilters() {
+    const activeCat = document.querySelector('.filter-btn.active').dataset.cat;
+    const search = document.getElementById('searchBox').value.toLowerCase().trim();
+
+    allCards.forEach(card => {
+      const cats = card.dataset.cat || '';
+      const text = card.textContent.toLowerCase();
+      const catMatch = activeCat === 'all' || cats.includes(activeCat);
+      const searchMatch = !search || text.includes(search);
+      card.classList.toggle('hidden', !(catMatch && searchMatch));
+    });
+
+    updateSectionCounts();
+  }
+
+  document.getElementById('searchBox').addEventListener('input', applyFilters);
+
+  updateSectionCounts();
+
+  // Stagger animations for sections
+  document.querySelectorAll('.section').forEach((s, i) => {
+    s.style.animationDelay = (0.1 + i * 0.05) + 's';
+  });
+</script>
+</body>
+</html>
