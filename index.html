@@ -565,6 +565,24 @@
         <div class="cmd-desc">Envía una solicitud de ayuda al staff online. Tiene cooldown configurable.</div>
         <div class="cmd-perm"><span class="perm-node">core.helpop</span><span class="perm-node">core.helpop.ver (staff)</span></div>
       </div>
+	  
+	  <div class="cmd-card usuario" data-cat="chat usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>report <span style="color:#94a3b8;font-weight:300">[jugador] [motivo]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Envía un reporte al staff online. Tiene cooldown configurable.</div>
+        <div class="cmd-perm"><span class="perm-node">core.report</span><span class="perm-node">core.report.ver (staff)</span></div>
+      </div>
+	  
+	  <div class="cmd-card usuario" data-cat="chat usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>seereports <span style="color:#94a3b8;font-weight:300">[jugador] [motivo]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc">Podras revisar todos los reportes de un jugador.</div>
+        <div class="cmd-perm"><span class="perm-node">core.staff.seereports</span></div>
+      </div>
 
       <div class="cmd-card admin" data-cat="chat staff">
         <div class="cmd-top">
@@ -883,17 +901,8 @@
         <div class="cmd-desc">Muestra estadísticas detalladas del clan: kills, muertes, banco, nivel y miembros activos.</div>
         <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
       </div>
-
-      <div class="cmd-card usuario" data-cat="clan usuario">
-        <div class="cmd-top">
-          <div class="cmd-name"><span>/</span>clan top</div>
-          <div class="badge usuario">Jugador</div>
-        </div>
-        <div class="cmd-desc">Muestra el ranking de los mejores clanes del servidor ordenados por puntuación o kills.</div>
-        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
-      </div>
-
-      <div class="cmd-card usuario" data-cat="clan usuario">
+	  
+	  <div class="cmd-card usuario" data-cat="clan usuario">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>clan info <span style="color:#94a3b8;font-weight:300">[nombre]</span></div>
           <div class="badge usuario">Jugador</div>
@@ -908,6 +917,42 @@
           <div class="badge usuario">Jugador</div>
         </div>
         <div class="cmd-desc">Envía un mensaje al chat privado del clan, visible solo para los miembros.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan top puntos</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Muestra el ranking de los mejores clanes del servidor ordenados por puntuación.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+	  
+	  <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan top muertes</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Muestra el ranking de los mejores clanes del servidor ordenados por muertes.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+	  
+	  <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan top asesinatos</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Muestra el ranking de los mejores clanes del servidor ordenados por asesinatos.</div>
+        <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
+      </div>
+	  
+	  <div class="cmd-card usuario" data-cat="clan usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>clan top dinero</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Muestra el ranking de los mejores clanes del servidor ordenados por dinero.</div>
         <div class="cmd-perm"><span class="perm-node">core.clan</span></div>
       </div>
 
@@ -1283,6 +1328,42 @@
         </div>
         <div class="cmd-desc">Muestra la lista de jugadores online organizados por rango (staff, VIP, jugadores).</div>
         <div class="cmd-perm"><span class="perm-node">core.vip (VIP tag)</span><span class="perm-node">core.staff.ver-vanish</span></div>
+      </div>
+	  
+	  <div class="cmd-card usuario" data-cat="utility usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>stats <span style="color:#94a3b8;font-weight:300">[jugador]</span></div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Muestra las estadisitcas de jugadores.</div>
+        <div class="cmd-perm"><span class="perm-node">core.stats</span></div>
+      </div>
+	  
+	  <div class="cmd-card usuario" data-cat="utility usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>leaderboards muertes</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Muestra las estadisitcas de muertes de los jugadores.</div>
+        <div class="cmd-perm"><span class="perm-node">core.leaderboards</span></div>
+      </div>
+	  
+	  <div class="cmd-card usuario" data-cat="utility usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>leaderboards asesinatos</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Muestra las estadisitcas de asesinatos de los jugadores.</div>
+        <div class="cmd-perm"><span class="perm-node">core.leaderboards</span></div>
+      </div>
+	  
+	  <div class="cmd-card usuario" data-cat="utility usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>leaderboards playtime</div>
+          <div class="badge usuario">Jugador</div>
+        </div>
+        <div class="cmd-desc">Muestra las estadisitcas de playtime de los jugadores.</div>
+        <div class="cmd-perm"><span class="perm-node">core.leaderboards</span></div>
       </div>
 
     </div>
