@@ -1,0 +1,45 @@
+<div id="sidebar">
+  <h2>Menú</h2>
+  <ul>
+    <li><a href="comandos.html">Comandos</a></li>
+    <li><a href="permisos.html">Permisos</a></li>
+    <li><a href="index.html#instalacion">Instalación</a></li>
+    <li><a href="contacto.html">Contacto</a></li>
+  </ul>
+</div>
+
+<style>
+#sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 220px;
+  height: 100%;
+  background: #1e1e1e;
+  padding: 20px;
+  color: white;
+  overflow-y: auto;
+}
+
+#sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+#sidebar ul li {
+  margin: 10px 0;
+}
+
+#sidebar a {
+  color: #4fa3ff;
+  text-decoration: none;
+}
+
+#sidebar a:hover {
+  text-decoration: underline;
+}
+
+body {
+  margin-left: 240px; /* para que el contenido no quede debajo del menú */
+}
+</style>
