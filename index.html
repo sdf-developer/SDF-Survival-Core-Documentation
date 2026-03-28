@@ -72,7 +72,13 @@ body {
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
-  scrollbar-gutter: stable;
+}
+
+body.modal-open {
+  overflow: hidden;
+  width: 100%;
+  position: fixed;
+  top: var(--scroll-y, 0px);
 }
 
 .page {
@@ -2449,17 +2455,21 @@ function openModal(key) {
     d.features.map(f => `<div class="modal-feature">${f}</div>`).join('');
 
   overlay.classList.add('open');
-  document.body.style.overflow = 'hidden';
+  // Lock scroll without layout shift
+  const scrollY = window.scrollY;
+  document.documentElement.style.setProperty('--scroll-y', `-${scrollY}px`);
+  document.body.classList.add('modal-open');
 }
 
 function closeModal() {
   overlay.classList.remove('open');
   overlay.classList.remove('has-images');
   overlay.style.pointerEvents = 'none';
-  setTimeout(() => {
-    document.body.style.overflow = '';
-    overlay.style.pointerEvents = '';
-  }, 350);
+  // Restore scroll position
+  const scrollY = parseInt(document.documentElement.style.getPropertyValue('--scroll-y') || '0') * -1;
+  document.body.classList.remove('modal-open');
+  window.scrollTo(0, scrollY);
+  setTimeout(() => { overlay.style.pointerEvents = ''; }, 350);
 }
 
 document.querySelectorAll('.sys-card[data-system]').forEach(card => {
