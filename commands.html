@@ -761,7 +761,7 @@
   <div class="section" data-section="homes">
     <div class="section-header">
       <span class="section-icon">🏠</span>
-      <span class="section-title">Home System</span>
+      <span class="section-title" data-i18n="sec_homes">Home System</span>
       <span class="section-count" id="count-homes"></span>
     </div>
     <div class="cmd-grid">
@@ -810,7 +810,7 @@
   <div class="section" data-section="kits">
     <div class="section-header">
       <span class="section-icon">🎒</span>
-      <span class="section-title">Kit System</span>
+      <span class="section-title" data-i18n="sec_kits">Kit System</span>
       <span class="section-count" id="count-kits"></span>
     </div>
     <div class="cmd-grid">
@@ -850,7 +850,7 @@
   <div class="section" data-section="economy">
     <div class="section-header">
       <span class="section-icon">💰</span>
-      <span class="section-title">Economy</span>
+      <span class="section-title" data-i18n="sec_economy">Economy</span>
       <span class="section-count" id="count-economy"></span>
     </div>
     <div class="cmd-grid">
@@ -900,7 +900,7 @@
   <div class="section" data-section="chat">
     <div class="section-header">
       <span class="section-icon">💬</span>
-      <span class="section-title">Chat &amp; Messaging</span>
+      <span class="section-title" data-i18n="sec_chat">Chat &amp; Messaging</span>
       <span class="section-count" id="count-chat"></span>
     </div>
     <div class="cmd-grid">
@@ -1023,7 +1023,7 @@
   <div class="section" data-section="tpa">
     <div class="section-header">
       <span class="section-icon">✈️</span>
-      <span class="section-title">TPA System</span>
+      <span class="section-title" data-i18n="sec_tpa">TPA System</span>
       <span class="section-count" id="count-tpa"></span>
     </div>
     <div class="cmd-grid">
@@ -1100,7 +1100,7 @@
   <div class="section" data-section="afk">
     <div class="section-header">
       <span class="section-icon">💤</span>
-      <span class="section-title">AFK</span>
+      <span class="section-title" data-i18n="sec_afk">AFK</span>
       <span class="section-count" id="count-afk"></span>
     </div>
     <div class="cmd-grid">
@@ -1148,7 +1148,7 @@
   <div class="section" data-section="clan">
     <div class="section-header">
       <span class="section-icon">🏴</span>
-      <span class="section-title">Clan System</span>
+      <span class="section-title" data-i18n="sec_clans">Clan System</span>
       <span class="section-count" id="count-clan"></span>
     </div>
     <div class="cmd-grid">
@@ -1349,7 +1349,7 @@
   <div class="section" data-section="llaves">
     <div class="section-header">
       <span class="section-icon">🔑</span>
-      <span class="section-title">Crate System</span>
+      <span class="section-title" data-i18n="sec_crates">Crate System</span>
       <span class="section-count" id="count-llaves"></span>
     </div>
     <div class="cmd-grid">
@@ -1451,7 +1451,7 @@
   <div class="section" data-section="combat">
     <div class="section-header">
       <span class="section-icon">⚔️</span>
-      <span class="section-title">Combat &amp; KOTH</span>
+      <span class="section-title" data-i18n="sec_combat">Combat &amp; KOTH</span>
       <span class="section-count" id="count-combat"></span>
     </div>
     <div class="cmd-grid">
@@ -1553,7 +1553,7 @@
   <div class="section" data-section="staff">
     <div class="section-header">
       <span class="section-icon">🛡️</span>
-      <span class="section-title">Staff Tools</span>
+      <span class="section-title" data-i18n="sec_staff">Staff Tools</span>
       <span class="section-count" id="count-staff"></span>
     </div>
     <div class="cmd-grid">
@@ -1667,7 +1667,7 @@
   <div class="section" data-section="utility">
     <div class="section-header">
       <span class="section-icon">🔧</span>
-      <span class="section-title">General Utility</span>
+      <span class="section-title" data-i18n="sec_utility">General Utility</span>
       <span class="section-count" id="count-utility"></span>
     </div>
     <div class="cmd-grid">
@@ -1899,7 +1899,7 @@
       const visible = sec.querySelectorAll('.cmd-card:not(.hidden)').length;
       const id = 'count-' + sec.dataset.section;
       const el = document.getElementById(id);
-      if (el) el.textContent = visible + ' commands';
+      if (el) el.textContent = visible + ' ' + (window.__t_commands || 'commands');
       sec.classList.toggle('all-hidden', visible === 0);
     });
   }
