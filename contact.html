@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SDF Survival Core — Contact</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f06a00'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Arial Black,sans-serif' font-weight='900' font-size='20' fill='white'%3ES%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="sdf-core.js" defer></script>
 <style>
@@ -114,6 +114,7 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
 <nav id="sidebar-nav">
   <a class="nav-item" href="index.html"><div class="nav-active-bar"></div><div class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="9,22 9,12 15,12 15,22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="nav-label" id="nav-home">Home</span></a>
   <a class="nav-item" href="commands.html"><div class="nav-active-bar"></div><div class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><polyline points="4,17 10,11 4,5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="19" x2="20" y2="19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><span class="nav-label" id="nav-commands">Commands</span></a>
+  <a class="nav-item" href="changelog.html"><div class="nav-active-bar"></div><div class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/></svg></div><span class="nav-label" id="nav-changelog">Changelog</span></a>
   <a class="nav-item" href="index.html#installation"><div class="nav-active-bar"></div><div class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="7,10 12,15 17,10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><span class="nav-label" id="nav-installation">Installation</span></a>
   <a class="nav-item active" href="contact.html"><div class="nav-active-bar"></div><div class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="nav-label" id="nav-contact">Contact</span></a>
 </nav>
@@ -122,45 +123,44 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
   <div class="header">
     <div class="header-eyebrow">
       <div class="eyebrow-line"></div>
-      <div class="eyebrow-text">SDF Survival Core · Support & Contact</div>
+      <div class="eyebrow-text" data-i18n="eyebrow_contact">SDF Survival Core · Support & Contact</div>
       <div class="eyebrow-line"></div>
     </div>
     <div class="main-title"><span class="accent">CONT</span>ACT<span class="sub">GET IN TOUCH</span></div>
-    <p class="tagline">Have questions, suggestions, or need help with the plugin? Reach out by email or join our Discord server.</p>
+    <p class="tagline" data-i18n="tagline_contact">Have questions, suggestions, or need help with the plugin? Reach out by email or join our Discord server.</p>
   </div>
 
-  <div class="section-label reveal"><div class="section-label-dot"></div><div class="section-label-text">Contact channels</div><div class="section-label-line"></div></div>
+  <div class="section-label reveal"><div class="section-label-dot"></div><div class="section-label-text" data-i18n="channels_label">Contact channels</div><div class="section-label-line"></div></div>
 
   <div class="contact-section reveal reveal-delay-1">
     <div class="contact-grid">
-      <a class="contact-card email" href="mailto:contact@sdfsurvival.com">
+      <a class="contact-card email" href="/cdn-cgi/l/email-protection#03606c6d7762607743706765707671756a75626f2d606c6e">
         <div class="card-icon-wrap"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="3" y="7" width="26" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M3 10 L16 18 L29 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="card-type">Email</div>
-        <div class="card-title">Email</div>
-        <div class="card-value">contact@sdfsurvival.com</div>
-        <div class="card-desc">For support inquiries, bug reports, or feature requests. We respond within 24–48h.</div>
-        <div class="card-cta">Send email <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6H10M10 6L7 3M10 6L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="card-type" data-i18n="email_type">Email</div>
+        <div class="card-title" data-i18n="email_title">Email</div>
+        <div class="card-value"><span class="__cf_email__" data-cfemail="afccc0c1dbceccdbefdccbc9dcdaddd9c6d9cec381ccc0c2">[email&#160;protected]</span></div>
+        <div class="card-desc" data-i18n="email_desc">For support inquiries, bug reports, or feature requests. We respond within 24–48h.</div>
       </a>
-      <a class="contact-card discord" href="https://discord.gg/sdfsurvival" target="_blank" rel="noopener">
+      <a class="contact-card discord" href="https://discord.gg/xYJ7taj79v" target="_blank" rel="noopener">
         <div class="card-icon-wrap"><svg width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M28.7 7.1a25.3 25.3 0 0 0-6.3-2 .1.1 0 0 0-.1.1 17.6 17.6 0 0 0-.8 1.6 23.4 23.4 0 0 0-7 0A17 17 0 0 0 13.7 5a.1.1 0 0 0-.1 0 25.2 25.2 0 0 0-6.3 2c-.1 0-.1 0-.1.1C3 12.4 2 17.5 2.5 22.6v.1a25.4 25.4 0 0 0 7.8 4 .1.1 0 0 0 .1 0c.6-.8 1.1-1.7 1.6-2.6a.1.1 0 0 0-.1-.1 16.7 16.7 0 0 1-2.4-1.1.1.1 0 0 1 0-.2l.5-.4a.1.1 0 0 1 .1 0c5 2.3 10.4 2.3 15.4 0a.1.1 0 0 1 .1 0l.5.4a.1.1 0 0 1 0 .2 16 16 0 0 1-2.4 1.1.1.1 0 0 0 0 .2c.5.9 1 1.8 1.6 2.6a.1.1 0 0 0 .1 0 25.3 25.3 0 0 0 7.8-4v-.1c.6-6-1-11-4.1-15.5a.1.1 0 0 0 0 0ZM12.4 19.5c-1.5 0-2.8-1.4-2.8-3.1s1.2-3.1 2.8-3.1c1.5 0 2.8 1.4 2.8 3.1s-1.2 3.1-2.8 3.1Zm10.3 0c-1.5 0-2.8-1.4-2.8-3.1s1.2-3.1 2.8-3.1c1.5 0 2.8 1.4 2.8 3.1s-1.2 3.1-2.8 3.1Z" fill="currentColor"/></svg></div>
-        <div class="card-type">Community</div>
-        <div class="card-title">Discord</div>
-        <div class="card-value">discord.gg/sdfsurvival</div>
-        <div class="card-desc">Join our community. Real-time support, announcements, changelog and community suggestions.</div>
-        <div class="card-cta">Join server <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6H10M10 6L7 3M10 6L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="card-type" data-i18n="discord_type">Community</div>
+        <div class="card-title" data-i18n="discord_title">Discord</div>
+        <div class="card-value">discord.gg/xYJ7taj79v</div>
+        <div class="card-desc" data-i18n="discord_desc">Join our community. Real-time support, announcements, changelog and community suggestions.</div>
+        <div class="card-cta" data-i18n="discord_cta">Join server <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6H10M10 6L7 3M10 6L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </a>
     </div>
   </div>
 
   <div class="info-row reveal reveal-delay-2">
-    <div class="info-pill"><div class="info-pill-dot green"></div>Plugin active and maintained</div>
-    <div class="info-pill"><div class="info-pill-dot orange"></div>Support in Spanish & English</div>
-    <div class="info-pill"><div class="info-pill-dot orange"></div>Response time: 24–48h</div>
+    <div class="info-pill"><div class="info-pill-dot green"></div><span data-i18n="pill_active">Plugin active and maintained</span></div>
+    <div class="info-pill"><div class="info-pill-dot orange"></div><span data-i18n="pill_support">Support in Spanish & English</span></div>
+    <div class="info-pill"><div class="info-pill-dot orange"></div><span data-i18n="pill_response">Response time: 24–48h</span></div>
   </div>
 
   <div class="bottom-stripe reveal reveal-delay-2"></div>
   <footer class="site-footer">
-    <span class="site-footer-text">Made by</span>
+    <span class="site-footer-text" data-i18n="footer_made">Made by</span>
     <div class="site-footer-dot"></div>
     <span class="site-footer-brand">SDF Survival Core</span>
     <div class="site-footer-dot"></div>
@@ -168,7 +168,7 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
   </footer>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const cursor=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
 let mx=-100,my=-100,rx=-100,ry=-100;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
@@ -182,12 +182,4 @@ for(let i=0;i<60;i++)particles.push({x:Math.random()*2000,y:Math.random()*1200,v
 const obs=new IntersectionObserver(e=>e.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 document.querySelectorAll('.faq-question').forEach(q=>{
-  q.addEventListener('click',()=>{
-    const item=q.parentElement,isOpen=item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
-    if(!isOpen)item.classList.add('open');
-  });
-});
-</script>
-</body>
-</html>
+  q.addEventListe
