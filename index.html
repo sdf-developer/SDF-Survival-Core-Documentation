@@ -2402,11 +2402,8 @@ lightbox.addEventListener('click', e => { if (e.target === lightbox || e.target 
 document.getElementById('lb-prev').addEventListener('click', (e) => { e.stopPropagation(); lbNav(-1); });
 document.getElementById('lb-next').addEventListener('click', (e) => { e.stopPropagation(); lbNav(1); });
 document.addEventListener('keydown', e => {
-  if (lightbox.classList.contains('open')) {
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft') lbNav(-1);
-    if (e.key === 'ArrowRight') lbNav(1);
-  }
+  if (e.key === 'ArrowLeft' && lightbox.classList.contains('open')) lbNav(-1);
+  if (e.key === 'ArrowRight' && lightbox.classList.contains('open')) lbNav(1);
 });
 
 function openModal(key) {
@@ -2457,7 +2454,12 @@ function openModal(key) {
 function closeModal() {
   overlay.classList.remove('open');
   overlay.classList.remove('has-images');
-  document.body.style.overflow = '';
+  // Wait for CSS transition to finish before restoring scroll and pointer-events
+  overlay.addEventListener('transitionend', () => {
+    document.body.style.overflow = '';
+  }, { once: true });
+  // Fallback in case transitionend doesn't fire
+  setTimeout(() => { document.body.style.overflow = ''; }, 350);
 }
 
 document.querySelectorAll('.sys-card[data-system]').forEach(card => {
@@ -2466,7 +2468,15 @@ document.querySelectorAll('.sys-card[data-system]').forEach(card => {
 
 modalClose.addEventListener('click', closeModal);
 overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (lightbox.classList.contains('open')) {
+      closeLightbox();
+    } else if (overlay.classList.contains('open')) {
+      closeModal();
+    }
+  }
+});
 </script>
 </body>
 </html>
