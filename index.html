@@ -2449,15 +2449,17 @@ function openModal(key) {
 
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
+  document.body.style.paddingRight = (window.innerWidth - document.documentElement.clientWidth) + 'px';
 }
 
 function closeModal() {
   overlay.classList.remove('open');
   overlay.classList.remove('has-images');
-  overlay.style.pointerEvents = 'none'; // immediate — don't wait for CSS transition
+  overlay.style.pointerEvents = 'none';
   setTimeout(() => {
     document.body.style.overflow = '';
-    overlay.style.pointerEvents = ''; // restore to CSS-controlled after transition
+    document.body.style.paddingRight = '';
+    overlay.style.pointerEvents = '';
   }, 350);
 }
 
