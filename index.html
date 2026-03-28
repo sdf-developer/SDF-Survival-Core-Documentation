@@ -786,33 +786,66 @@ body {
 }
 
 /* ══════════════════════════════════
-   IMAGE SLIDER
+   IMAGE SLIDER — UPGRADED
 ══════════════════════════════════ */
+
+/* When modal has images, switch to vertical layout */
+.modal-overlay.has-images .modal {
+  max-width: 760px;
+}
+.modal-overlay.has-images .modal-body {
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding-bottom: 20px;
+}
+.modal-overlay.has-images .modal-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 20px;
+}
+.modal-overlay.has-images .modal-desc {
+  grid-column: 1 / -1;
+}
+
+/* Slider container */
 .modal-slider {
   position: relative;
   width: 100%;
-  height: 100%;
-  min-height: 180px;
-  overflow: hidden;
   border-radius: 4px;
+  overflow: hidden;
+  background: var(--bg);
+  border: 1px solid var(--border);
 }
 
-.slider-track {
-  display: flex;
+/* Main image viewport */
+.slider-viewport {
+  position: relative;
   width: 100%;
-  height: 100%;
-  transition: transform 0.38s cubic-bezier(0.16,1,0.3,1);
+  height: 300px;
+  overflow: hidden;
+  cursor: zoom-in !important;
 }
 
+/* Slides with fade transition */
 .slider-slide {
-  flex: 0 0 100%;
-  width: 100%;
-  height: 100%;
-  min-height: 180px;
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg);
+  opacity: 0;
+  transition: opacity 0.45s cubic-bezier(0.16,1,0.3,1), transform 0.45s cubic-bezier(0.16,1,0.3,1);
+  transform: translateX(30px);
+  pointer-events: none;
+}
+.slider-slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: all;
+}
+.slider-slide.exit-left {
+  opacity: 0;
+  transform: translateX(-30px);
 }
 
 .slider-slide img {
@@ -820,55 +853,192 @@ body {
   height: 100%;
   object-fit: contain;
   display: block;
-  max-height: 220px;
-  pointer-events: none;
   user-select: none;
+  pointer-events: none;
 }
 
+/* Prev / Next arrow buttons */
 .slider-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 28px; height: 28px;
-  background: rgba(0,0,0,0.6);
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  color: rgba(255,255,255,0.6);
+  width: 32px; height: 32px;
+  background: rgba(10,10,12,0.75);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  color: rgba(255,255,255,0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
   cursor: pointer !important;
   z-index: 10;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
 }
 .slider-btn:hover {
+  background: rgba(240,106,0,0.25);
+  border-color: var(--border-o);
+  color: var(--orange);
+}
+.slider-prev { left: 10px; }
+.slider-next { right: 10px; }
+.slider-prev:hover { transform: translateY(-50%) translateX(-2px); }
+.slider-next:hover { transform: translateY(-50%) translateX(2px); }
+
+/* Counter badge */
+.slider-counter {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.4);
+  background: rgba(0,0,0,0.6);
+  padding: 3px 8px;
+  border-radius: 3px;
+  backdrop-filter: blur(4px);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Expand icon hint */
+.slider-expand-hint {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.3);
+  background: rgba(0,0,0,0.55);
+  padding: 3px 8px;
+  border-radius: 3px;
+  backdrop-filter: blur(4px);
+  z-index: 10;
+  pointer-events: none;
+  transition: color 0.2s;
+}
+.slider-viewport:hover .slider-expand-hint {
+  color: rgba(240,106,0,0.8);
+}
+
+/* Thumbnail strip */
+.slider-thumbs {
+  display: flex;
+  gap: 6px;
+  padding: 8px 10px;
+  background: rgba(0,0,0,0.3);
+  border-top: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.slider-thumbs::-webkit-scrollbar { display: none; }
+
+.slider-thumb {
+  flex: 0 0 56px;
+  height: 38px;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1.5px solid transparent;
+  transition: border-color 0.2s, opacity 0.2s, transform 0.2s;
+  cursor: pointer !important;
+  opacity: 0.45;
+}
+.slider-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+.slider-thumb:hover { opacity: 0.75; transform: scaleY(1.04); }
+.slider-thumb.active {
+  border-color: var(--orange);
+  opacity: 1;
+}
+
+/* ── LIGHTBOX ── */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  cursor: zoom-out !important;
+}
+.lightbox-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.lightbox-img {
+  max-width: 92vw;
+  max-height: 88vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 0 80px rgba(0,0,0,0.8);
+  transform: scale(0.96);
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  pointer-events: none;
+  user-select: none;
+}
+.lightbox-overlay.open .lightbox-img {
+  transform: scale(1);
+}
+.lightbox-close {
+  position: absolute;
+  top: 20px; right: 20px;
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 4px;
+  color: rgba(255,255,255,0.6);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer !important;
+  transition: background 0.2s, color 0.2s;
+}
+.lightbox-close:hover {
+  background: rgba(240,106,0,0.2);
+  color: var(--orange);
+}
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px; height: 44px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  color: rgba(255,255,255,0.5);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer !important;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.lightbox-nav:hover {
   background: rgba(240,106,0,0.2);
   border-color: var(--border-o);
   color: var(--orange);
 }
-.slider-prev { left: 8px; }
-.slider-next { right: 8px; }
-
-.slider-dots {
+.lightbox-nav.lb-prev { left: 20px; }
+.lightbox-nav.lb-next { right: 20px; }
+.lightbox-nav.lb-prev:hover { transform: translateY(-50%) translateX(-3px); }
+.lightbox-nav.lb-next:hover { transform: translateY(-50%) translateX(3px); }
+.lightbox-counter {
   position: absolute;
-  bottom: 8px;
-  left: 50%;
+  bottom: 20px; left: 50%;
   transform: translateX(-50%);
-  display: flex;
-  gap: 5px;
-  z-index: 10;
-}
-.slider-dot {
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.25);
-  transition: background 0.2s, transform 0.2s;
-  cursor: pointer !important;
-}
-.slider-dot.active {
-  background: var(--orange);
-  transform: scale(1.3);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.3);
 }
 
 /* ══════════════════════════════════
@@ -1324,14 +1494,21 @@ body {
       <div class="modal-preview" id="modal-preview-wrap">
         <!-- Image slider (shown when images exist) -->
         <div class="modal-slider" id="modal-slider" style="display:none;">
-          <div class="slider-track" id="slider-track"></div>
-          <button class="slider-btn slider-prev" id="slider-prev" aria-label="Previous">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button class="slider-btn slider-next" id="slider-next" aria-label="Next">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2L10 7L5 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <div class="slider-dots" id="slider-dots"></div>
+          <div class="slider-viewport" id="slider-viewport">
+            <div id="slider-track"></div>
+            <button class="slider-btn slider-prev" id="slider-prev" aria-label="Previous">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="slider-btn slider-next" id="slider-next" aria-label="Next">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2L10 7L5 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="slider-counter" id="slider-counter">1 / 1</div>
+            <div class="slider-expand-hint">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 4V1H4M6 1H9V4M9 6V9H6M4 9H1V6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              EXPAND
+            </div>
+          </div>
+          <div class="slider-thumbs" id="slider-thumbs"></div>
         </div>
         <!-- Terminal fallback (shown when no images) -->
         <div class="modal-preview-inner" id="modal-terminal"></div>
@@ -2060,38 +2237,110 @@ const systemImages = {
   updates:     ['images/extra1.png','images/extra2.png','images/extra3.png'],
 };
 
-// Slider state
+// ── SLIDER STATE ──
 let sliderIndex = 0;
 let sliderImages = [];
 
 function buildSlider(images) {
   sliderIndex = 0;
   sliderImages = images;
+
+  // Build slides
   const track = document.getElementById('slider-track');
-  const dots  = document.getElementById('slider-dots');
-  track.innerHTML = images.map(src =>
-    `<div class="slider-slide"><img src="${src}" alt="preview" loading="lazy"></div>`
+  track.innerHTML = images.map((src, i) =>
+    `<div class="slider-slide${i === 0 ? ' active' : ''}" data-i="${i}">
+       <img src="${src}" alt="preview ${i+1}" loading="lazy">
+     </div>`
   ).join('');
-  dots.innerHTML = images.map((_, i) =>
-    `<div class="slider-dot${i===0?' active':''}" data-i="${i}"></div>`
+
+  // Build thumbs
+  const thumbs = document.getElementById('slider-thumbs');
+  thumbs.innerHTML = images.map((src, i) =>
+    `<div class="slider-thumb${i === 0 ? ' active' : ''}" data-i="${i}">
+       <img src="${src}" alt="thumb ${i+1}" loading="lazy">
+     </div>`
   ).join('');
-  track.style.transform = 'translateX(0%)';
-  dots.querySelectorAll('.slider-dot').forEach(d => {
-    d.addEventListener('click', () => goSlide(+d.dataset.i));
+  thumbs.querySelectorAll('.slider-thumb').forEach(t => {
+    t.addEventListener('click', () => goSlide(+t.dataset.i));
   });
+
   // show/hide arrows
-  document.getElementById('slider-prev').style.display = images.length > 1 ? '' : 'none';
-  document.getElementById('slider-next').style.display = images.length > 1 ? '' : 'none';
+  const showArrows = images.length > 1;
+  document.getElementById('slider-prev').style.display = showArrows ? '' : 'none';
+  document.getElementById('slider-next').style.display = showArrows ? '' : 'none';
+  thumbs.style.display = images.length > 1 ? '' : 'none';
+
+  updateCounter();
 }
 
-function goSlide(i) {
-  sliderIndex = (i + sliderImages.length) % sliderImages.length;
-  document.getElementById('slider-track').style.transform = `translateX(-${sliderIndex * 100}%)`;
-  document.querySelectorAll('.slider-dot').forEach((d,j) => d.classList.toggle('active', j===sliderIndex));
+function goSlide(next) {
+  if (next === sliderIndex) return;
+  const slides = document.querySelectorAll('.slider-slide');
+  const thumbEls = document.querySelectorAll('.slider-thumb');
+
+  // Mark current as exiting left or right
+  const direction = next > sliderIndex ? 'exit-left' : 'exit-right';
+  slides[sliderIndex].classList.remove('active');
+  slides[sliderIndex].classList.add(direction);
+  thumbEls[sliderIndex].classList.remove('active');
+
+  sliderIndex = (next + sliderImages.length) % sliderImages.length;
+
+  // Position new slide coming from the right or left
+  const incoming = slides[sliderIndex];
+  incoming.style.transform = next > (sliderIndex - 1 < 0 ? sliderImages.length - 1 : sliderIndex - 1) ? 'translateX(30px)' : 'translateX(-30px)';
+  incoming.classList.add('active');
+  thumbEls[sliderIndex].classList.add('active');
+
+  // Scroll thumb into view
+  thumbEls[sliderIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+
+  // Clean up exit class after transition
+  setTimeout(() => {
+    document.querySelectorAll('.slider-slide').forEach(s => s.classList.remove('exit-left','exit-right'));
+  }, 480);
+
+  updateCounter();
 }
 
-document.getElementById('slider-prev').addEventListener('click', () => goSlide(sliderIndex - 1));
-document.getElementById('slider-next').addEventListener('click', () => goSlide(sliderIndex + 1));
+function updateCounter() {
+  document.getElementById('slider-counter').textContent = `${sliderIndex + 1} / ${sliderImages.length}`;
+  // lightbox counter too
+  document.getElementById('lb-counter').textContent = `${sliderIndex + 1} / ${sliderImages.length}`;
+}
+
+document.getElementById('slider-prev').addEventListener('click', (e) => { e.stopPropagation(); goSlide(sliderIndex - 1); });
+document.getElementById('slider-next').addEventListener('click', (e) => { e.stopPropagation(); goSlide(sliderIndex + 1); });
+
+// ── LIGHTBOX ──
+const lightbox = document.getElementById('lightbox-overlay');
+const lbImg    = document.getElementById('lightbox-img');
+
+function openLightbox() {
+  lbImg.src = sliderImages[sliderIndex];
+  document.getElementById('lb-counter').textContent = `${sliderIndex + 1} / ${sliderImages.length}`;
+  lightbox.classList.add('open');
+}
+function closeLightbox() {
+  lightbox.classList.remove('open');
+}
+function lbNav(dir) {
+  goSlide(sliderIndex + dir);
+  lbImg.src = sliderImages[sliderIndex];
+}
+
+document.getElementById('slider-viewport').addEventListener('click', openLightbox);
+document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => { if (e.target === lightbox || e.target === lbImg) closeLightbox(); });
+document.getElementById('lb-prev').addEventListener('click', (e) => { e.stopPropagation(); lbNav(-1); });
+document.getElementById('lb-next').addEventListener('click', (e) => { e.stopPropagation(); lbNav(1); });
+document.addEventListener('keydown', e => {
+  if (lightbox.classList.contains('open')) {
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') lbNav(-1);
+    if (e.key === 'ArrowRight') lbNav(1);
+  }
+});
 
 function openModal(key) {
   const d = systemData[key];
@@ -2107,10 +2356,17 @@ function openModal(key) {
   const termWrap = document.getElementById('modal-terminal');
 
   if (imgs && imgs.length > 0) {
+    overlay.classList.add('has-images');
+    // Hide preview wrapper border (slider has its own)
+    document.getElementById('modal-preview-wrap').style.border = 'none';
+    document.getElementById('modal-preview-wrap').style.background = 'none';
     slider.style.display = '';
     termWrap.style.display = 'none';
     buildSlider(imgs);
   } else {
+    overlay.classList.remove('has-images');
+    document.getElementById('modal-preview-wrap').style.border = '';
+    document.getElementById('modal-preview-wrap').style.background = '';
     slider.style.display = 'none';
     termWrap.style.display = '';
     // Terminal
@@ -2151,6 +2407,7 @@ function openModal(key) {
 
 function closeModal() {
   overlay.classList.remove('open');
+  overlay.classList.remove('has-images');
   document.body.style.overflow = '';
 }
 
@@ -2162,5 +2419,20 @@ modalClose.addEventListener('click', closeModal);
 overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 </script>
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox-overlay">
+  <img class="lightbox-img" id="lightbox-img" src="" alt="">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+  </button>
+  <button class="lightbox-nav lb-prev" id="lb-prev">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 2L4 8L10 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <button class="lightbox-nav lb-next" id="lb-next">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 2L12 8L6 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div class="lightbox-counter" id="lb-counter">1 / 1</div>
+</div>
+
 </body>
 </html>
