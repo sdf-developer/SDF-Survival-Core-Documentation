@@ -92,9 +92,6 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
   .contact-card{padding:32px 24px}.info-row{margin:1px 20px 0;padding:16px 20px}
   .bottom-stripe{margin:28px 20px 0}
 }
-#back-to-top{position:fixed;bottom:32px;right:32px;z-index:800;width:40px;height:40px;background:rgba(17,17,19,0.92);border:1px solid var(--border-o);backdrop-filter:blur(10px);border-radius:4px;display:flex;align-items:center;justify-content:center;color:var(--orange);cursor:pointer!important;opacity:0;transform:translateY(16px);transition:opacity .3s,transform .3s,background .2s,border-color .2s}
-#back-to-top.visible{opacity:1;transform:translateY(0)}
-#back-to-top:hover{background:rgba(240,106,0,0.12);border-color:var(--orange)}
 </style>
 </head>
 <body>
@@ -128,14 +125,7 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
   </div>
 
   <div class="contact-section reveal reveal-delay-1">
-    <div class="contact-grid">
-      <a class="contact-card email" href="/cdn-cgi/l/email-protection#87f4e3e1f4f2f5f1eef1e6ebe4e8f5e2c7e0eae6eeeba9e4e8ea">
-        <div class="card-icon-wrap"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="3" y="7" width="26" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M3 10 L16 18 L29 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="card-type" data-i18n="email_type">Email</div>
-        <div class="card-title" data-i18n="email_title">Email</div>
-        <div class="card-value"><span class="__cf_email__" data-cfemail="addec9cbded8dfdbc4dbccc1cec2dfc8edcac0ccc4c183cec2c0">[email&#160;protected]</span></div>
-        <div class="card-desc" data-i18n="email_desc">For support inquiries, bug reports, or feature requests. We respond within 24–48h.</div>
-      </a>
+    <div class="contact-grid" style="grid-template-columns:1fr">
       <a class="contact-card discord" href="https://discord.gg/xYJ7taj79v" target="_blank" rel="noopener">
         <div class="card-icon-wrap"><svg width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M28.7 7.1a25.3 25.3 0 0 0-6.3-2 .1.1 0 0 0-.1.1 17.6 17.6 0 0 0-.8 1.6 23.4 23.4 0 0 0-7 0A17 17 0 0 0 13.7 5a.1.1 0 0 0-.1 0 25.2 25.2 0 0 0-6.3 2c-.1 0-.1 0-.1.1C3 12.4 2 17.5 2.5 22.6v.1a25.4 25.4 0 0 0 7.8 4 .1.1 0 0 0 .1 0c.6-.8 1.1-1.7 1.6-2.6a.1.1 0 0 0-.1-.1 16.7 16.7 0 0 1-2.4-1.1.1.1 0 0 1 0-.2l.5-.4a.1.1 0 0 1 .1 0c5 2.3 10.4 2.3 15.4 0a.1.1 0 0 1 .1 0l.5.4a.1.1 0 0 1 0 .2 16 16 0 0 1-2.4 1.1.1.1 0 0 0 0 .2c.5.9 1 1.8 1.6 2.6a.1.1 0 0 0 .1 0 25.3 25.3 0 0 0 7.8-4v-.1c.6-6-1-11-4.1-15.5a.1.1 0 0 0 0 0ZM12.4 19.5c-1.5 0-2.8-1.4-2.8-3.1s1.2-3.1 2.8-3.1c1.5 0 2.8 1.4 2.8 3.1s-1.2 3.1-2.8 3.1Zm10.3 0c-1.5 0-2.8-1.4-2.8-3.1s1.2-3.1 2.8-3.1c1.5 0 2.8 1.4 2.8 3.1s-1.2 3.1-2.8 3.1Z" fill="currentColor"/></svg></div>
         <div class="card-type" data-i18n="discord_type">Community</div>
@@ -172,11 +162,10 @@ let W,H,particles=[];
 function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
 resize();window.addEventListener('resize',resize);
 for(let i=0;i<60;i++)particles.push({x:Math.random()*2000,y:Math.random()*1200,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*1.2+.3,a:Math.random()*.5+.1});
-(function p(){ctx.clearRect(0,0,W,H);particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(240,106,0,${p.a})`;ctx.fill()});requestAnimationFrame(p)})();
+(function p(){ctx.clearRect(0,0,W,H);particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(240,106,0,${p.a})`;ctx.fi
+ll()});requestAnimationFrame(p)})();
 const obs=new IntersectionObserver(e=>e.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-const btt=document.getElementById('back-to-top');
-if(btt){window.addEventListener('scroll',()=>btt.classList.toggle('visible',scrollY>300));btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));}
 </script>
 </body>
 </html>
