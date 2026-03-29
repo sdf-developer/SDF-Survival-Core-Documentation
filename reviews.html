@@ -460,27 +460,37 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
   btn.textContent = 'Sending...';
 
   try {
-    await sbFetch('/rest/v1/reviews', {
+    const res = await fetch(SUPABASE_URL + '/rest/v1/reviews', {
       method: 'POST',
-      prefer: 'return=minimal',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
       body: JSON.stringify({
         discord_id: currentUser.id,
         username: currentUser.username,
         avatar_url: currentUser.avatar_url,
         rating: selectedRating,
         comment: comment,
-        approved: false
+        approved: true
       })
     });
-    msg.className = 'form-msg success';
-    msg.textContent = '✓ Review submitted! It will appear after approval.';
-    document.getElementById('review-text').value = '';
-    selectedRating = 0;
-    document.querySelectorAll('.star-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('pending-note').classList.add('visible');
+    if (res.status === 201 || res.status === 204 || res.ok) {
+      msg.className = 'form-msg success';
+      msg.textContent = '✓ Review submitted! Loading...';
+      document.getElementById('review-text').value = '';
+      selectedRating = 0;
+      document.querySelectorAll('.star-btn').forEach(b => b.classList.remove('active'));
+      setTimeout(() => loadReviews(), 1200);
+    } else {
+      const errText = await res.text();
+      throw new Error('HTTP ' + res.status + ': ' + errText);
+    }
   } catch (e) {
     msg.className = 'form-msg error';
-    msg.textContent = 'Error submitting review. Please try again.';
+    msg.textContent = 'Error: ' + e.message;
     btn.disabled = false;
   }
   btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6H10M10 6L7 3M10 6L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Submit review';
@@ -489,7 +499,7 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
 // ─── DISCORD LOGIN ───
 // Discord OAuth2 — you need to set this up in Discord Developer Portal
 // Redirect URI must be set to your reviews.html URL
-const DISCORD_CLIENT_ID = '1487821765064523957'; // 
+const DISCORD_CLIENT_ID = 'YOUR_DISCORD_CLIENT_ID'; // ← Reemplaza con tu Client ID de Discord
 const REDIRECT_URI = encodeURIComponent(window.location.origin + window.location.pathname);
 const DISCORD_OAUTH_URL = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=identify`;
 
