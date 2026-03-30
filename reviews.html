@@ -185,13 +185,13 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
       <div class="eyebrow-line"></div>
     </div>
     <div class="main-title"><span class="accent">RE</span>VIEWS<span class="sub">COMMUNITY FEEDBACK</span></div>
-    <p class="tagline">Real reviews from server owners and admins who use SDF Survival Core in production.</p>
+    <p class="tagline" data-i18n="rev_tagline">Real reviews from server owners and admins who use SDF Survival Core in production.</p>
   </div>
 
   <!-- STATS -->
   <div class="section-label reveal">
     <div class="section-label-dot"></div>
-    <div class="section-label-text">// Community stats</div>
+    <div class="section-label-text" data-i18n="rev_stats_label">// Community stats</div>
     <div class="section-label-line"></div>
   </div>
 
@@ -213,7 +213,7 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
   <!-- LOGIN -->
   <div class="section-label reveal reveal-delay-1">
     <div class="section-label-dot"></div>
-    <div class="section-label-text">// Leave a review</div>
+    <div class="section-label-text" data-i18n="rev_leave_label">// Leave a review</div>
     <div class="section-label-line"></div>
   </div>
 
@@ -225,8 +225,8 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
           <svg width="20" height="20" viewBox="0 0 34 34" fill="none"><path d="M28.7 7.1a25.3 25.3 0 0 0-6.3-2 17.6 17.6 0 0 0-.8 1.6 23.4 23.4 0 0 0-7 0A17 17 0 0 0 13.7 5a25.2 25.2 0 0 0-6.3 2C3 12.4 2 17.5 2.5 22.6a25.4 25.4 0 0 0 7.8 4c.6-.8 1.1-1.7 1.6-2.6a16.7 16.7 0 0 1-2.4-1.1l.5-.4c5 2.3 10.4 2.3 15.4 0l.5.4a16 16 0 0 1-2.4 1.1c.5.9 1 1.8 1.6 2.6a25.3 25.3 0 0 0 7.8-4c.6-6-1-11-4.1-15.5ZM12.4 19.5c-1.5 0-2.8-1.4-2.8-3.1s1.2-3.1 2.8-3.1 2.8 1.4 2.8 3.1-1.2 3.1-2.8 3.1Zm10.3 0c-1.5 0-2.8-1.4-2.8-3.1s1.2-3.1 2.8-3.1 2.8 1.4 2.8 3.1-1.2 3.1-2.8 3.1Z" fill="currentColor"/></svg>
         </div>
         <div>
-          <div class="login-info-title">Login with Discord</div>
-          <div class="login-info-sub">Connect your Discord account to leave a review. Your username and avatar will be shown publicly.</div>
+          <div class="login-info-title" data-i18n="rev_login_title">Login with Discord</div>
+          <div class="login-info-sub" data-i18n="rev_login_sub">Connect your Discord account to leave a review. Your username and avatar will be shown publicly.</div>
         </div>
       </div>
       <button class="btn-discord" id="btn-login">
@@ -241,7 +241,7 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
         <img class="login-avatar" id="user-avatar" src="" alt="">
         <div>
           <div class="login-info-title" id="user-name">—</div>
-          <div class="login-info-sub">Logged in via Discord</div>
+          <div class="login-info-sub" data-i18n="rev_logged_sub">Logged in via Discord</div>
         </div>
       </div>
       <button class="btn-logout" id="btn-logout">Logout</button>
@@ -251,7 +251,7 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
   <!-- REVIEW FORM -->
   <div class="form-section" id="form-section">
     <div class="form-card">
-      <div class="form-title">Write your review</div>
+      <div class="form-title" data-i18n="rev_form_title">Write your review</div>
       <div class="stars-input" id="stars-input">
         <button class="star-btn" data-val="1">★</button>
         <button class="star-btn" data-val="2">★</button>
@@ -261,7 +261,7 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
       </div>
       <textarea class="form-textarea" id="review-text" placeholder="Share your experience with SDF Survival Core..." maxlength="600"></textarea>
       <div class="form-footer">
-        <div class="form-note">Your review will be visible after approval.</div>
+        <div class="form-note" data-i18n="rev_form_note">Your review will be visible after approval.</div>
         <button class="btn-submit" id="btn-submit" disabled>
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6H10M10 6L7 3M10 6L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Submit review
@@ -286,7 +286,7 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
 
   <div class="reviews-section reveal reveal-delay-3">
     <div class="reviews-grid" id="reviews-grid">
-      <div class="reviews-loading">Loading reviews...</div>
+      <div class="reviews-loading" data-i18n="rev_loading">Loading reviews...</div>
     </div>
   </div>
 
@@ -499,9 +499,8 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
 // ─── DISCORD LOGIN ───
 // Discord OAuth2 — you need to set this up in Discord Developer Portal
 // Redirect URI must be set to your reviews.html URL
-const DISCORD_CLIENT_ID = '1487821765064523957'; //
-const REDIRECT_URI = encodeURIComponent(window.location.origin + window.location.pathname);
-const DISCORD_OAUTH_URL = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=identify`;
+const DISCORD_CLIENT_ID = 'YOUR_DISCORD_CLIENT_ID'; // ← Reemplaza con tu Client ID de Discord
+const DISCORD_OAUTH_URL = 'https://discord.com/api/oauth2/authorize?client_id=1487821765064523957&redirect_uri=https%3A%2F%2Fsdf-developer.github.io%2FSDF-Survival-Core-Documentation%2Freviews.html&response_type=token&scope=identify';
 
 document.getElementById('btn-login').addEventListener('click', () => {
   window.location.href = DISCORD_OAUTH_URL;
