@@ -198,15 +198,15 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
   <div class="stats-bar reveal reveal-delay-1">
     <div class="stat-item">
       <div class="stat-num" id="stat-avg">—</div>
-      <div class="stat-label">Average rating</div>
+      <div class="stat-label" id="stat-avg-label">Average rating</div>
     </div>
     <div class="stat-item">
       <div class="stat-num" id="stat-total">—</div>
-      <div class="stat-label">Total reviews</div>
+      <div class="stat-label" id="stat-total-label">Total reviews</div>
     </div>
     <div class="stat-item">
       <div class="stat-num" id="stat-five">—</div>
-      <div class="stat-label">5-star reviews</div>
+      <div class="stat-label" id="stat-five-label">5-star reviews</div>
     </div>
   </div>
 
@@ -225,8 +225,8 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
           <svg width="20" height="20" viewBox="0 0 34 34" fill="none"><path d="M28.7 7.1a25.3 25.3 0 0 0-6.3-2 17.6 17.6 0 0 0-.8 1.6 23.4 23.4 0 0 0-7 0A17 17 0 0 0 13.7 5a25.2 25.2 0 0 0-6.3 2C3 12.4 2 17.5 2.5 22.6a25.4 25.4 0 0 0 7.8 4c.6-.8 1.1-1.7 1.6-2.6a16.7 16.7 0 0 1-2.4-1.1l.5-.4c5 2.3 10.4 2.3 15.4 0l.5.4a16 16 0 0 1-2.4 1.1c.5.9 1 1.8 1.6 2.6a25.3 25.3 0 0 0 7.8-4c.6-6-1-11-4.1-15.5ZM12.4 19.5c-1.5 0-2.8-1.4-2.8-3.1s1.2-3.1 2.8-3.1 2.8 1.4 2.8 3.1-1.2 3.1-2.8 3.1Zm10.3 0c-1.5 0-2.8-1.4-2.8-3.1s1.2-3.1 2.8-3.1 2.8 1.4 2.8 3.1-1.2 3.1-2.8 3.1Z" fill="currentColor"/></svg>
         </div>
         <div>
-          <div class="login-info-title" data-i18n="rev_login_title">Login with Discord</div>
-          <div class="login-info-sub" data-i18n="rev_login_sub">Connect your Discord account to leave a review. Your username and avatar will be shown publicly.</div>
+          <div class="login-info-title" id="rev-login-title">Login with Discord</div>
+          <div class="login-info-sub" id="rev-login-sub">Connect your Discord account to leave a review. Your username and avatar will be shown publicly.</div>
         </div>
       </div>
       <button class="btn-discord" id="btn-login">
@@ -241,7 +241,7 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
         <img class="login-avatar" id="user-avatar" src="" alt="">
         <div>
           <div class="login-info-title" id="user-name">—</div>
-          <div class="login-info-sub" data-i18n="rev_logged_sub">Logged in via Discord</div>
+          <div class="login-info-sub" id="rev-logged-sub">Logged in via Discord</div>
         </div>
       </div>
       <button class="btn-logout" id="btn-logout">Logout</button>
@@ -251,7 +251,7 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
   <!-- REVIEW FORM -->
   <div class="form-section" id="form-section">
     <div class="form-card">
-      <div class="form-title" data-i18n="rev_form_title">Write your review</div>
+      <div class="form-title" id="rev-form-title">Write your review</div>
       <div class="stars-input" id="stars-input">
         <button class="star-btn" data-val="1">★</button>
         <button class="star-btn" data-val="2">★</button>
@@ -259,9 +259,9 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
         <button class="star-btn" data-val="4">★</button>
         <button class="star-btn" data-val="5">★</button>
       </div>
-      <textarea class="form-textarea" id="review-text" placeholder="Share your experience with SDF Survival Core..." maxlength="600"></textarea>
+      <textarea class="form-textarea" id="review-text" placeholder="Share your experience with SDF Survival Core..." id="review-text" maxlength="600"></textarea>
       <div class="form-footer">
-        <div class="form-note" data-i18n="rev_form_note">Your review will be visible after approval.</div>
+        <div class="form-note" id="rev-form-note">Your review will be visible after approval.</div>
         <button class="btn-submit" id="btn-submit" disabled>
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6H10M10 6L7 3M10 6L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Submit review
@@ -493,7 +493,8 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
     msg.textContent = 'Error: ' + e.message;
     btn.disabled = false;
   }
-  btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6H10M10 6L7 3M10 6L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Submit review';
+  const T2 = window.TRANSLATIONS ? (window.TRANSLATIONS[localStorage.getItem('sdf_lang')||'en'] || window.TRANSLATIONS['en']) : null;
+  btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6H10M10 6L7 3M10 6L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> ' + (T2 && T2.rev_submit ? T2.rev_submit : 'Submit review');
 });
 
 // ─── DISCORD LOGIN ───
