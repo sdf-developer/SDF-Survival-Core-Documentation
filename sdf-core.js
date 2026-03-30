@@ -274,7 +274,16 @@ const TRANSLATIONS = {
     popup_discord:   'Join Discord', popup_close: 'Continue to site',
     /* TERMS */
     nav_terms: 'Terms',
-    nav_reviews: 'Reviews',    terms_s1_title: '1. License',
+    nav_reviews: 'Reviews',
+    eyebrow_terms:   'SDF Survival Core · Legal',
+    sub_terms:       'TERMS & CONDITIONS',
+    tagline_terms:   'Please read these terms carefully before purchasing or using SDF Survival Core.',
+    legal_label:     'Legal document',
+    /* REVIEWS */
+    eyebrow_reviews: 'SDF Survival Core · Community',
+    sub_reviews:     'COMMUNITY FEEDBACK',
+    tagline_reviews: 'Real reviews from server owners and admins who use SDF Survival Core in production.',
+    terms_s1_title: '1. License',
     terms_s1_body: 'SDF Survival Core is sold as a single-server license. Each purchase grants you the right to use the plugin on one (1) Minecraft server. You may not redistribute, resell, share or sublicense the plugin or its source code to any third party.',
     terms_s2_title: '2. Refund Policy',
     terms_s2_body: 'Due to the digital nature of this product, all sales are final. Refunds are only granted if the plugin is proven to be non-functional on a supported server environment (Paper 1.21+) and the issue cannot be resolved through support.',
@@ -286,12 +295,6 @@ const TRANSLATIONS = {
     terms_s5_body: 'SDF Development is not liable for any server downtime, data loss or other damages resulting from the use or misuse of SDF Survival Core. It is your responsibility to keep backups of your server data.',
     terms_s6_title: '6. Changes to Terms',
     terms_s6_body: 'We reserve the right to update these terms at any time. Continued use of the plugin after changes constitutes acceptance of the new terms. We will announce significant changes via our Discord server.',
-    terms_contact_cta: 'Contact us',
-    /* BADGE PLAYER */
-    badge_player: 'Player',
-    badge_staff: 'Staff',
-    badge_vip: '⭐ VIP',
-    copy_toast: '✓ Copied',
     terms_contact_title: 'Questions?',
     terms_contact_sub: 'If you have any questions about these terms, feel free to contact us.',
     terms_contact_cta: 'Contact us',
@@ -624,6 +627,13 @@ const TRANSLATIONS = {
     /* TERMS */
     nav_terms: 'Terminos',
     nav_reviews: 'Reseñas',
+    eyebrow_terms:   'SDF Survival Core · Legal',
+    sub_terms:       'TÉRMINOS Y CONDICIONES',
+    tagline_terms:   'Lee atentamente estos términos antes de adquirir o utilizar SDF Survival Core.',
+    legal_label:     'Documento legal',
+    eyebrow_reviews: 'SDF Survival Core · Comunidad',
+    sub_reviews:     'OPINIONES DE LA COMUNIDAD',
+    tagline_reviews: 'Opiniones reales de administradores de servidores que usan SDF Survival Core.',
     terms_s1_body: 'SDF Survival Core se vende como licencia para un unico servidor. Cada compra te otorga el derecho a usar el plugin en un (1) servidor de Minecraft. No puedes redistribuir, revender, compartir ni sublicenciar el plugin o su codigo fuente a terceros.',
     terms_s2_title: '2. Politica de Reembolso',
     terms_s2_body: 'Debido a la naturaleza digital de este producto, todas las ventas son definitivas. Los reembolsos solo se conceden si el plugin resulta ser no funcional en un entorno compatible (Paper 1.21+) y el problema no puede resolverse mediante soporte.',
@@ -973,6 +983,13 @@ const TRANSLATIONS = {
     /* TERMS */
     nav_terms: 'Conditions',
     nav_reviews: 'Avis',
+    eyebrow_terms:   'SDF Survival Core · Légal',
+    sub_terms:       'CONDITIONS GÉNÉRALES',
+    tagline_terms:   'Veuillez lire attentivement ces conditions avant d\'acheter ou d\'utiliser SDF Survival Core.',
+    legal_label:     'Document légal',
+    eyebrow_reviews: 'SDF Survival Core · Communauté',
+    sub_reviews:     'AVIS DE LA COMMUNAUTÉ',
+    tagline_reviews: 'Avis réels d\'administrateurs de serveurs qui utilisent SDF Survival Core en production.',
     terms_s1_title: '1. Licence',
     terms_s1_body: "SDF Survival Core est vendu sous licence pour un seul serveur. Chaque achat vous donne le droit de l'utiliser sur un (1) serveur Minecraft. Vous ne pouvez pas redistribuer, revendre ou sous-licencier le plugin a des tiers.",
     terms_s2_title: '2. Politique de Remboursement',
@@ -1207,6 +1224,14 @@ function applyLang(lang) {
     if (metaEl && T.terms_meta_text) {
       metaEl.innerHTML = T.terms_meta_text + ': <span>' + T.terms_meta_date + '</span>';
     }
+    // Header
+    const termsSub = document.querySelector('.main-title .sub');
+    if (termsSub && T.sub_terms) termsSub.textContent = T.sub_terms;
+  }
+
+  if (page === 'reviews.html') {
+    const reviewsSub = document.querySelector('.main-title .sub');
+    if (reviewsSub && T.sub_reviews) reviewsSub.textContent = T.sub_reviews;
   }
 
   // Apply badge translations everywhere (commands, etc.)
