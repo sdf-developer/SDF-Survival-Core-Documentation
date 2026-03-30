@@ -116,7 +116,7 @@ body.modal-open {
 .header {
   position: relative;
   padding: 70px 48px 0;
-  text-align: center;
+  text-align: left;
   overflow: hidden;
   z-index: 1;
 }
@@ -124,7 +124,7 @@ body.modal-open {
 .header-eyebrow {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 10px;
   margin-bottom: 22px;
   opacity: 0;
@@ -156,6 +156,7 @@ body.modal-open {
   letter-spacing: 2px;
   color: var(--white);
   margin-bottom: 6px;
+  text-align: left;
   opacity: 0;
   animation: titleIn 1s 0.2s cubic-bezier(0.16,1,0.3,1) forwards;
 }
@@ -178,9 +179,10 @@ body.modal-open {
   color: var(--text);
   line-height: 1.8;
   max-width: 560px;
-  margin: 22px auto 0;
+  margin: 22px 0 0;
   opacity: 0;
   animation: fadeUp 0.8s 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+  text-align: left;
 }
 .tagline strong { color: var(--orange-glow); font-weight: 500; }
 
@@ -1252,7 +1254,6 @@ body.modal-open {
 
 /* BUY nav item — destacado en naranja */
 .nav-buy-item .nav-icon { color: var(--orange) !important; }
-.nav-buy-item { background: rgba(240,106,0,0.06); border-color: rgba(240,106,0,0.2) !important; }
 
 /* ══════════════════════════════════
    FOOTER
@@ -1542,6 +1543,7 @@ body.modal-open {
     </div>
     <span class="nav-label" id="nav-contact">Contact</span>
   </a>
+  <a class="nav-item" href="reviews.html"><div class="nav-active-bar"></div><div class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="nav-label" id="nav-reviews">Reviews</span></a>
   <a class="nav-item" href="terms.html"><div class="nav-active-bar"></div><div class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="14,2 14,8 20,8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="13" x2="15" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="9" y1="17" x2="12" y2="17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><span class="nav-label" id="nav-terms">Terms</span></a>
   <a class="nav-item nav-buy-item" href="buy.html"><div class="nav-active-bar"></div><div class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M16 10a4 4 0 0 1-8 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="nav-label" id="nav-buy">Buy</span></a>
 </nav>
@@ -1613,7 +1615,7 @@ body.modal-open {
 <div class="page">
 
   <!-- HEADER -->
-  <div class="header" style="text-align:left;">
+  <div class="header">
     <div class="hero-logo-wrap">
       <img src="favicon.png" alt="SDF Survival Core" class="hero-logo">
       <div class="hero-logo-info">
@@ -1630,17 +1632,16 @@ body.modal-open {
         </div>
       </div>
     </div>
-    <div class="header-eyebrow" style="justify-content:flex-start; margin-bottom:16px;">
-      <div class="eyebrow-line" style="max-width:0;flex:0"></div>
+    <div class="header-eyebrow">
       <div class="eyebrow-text" data-i18n="eyebrow_index">Minecraft Plugin · Survival 1.21 · All-in-One</div>
       <div class="eyebrow-line"></div>
     </div>
 
-    <div class="main-title" style="text-align:left;">
-      <span class="accent">SDF</span> SURVIVAL<span class="sub" style="text-align:left;">CORE</span>
+    <div class="main-title">
+      <span class="accent">SDF</span> SURVIVAL<span class="sub">CORE</span>
     </div>
 
-    <p class="tagline" style="margin:22px 0 0;" data-i18n-html="tagline_index">
+    <p class="tagline" data-i18n-html="tagline_index">
       A <strong>lightweight, modular and fully integrated</strong> plugin designed for modern Survival servers —
       delivering performance, stability and a professional experience without relying on multiple external plugins.
     </p>
