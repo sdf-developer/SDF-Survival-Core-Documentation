@@ -275,6 +275,7 @@ const TRANSLATIONS = {
     /* TERMS */
     nav_terms: 'Terms',
     nav_reviews: 'Reviews',
+    nav_buy:         'Buy',
     eyebrow_terms:   'SDF Survival Core · Legal',
     sub_terms:       'TERMS & CONDITIONS',
     tagline_terms:   'Please read these terms carefully before purchasing or using SDF Survival Core.',
@@ -282,6 +283,51 @@ const TRANSLATIONS = {
     eyebrow_reviews: 'SDF Survival Core · Community',
     sub_reviews:     'COMMUNITY FEEDBACK',
     tagline_reviews: 'Real reviews from server owners and admins who use SDF Survival Core in production.',
+    rev_stats_label: '// Community stats',
+    rev_avg_label:   'Average rating',
+    rev_total_label: 'Total reviews',
+    rev_five_label:  '5-star reviews',
+    rev_leave_label: '// Leave a review',
+    rev_login_title: 'Login with Discord',
+    rev_login_sub:   'Connect your Discord account to leave a review. Your username and avatar will be shown publicly.',
+    rev_logged_sub:  'Logged in via Discord',
+    rev_logout:      'Logout',
+    rev_form_title:  'Write your review',
+    rev_form_ph:     'Share your experience with SDF Survival Core...',
+    rev_form_note:   'Your review will be visible after approval.',
+    rev_submit:      'Submit review',
+    rev_sending:     'Sending...',
+    rev_success:     '✓ Review submitted! Loading...',
+    rev_via:         'via Discord',
+    rev_verified:    '✓ Verified',
+    rev_empty:       'No reviews yet. Be the first!',
+    rev_error_load:  'Could not load reviews. Please try again later.',
+    rev_approved:    '// Approved reviews',
+    rev_loading:     'Loading reviews...',
+    /* BUY PAGE */
+    eyebrow_buy:     'SDF Survival Core · Get the Plugin',
+    sub_buy:         'GET STARTED',
+    tagline_buy:     'Take your Survival server to the next level with the most complete all-in-one plugin.',
+    buy_soon_badge:  'COMING SOON',
+    buy_price_label: 'Launch price',
+    buy_title:       'SDF Survival Core',
+    buy_desc:        'Complete all-in-one plugin for Minecraft Survival servers. 400+ features, 150+ commands, MySQL support, Lunar Client integration and much more.',
+    buy_btn:         'Coming Soon — BuildByBit',
+    buy_note:        'Available soon on BuildByBit. Join Discord to be notified on launch.',
+    buy_inc_title:   "What's included",
+    buy_f1: '400+ features included', buy_f2: '150+ commands',
+    buy_f3: 'MySQL database support', buy_f4: 'Lunar Client integration',
+    buy_f5: 'Lifetime updates',        buy_f6: 'Discord support',
+    buy_f7: 'Multi-language EN/ES/FR', buy_f8: 'Single-server license',
+    buy_faq_title:   'Frequently asked questions',
+    buy_q1: "What server versions are supported?",
+    buy_a1: "SDF Survival Core requires Paper 1.21+. It is not compatible with Spigot or vanilla servers.",
+    buy_q2: "Is this a one-time payment?",
+    buy_a2: "Yes, it's a one-time purchase. You get lifetime updates for the purchased major version at no extra cost.",
+    buy_q3: "How many servers can I use it on?",
+    buy_a3: "Each license covers one (1) server. If you need multiple servers, you need to purchase a license for each.",
+    buy_q4: "What happens if it doesn't work?",
+    buy_a4: "We offer a refund if the plugin is proven non-functional on a supported environment and the issue can't be resolved through support.",
     terms_s1_title: '1. License',
     terms_s1_body: 'SDF Survival Core is sold as a single-server license. Each purchase grants you the right to use the plugin on one (1) Minecraft server. You may not redistribute, resell, share or sublicense the plugin or its source code to any third party.',
     terms_s2_title: '2. Refund Policy',
@@ -631,6 +677,7 @@ const TRANSLATIONS = {
     /* TERMS */
     nav_terms: 'Terminos',
     nav_reviews: 'Reseñas',
+    nav_buy:         'Comprar',
     eyebrow_terms:   'SDF Survival Core · Legal',
     sub_terms:       'TÉRMINOS Y CONDICIONES',
     tagline_terms:   'Lee atentamente estos términos antes de adquirir o utilizar SDF Survival Core.',
@@ -638,6 +685,50 @@ const TRANSLATIONS = {
     eyebrow_reviews: 'SDF Survival Core · Comunidad',
     sub_reviews:     'OPINIONES DE LA COMUNIDAD',
     tagline_reviews: 'Opiniones reales de administradores de servidores que usan SDF Survival Core.',
+    rev_stats_label: '// Estadísticas',
+    rev_avg_label:   'Valoración media',
+    rev_total_label: 'Reseñas totales',
+    rev_five_label:  'Reseñas 5 estrellas',
+    rev_leave_label: '// Dejar una reseña',
+    rev_login_title: 'Inicia sesión con Discord',
+    rev_login_sub:   'Conecta tu cuenta de Discord para dejar una reseña. Tu nombre y avatar serán visibles públicamente.',
+    rev_logged_sub:  'Conectado via Discord',
+    rev_logout:      'Cerrar sesión',
+    rev_form_title:  'Escribe tu reseña',
+    rev_form_ph:     'Comparte tu experiencia con SDF Survival Core...',
+    rev_form_note:   'Tu reseña será visible tras aprobación.',
+    rev_submit:      'Enviar reseña',
+    rev_sending:     'Enviando...',
+    rev_success:     '✓ Reseña enviada. Cargando...',
+    rev_via:         'via Discord',
+    rev_verified:    '✓ Verificado',
+    rev_empty:       '¡Aún no hay reseñas. ¡Sé el primero!',
+    rev_error_load:  'No se pudieron cargar las reseñas. Inténtalo más tarde.',
+    rev_approved:    '// Reseñas aprobadas',
+    rev_loading:     'Cargando reseñas...',
+    eyebrow_buy:     'SDF Survival Core · Obtén el Plugin',
+    sub_buy:         'EMPEZAR',
+    tagline_buy:     'Lleva tu servidor Survival al siguiente nivel con el plugin todo en uno más completo.',
+    buy_soon_badge:  'PRÓXIMAMENTE',
+    buy_price_label: 'Precio de lanzamiento',
+    buy_title:       'SDF Survival Core',
+    buy_desc:        'Plugin todo en uno para servidores Survival de Minecraft. +400 funciones, +150 comandos, soporte MySQL, integración con Lunar Client y mucho más.',
+    buy_btn:         'Próximamente — BuildByBit',
+    buy_note:        'Disponible próximamente en BuildByBit. Únete al Discord para recibir notificaciones.',
+    buy_inc_title:   'Qué incluye',
+    buy_f1: '+400 funciones incluidas', buy_f2: '+150 comandos',
+    buy_f3: 'Soporte MySQL',            buy_f4: 'Integración Lunar Client',
+    buy_f5: 'Actualizaciones de por vida', buy_f6: 'Soporte por Discord',
+    buy_f7: 'Multi-idioma ES/EN/FR',   buy_f8: 'Licencia para un servidor',
+    buy_faq_title:   'Preguntas frecuentes',
+    buy_q1: '¿Qué versiones de servidor son compatibles?',
+    buy_a1: 'SDF Survival Core requiere Paper 1.21+. No es compatible con Spigot ni con servidores vanilla.',
+    buy_q2: '¿Es un pago único?',
+    buy_a2: 'Sí, es un pago único. Obtienes actualizaciones de por vida para la versión mayor adquirida sin coste adicional.',
+    buy_q3: '¿En cuántos servidores puedo usarlo?',
+    buy_a3: 'Cada licencia cubre un (1) servidor. Si necesitas varios servidores, debes comprar una licencia para cada uno.',
+    buy_q4: '¿Qué pasa si no funciona?',
+    buy_a4: 'Ofrecemos reembolso si el plugin resulta no funcional en un entorno compatible y el problema no puede resolverse mediante soporte.',
     terms_s1_body: 'SDF Survival Core se vende como licencia para un unico servidor. Cada compra te otorga el derecho a usar el plugin en un (1) servidor de Minecraft. No puedes redistribuir, revender, compartir ni sublicenciar el plugin o su codigo fuente a terceros.',
     terms_s2_title: '2. Politica de Reembolso',
     terms_s2_body: 'Debido a la naturaleza digital de este producto, todas las ventas son definitivas. Los reembolsos solo se conceden si el plugin resulta ser no funcional en un entorno compatible (Paper 1.21+) y el problema no puede resolverse mediante soporte.',
@@ -986,13 +1077,58 @@ const TRANSLATIONS = {
     /* TERMS */
     nav_terms: 'Conditions',
     nav_reviews: 'Avis',
+    nav_buy:         'Acheter',
     eyebrow_terms:   'SDF Survival Core · Légal',
     sub_terms:       'CONDITIONS GÉNÉRALES',
     tagline_terms:   "Veuillez lire attentivement ces conditions avant d'acheter ou d'utiliser SDF Survival Core.",
     legal_label:     'Document légal · Mars 2026',
     eyebrow_reviews: 'SDF Survival Core · Communauté',
     sub_reviews:     'AVIS DE LA COMMUNAUTÉ',
-    tagline_reviews: 'Avis réels d\'administrateurs de serveurs qui utilisent SDF Survival Core en production.',
+    tagline_reviews: "Avis réels d'administrateurs de serveurs qui utilisent SDF Survival Core en production.",
+    rev_stats_label: '// Statistiques',
+    rev_avg_label:   'Note moyenne',
+    rev_total_label: 'Avis totaux',
+    rev_five_label:  'Avis 5 étoiles',
+    rev_leave_label: '// Laisser un avis',
+    rev_login_title: 'Connexion avec Discord',
+    rev_login_sub:   'Connectez votre compte Discord pour laisser un avis. Votre nom et avatar seront visibles publiquement.',
+    rev_logged_sub:  'Connecté via Discord',
+    rev_logout:      'Déconnexion',
+    rev_form_title:  'Écrivez votre avis',
+    rev_form_ph:     'Partagez votre expérience avec SDF Survival Core...',
+    rev_form_note:   'Votre avis sera visible après approbation.',
+    rev_submit:      'Envoyer l\'avis',
+    rev_sending:     'Envoi en cours...',
+    rev_success:     '✓ Avis envoyé ! Chargement...',
+    rev_via:         'via Discord',
+    rev_verified:    '✓ Vérifié',
+    rev_empty:       'Aucun avis pour l\'instant. Soyez le premier !',
+    rev_error_load:  'Impossible de charger les avis. Veuillez réessayer.',
+    rev_approved:    '// Avis approuvés',
+    rev_loading:     'Chargement des avis...',
+    eyebrow_buy:     'SDF Survival Core · Obtenir le Plugin',
+    sub_buy:         'COMMENCER',
+    tagline_buy:     'Portez votre serveur Survival au niveau supérieur avec le plugin tout-en-un le plus complet.',
+    buy_soon_badge:  'BIENTÔT DISPONIBLE',
+    buy_price_label: 'Prix de lancement',
+    buy_title:       'SDF Survival Core',
+    buy_desc:        'Plugin tout-en-un pour serveurs Survival Minecraft. 400+ fonctions, 150+ commandes, support MySQL, intégration Lunar Client et bien plus.',
+    buy_btn:         'Bientôt — BuildByBit',
+    buy_note:        'Disponible bientôt sur BuildByBit. Rejoignez Discord pour être notifié au lancement.',
+    buy_inc_title:   'Ce qui est inclus',
+    buy_f1: '400+ fonctions incluses', buy_f2: '150+ commandes',
+    buy_f3: 'Support MySQL',           buy_f4: 'Intégration Lunar Client',
+    buy_f5: 'Mises à jour à vie',      buy_f6: 'Support Discord',
+    buy_f7: 'Multi-langue FR/EN/ES',   buy_f8: 'Licence mono-serveur',
+    buy_faq_title:   'Questions fréquentes',
+    buy_q1: 'Quelles versions de serveur sont supportées ?',
+    buy_a1: 'SDF Survival Core nécessite Paper 1.21+. Il n\'est pas compatible avec Spigot ou les serveurs vanilla.',
+    buy_q2: 'Est-ce un paiement unique ?',
+    buy_a2: 'Oui, c\'est un achat unique. Vous bénéficiez de mises à jour à vie pour la version majeure achetée.',
+    buy_q3: 'Sur combien de serveurs puis-je l\'utiliser ?',
+    buy_a3: 'Chaque licence couvre un (1) serveur. Si vous avez besoin de plusieurs serveurs, vous devez acheter une licence pour chacun.',
+    buy_q4: 'Que se passe-t-il si ça ne fonctionne pas ?',
+    buy_a4: 'Nous proposons un remboursement si le plugin s\'avère non fonctionnel sur un environnement supporté et que le problème ne peut être résolu.',
     terms_s1_title: '1. Licence',
     terms_s1_body: "SDF Survival Core est vendu sous licence pour un seul serveur. Chaque achat vous donne le droit de l'utiliser sur un (1) serveur Minecraft. Vous ne pouvez pas redistribuer, revendre ou sous-licencier le plugin a des tiers.",
     terms_s2_title: '2. Politique de Remboursement',
@@ -1124,7 +1260,7 @@ function applyLang(lang) {
     'nav-home': 'nav_home', 'nav-commands': 'nav_commands',
     'nav-changelog': 'nav_changelog',
     'nav-integrations': 'nav_integrations', 'nav-contact': 'nav_contact',
-    'nav-terms': 'nav_terms', 'nav-reviews': 'nav_reviews'
+    'nav-terms': 'nav_terms', 'nav-reviews': 'nav_reviews', 'nav-buy': 'nav_buy'
   };
   Object.entries(navMap).forEach(([id, key]) => {
     const el = document.getElementById(id);
@@ -1232,8 +1368,43 @@ function applyLang(lang) {
   }
 
   if (page === 'reviews.html') {
-    const reviewsSub = document.querySelector('.main-title .sub');
-    if (reviewsSub && T.sub_reviews) reviewsSub.textContent = T.sub_reviews;
+    const revSub = document.querySelector('.main-title .sub');
+    if (revSub && T.sub_reviews) revSub.textContent = T.sub_reviews;
+    ['rev_stats_label','rev_leave_label','rev_loading'].forEach(k => {
+      document.querySelectorAll('[data-i18n="'+k+'"]').forEach(el => { if (T[k]) el.textContent = T[k]; });
+    });
+    const loginTitle = document.getElementById('rev-login-title');
+    if (loginTitle && T.rev_login_title) loginTitle.textContent = T.rev_login_title;
+    const loginSub = document.getElementById('rev-login-sub');
+    if (loginSub && T.rev_login_sub) loginSub.textContent = T.rev_login_sub;
+    const loggedSub = document.getElementById('rev-logged-sub');
+    if (loggedSub && T.rev_logged_sub) loggedSub.textContent = T.rev_logged_sub;
+    const btnLogout = document.getElementById('btn-logout');
+    if (btnLogout && T.rev_logout) btnLogout.textContent = T.rev_logout;
+    const formTitle = document.getElementById('rev-form-title');
+    if (formTitle && T.rev_form_title) formTitle.textContent = T.rev_form_title;
+    const formNote = document.getElementById('rev-form-note');
+    if (formNote && T.rev_form_note) formNote.textContent = T.rev_form_note;
+    const textarea = document.getElementById('review-text');
+    if (textarea && T.rev_form_ph) textarea.placeholder = T.rev_form_ph;
+    const avgLbl = document.getElementById('stat-avg-label');
+    if (avgLbl && T.rev_avg_label) avgLbl.textContent = T.rev_avg_label;
+    const totalLbl = document.getElementById('stat-total-label');
+    if (totalLbl && T.rev_total_label) totalLbl.textContent = T.rev_total_label;
+    const fiveLbl = document.getElementById('stat-five-label');
+    if (fiveLbl && T.rev_five_label) fiveLbl.textContent = T.rev_five_label;
+  }
+
+  if (page === 'buy.html') {
+    const buySub = document.querySelector('.main-title .sub');
+    if (buySub && T.sub_buy) buySub.textContent = T.sub_buy;
+    const ids = ['buy-soon-badge','buy-price-label','buy-title','buy-desc','buy-btn','buy-note','buy-inc-title','buy-faq-title',
+      'buy-f1','buy-f2','buy-f3','buy-f4','buy-f5','buy-f6','buy-f7','buy-f8',
+      'buy-q1','buy-a1','buy-q2','buy-a2','buy-q3','buy-a3','buy-q4','buy-a4'];
+    const keys = ['buy_soon_badge','buy_price_label','buy_title','buy_desc','buy_btn','buy_note','buy_inc_title','buy_faq_title',
+      'buy_f1','buy_f2','buy_f3','buy_f4','buy_f5','buy_f6','buy_f7','buy_f8',
+      'buy_q1','buy_a1','buy_q2','buy_a2','buy_q3','buy_a3','buy_q4','buy_a4'];
+    ids.forEach((id,i) => { const el = document.getElementById(id); if (el && T[keys[i]]) el.textContent = T[keys[i]]; });
   }
 
   // Apply badge translations everywhere (commands, etc.)
