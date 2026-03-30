@@ -1412,6 +1412,15 @@ body.modal-open {
   color: var(--orange);
   vertical-align: middle;
 }
+
+.hero-logo-wrap { display:flex; justify-content:center; margin-bottom:20px; opacity:0; animation:fadeUp .8s .05s cubic-bezier(0.16,1,0.3,1) forwards; }
+.hero-logo { width:80px; height:80px; border-radius:16px; border:2px solid rgba(240,106,0,0.4); box-shadow:0 0 40px rgba(240,106,0,0.2); }
+.price-badge { display:inline-flex; align-items:center; gap:10px; background:rgba(240,106,0,0.08); border:1px solid rgba(240,106,0,0.35); border-radius:4px; padding:8px 18px; margin-top:20px; opacity:0; animation:fadeUp .8s .5s cubic-bezier(0.16,1,0.3,1) forwards; }
+.price-amount { font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--orange); letter-spacing:2px; }
+.price-label { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.3); }
+.btn-buy-hero { display:inline-flex; align-items:center; gap:10px; background:var(--orange); color:#fff; font-family:'Space Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; padding:13px 28px; border-radius:4px; border:none; cursor:pointer; text-decoration:none; margin-top:12px; margin-left:10px; transition:background .2s,transform .15s; opacity:0; animation:fadeUp .8s .55s cubic-bezier(0.16,1,0.3,1) forwards; }
+.btn-buy-hero:hover { background:#d45f00; transform:translateY(-1px); }
+.btn-buy-hero svg { width:14px; height:14px; }
 </style>
 </head>
 <body>
@@ -1443,6 +1452,13 @@ body.modal-open {
     </div>
     <span class="nav-label" id="nav-changelog">Changelog</span>
   </a>
+  <a class="nav-item" href="#installation" id="nav-install">
+    <div class="nav-active-bar"></div>
+    <div class="nav-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="7,10 12,15 17,10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </div>
+    <span class="nav-label" id="nav-installation">Installation</span>
+  </a>
   <a class="nav-item" href="integrations.html"><div class="nav-active-bar"></div><div class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="5" cy="19" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="19" cy="19" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M12 7v4M12 11l-5 6M12 11l5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="nav-label" id="nav-integrations">Integrations</span></a>
   <a class="nav-item" href="contact.html">
     <div class="nav-active-bar"></div>
@@ -1452,7 +1468,6 @@ body.modal-open {
     <span class="nav-label" id="nav-contact">Contact</span>
   </a>
   <a class="nav-item" href="terms.html"><div class="nav-active-bar"></div><div class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="14,2 14,8 20,8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="13" x2="15" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="9" y1="17" x2="12" y2="17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><span class="nav-label" id="nav-terms">Terms</span></a>
-  <a class="nav-item" href="reviews.html"><div class="nav-active-bar"></div><div class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="nav-label" id="nav-reviews">Reviews</span></a>
 </nav>
 
 <!-- Particle canvas -->
@@ -1523,6 +1538,9 @@ body.modal-open {
 
   <!-- HEADER -->
   <div class="header">
+    <div class="hero-logo-wrap">
+      <img src="favicon.png" alt="SDF Survival Core" class="hero-logo">
+    </div>
     <div class="header-eyebrow">
       <div class="eyebrow-line"></div>
       <div class="eyebrow-text" data-i18n="eyebrow_index">Minecraft Plugin · Survival 1.21 · All-in-One</div>
@@ -1537,6 +1555,17 @@ body.modal-open {
       A <strong>lightweight, modular and fully integrated</strong> plugin designed for modern Survival servers —
       delivering performance, stability and a professional experience without relying on multiple external plugins.
     </p>
+
+    <div style="text-align:center; margin-top:24px; opacity:0; animation:fadeUp .8s .5s cubic-bezier(0.16,1,0.3,1) forwards;">
+      <div class="price-badge">
+        <div class="price-label">Launch price</div>
+        <div class="price-amount">$19.99</div>
+      </div>
+      <a class="btn-buy-hero" href="buy.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Get SDF Core
+      </a>
+    </div>
 
     <div class="stats-row">
       <div class="stat">
@@ -1921,14 +1950,11 @@ animCursor();
 /* ══════════════════════════════
    SIDEBAR SCROLL - INSTALLATION
 ══════════════════════════════ */
-const navInstall = document.getElementById('nav-install');
-if (navInstall) {
-  navInstall.addEventListener('click', function(e) {
-    e.preventDefault();
-    const el = document.getElementById('installation');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  });
-}
+const _navInst = document.getElementById('nav-install'); if(_navInst) _navInst.addEventListener('click', function(e) {
+  e.preventDefault();
+  const el = document.getElementById('installation');
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+});
 
 /* ══════════════════════════════
    PARTICLES
