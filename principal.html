@@ -3,625 +3,394 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SDF Plugins — Minecraft Plugin Store</title>
+<title>SDF Plugins — Premium Minecraft Plugins</title>
 <link rel="icon" type="image/png" href="favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg:        #0a0a0c;
-  --bg-2:      #111116;
-  --bg-3:      #16161d;
-  --bg-card:   #0e0e14;
-  --border:    rgba(255,255,255,0.06);
-  --border-2:  rgba(255,255,255,0.1);
-  --text:      #888899;
-  --text-2:    #b8b8cc;
-  --white:     #eeeef5;
-  --orange:    #f06a00;
-  --orange-dim: rgba(240,106,0,0.12);
-  --green:     #22c55e;
-  --soon:      #6366f1;
-  --soon-dim:  rgba(99,102,241,0.1);
+  --cream:     #f5f0e8;
+  --cream-2:   #ede7d8;
+  --cream-3:   #e4dccc;
+  --ink:       #1a1612;
+  --ink-2:     #2e2820;
+  --ink-soft:  #6b6055;
+  --ink-faint: #a09080;
+  --orange:    #c44d00;
+  --orange-2:  #e05500;
+  --gold:      #b8860b;
+  --rule:      rgba(26,22,18,0.12);
+  --rule-2:    rgba(26,22,18,0.06);
+  --green:     #1a6b2e;
+  --soon-col:  #5c4a8a;
 }
 
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(240,106,0,0.4); }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: rgba(26,22,18,0.15); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(196,77,0,0.35); }
 
 * { cursor: none !important; }
 #cur {
-  position: fixed;
-  width: 8px; height: 8px;
-  background: var(--orange);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 99999;
+  position: fixed; width: 8px; height: 8px;
+  background: var(--orange); border-radius: 50%;
+  pointer-events: none; z-index: 99999;
   transform: translate(-50%,-50%);
-  mix-blend-mode: screen;
-  transition: width .15s, height .15s;
+  transition: width .12s, height .12s;
 }
 #cur-ring {
-  position: fixed;
-  width: 28px; height: 28px;
-  border: 1px solid rgba(240,106,0,0.4);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 99998;
+  position: fixed; width: 26px; height: 26px;
+  border: 1.5px solid rgba(196,77,0,0.4); border-radius: 50%;
+  pointer-events: none; z-index: 99998;
   transform: translate(-50%,-50%);
   transition: width .2s, height .2s, border-color .2s;
 }
 body:has(.plugin-card:hover) #cur { width: 14px; height: 14px; }
-body:has(.plugin-card:hover) #cur-ring { width: 40px; height: 40px; border-color: rgba(240,106,0,0.7); }
+body:has(.plugin-card:hover) #cur-ring { width: 42px; height: 42px; border-color: rgba(196,77,0,0.7); }
 
 body {
-  background: var(--bg);
-  font-family: 'Syne', sans-serif;
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
+  background: var(--cream);
+  font-family: 'Outfit', sans-serif;
+  color: var(--ink-soft);
+  min-height: 100vh; overflow-x: hidden;
 }
-
 body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 9000;
+  content: ''; position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9000;
 }
 
-/* ── LAYOUT ── */
-.layout {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  min-height: 100vh;
-}
+.layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
 
-/* ══ SIDEBAR ══ */
+/* SIDEBAR */
 .sidebar {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  background: var(--bg);
-  z-index: 10;
-  overflow: hidden;
-}
-
-.sidebar-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 28px 24px;
-  border-bottom: 1px solid var(--border);
-}
-.brand-icon {
-  width: 36px; height: 36px;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid rgba(240,106,0,0.3);
-  flex-shrink: 0;
-}
-.brand-icon img { width: 100%; height: 100%; object-fit: cover; }
-.brand-text { display: flex; flex-direction: column; gap: 1px; }
-.brand-name {
-  font-size: 15px; font-weight: 700;
-  color: var(--white); letter-spacing: 0.5px;
-}
-.brand-name span { color: var(--orange); }
-.brand-sub {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; letter-spacing: 2px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.2);
-}
-
-.sidebar-nav {
-  padding: 16px 12px;
+  position: sticky; top: 0; height: 100vh;
+  border-right: 1px solid var(--rule);
   display: flex; flex-direction: column;
-  gap: 2px; flex: 1;
+  background: var(--cream); z-index: 10; overflow: hidden;
 }
-.nav-section-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 8px; letter-spacing: 3px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.15);
-  padding: 10px 12px 6px;
+.sidebar::after {
+  content: ''; position: absolute; top: 0; right: -1px; width: 3px; height: 100%;
+  background: linear-gradient(180deg, transparent, rgba(196,77,0,0.25) 30%, rgba(196,77,0,0.25) 70%, transparent);
+}
+.sidebar-header {
+  padding: 36px 28px 28px;
+  border-bottom: 1px solid var(--rule); position: relative;
+}
+.sidebar-header::before {
+  content: 'x'; font-family: 'Playfair Display', serif; font-style: italic;
+  position: absolute; top: 12px; right: 20px;
+  color: var(--orange); font-size: 14px; opacity: 0.4;
+}
+.brand-wordmark {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px; font-weight: 900; color: var(--ink); letter-spacing: -0.5px; line-height: 1;
+}
+.brand-wordmark em { font-style: italic; color: var(--orange); }
+.brand-rule {
+  height: 1px; background: linear-gradient(90deg, var(--orange), transparent);
+  margin: 10px 0 8px; width: 80px;
+}
+.brand-tagline {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px; letter-spacing: 3px; text-transform: uppercase; color: var(--ink-faint);
+}
+.sidebar-nav { padding: 24px 16px; display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.nav-group-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--ink-faint); padding: 10px 12px 6px; opacity: 0.7;
 }
 .nav-link {
-  display: flex; align-items: center; gap: 10px;
-  padding: 9px 12px; border-radius: 6px;
-  text-decoration: none;
-  color: rgba(255,255,255,0.35);
-  font-size: 13px; font-weight: 500;
-  transition: background .2s, color .2s;
+  display: flex; align-items: center; gap: 10px; padding: 9px 12px;
+  border-radius: 4px; text-decoration: none; color: var(--ink-soft);
+  font-size: 13.5px; font-weight: 400; transition: background .2s, color .2s; letter-spacing: 0.1px;
 }
-.nav-link:hover { background: rgba(255,255,255,0.04); color: var(--text-2); }
-.nav-link.active { background: var(--orange-dim); color: var(--orange); }
-.nav-link svg { flex-shrink: 0; opacity: 0.7; }
+.nav-link:hover { background: var(--cream-2); color: var(--ink); }
+.nav-link.active { background: rgba(196,77,0,0.08); color: var(--orange); font-weight: 500; }
+.nav-link svg { flex-shrink: 0; opacity: 0.6; }
 .nav-link.active svg { opacity: 1; }
-
-/* ── LANGUAGE SWITCHER ── */
 .lang-switcher {
-  padding: 14px 16px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  gap: 6px;
-  justify-content: center;
+  padding: 16px 20px; border-top: 1px solid var(--rule);
+  display: flex; gap: 6px; justify-content: center;
 }
 .lang-btn {
-  display: flex; align-items: center; gap: 5px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  border: 1px solid var(--border-2);
-  background: transparent;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
-  transition: all .2s;
-  cursor: pointer !important;
+  display: flex; align-items: center; gap: 4px; padding: 5px 12px;
+  border-radius: 3px; border: 1px solid var(--rule); background: transparent;
+  font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--ink-faint); transition: all .2s; cursor: pointer !important;
 }
-.lang-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text-2); }
-.lang-btn.active { border-color: var(--orange); color: var(--orange); background: var(--orange-dim); }
-.lang-flag { font-size: 12px; line-height: 1; }
-
-.sidebar-footer {
-  padding: 14px 24px;
-  border-top: 1px solid var(--border);
-}
+.lang-btn:hover { border-color: rgba(196,77,0,0.3); color: var(--ink-soft); background: var(--cream-2); }
+.lang-btn.active { border-color: var(--orange); color: var(--orange); background: rgba(196,77,0,0.07); }
+.sidebar-footer { padding: 14px 28px; border-top: 1px solid var(--rule); }
 .sidebar-footer-text {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 8px; letter-spacing: 2px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.1);
-  line-height: 1.8;
+  font-family: 'DM Mono', monospace; font-size: 8.5px; letter-spacing: 1.5px;
+  color: var(--ink-faint); opacity: 0.6;
 }
 
-/* ══ MAIN ══ */
+/* MAIN */
 .main { min-height: 100vh; display: flex; flex-direction: column; }
-
-/* ── TOP BAR ── */
 .topbar {
-  position: sticky; top: 0; z-index: 9;
-  display: flex; align-items: center;
-  justify-content: space-between;
-  padding: 0 40px; height: 60px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(10,10,12,0.85);
-  backdrop-filter: blur(12px);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 52px; border-bottom: 1px solid var(--rule); background: var(--cream);
 }
-.topbar-crumb {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: rgba(255,255,255,0.2);
-  letter-spacing: 1px;
-}
-.topbar-crumb span { color: var(--text-2); }
+.topbar-crumb { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; color: var(--ink-faint); }
+.topbar-crumb span { color: var(--ink-soft); }
+.topbar-status { display: flex; align-items: center; gap: 6px; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1px; color: var(--green); }
+.topbar-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); animation: pulse-dot 2s ease-in-out infinite; }
+@keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-/* ── HERO BANNER ── */
-.hero-banner {
-  margin: 32px 40px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  background: var(--bg-2);
-  position: relative;
-  opacity: 0;
-  animation: fadeUp .7s .05s cubic-bezier(0.16,1,0.3,1) forwards;
+/* MASTHEAD */
+.masthead {
+  margin: 40px 48px 0; padding-bottom: 32px;
+  border-bottom: 2px solid var(--ink);
+  opacity: 0; animation: fadeUp .7s .05s cubic-bezier(0.16,1,0.3,1) forwards;
 }
-.hero-banner::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-  background-size: 32px 32px;
-  pointer-events: none;
-}
-.hero-inner {
-  position: relative; padding: 36px 40px;
-  display: flex; align-items: center;
-  justify-content: space-between; gap: 24px;
-}
-.hero-left { display: flex; flex-direction: column; gap: 12px; }
-.hero-eyebrow { display: flex; align-items: center; gap: 8px; }
-.hero-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--orange);
-  box-shadow: 0 0 8px var(--orange);
-  animation: blink 2s ease-in-out infinite;
-}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
-.hero-eyebrow-text {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; letter-spacing: 3px;
-  text-transform: uppercase; color: var(--orange);
-}
-.hero-title {
-  font-size: clamp(28px, 3.5vw, 40px);
-  font-weight: 800; color: var(--white);
-  letter-spacing: -0.5px; line-height: 1.1;
-}
-.hero-title em { font-style: normal; color: var(--orange); }
-.hero-desc {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px; line-height: 1.7;
-  color: rgba(255,255,255,0.25); max-width: 380px;
-}
-.hero-stats { display: flex; gap: 24px; margin-top: 4px; }
-.hero-stat { display: flex; flex-direction: column; gap: 2px; }
-.hero-stat-n { font-size: 22px; font-weight: 800; color: var(--white); }
-.hero-stat-n.green { color: var(--green); }
-.hero-stat-l {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 8px; letter-spacing: 2px;
-  text-transform: uppercase; color: rgba(255,255,255,0.2);
-}
-.hero-right {
-  flex-shrink: 0; display: flex;
-  flex-direction: column; align-items: flex-end; gap: 10px;
-}
-.hero-badge {
-  background: var(--orange-dim);
-  border: 1px solid rgba(240,106,0,0.25);
-  border-radius: 6px; padding: 10px 18px;
-  display: flex; flex-direction: column;
-  align-items: center; gap: 2px;
-}
-.hero-badge-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 8px; letter-spacing: 2px;
-  text-transform: uppercase; color: rgba(255,255,255,0.25);
-}
-.hero-badge-count {
-  font-size: 32px; font-weight: 800;
-  color: var(--orange); line-height: 1;
-}
-.hero-glow {
-  position: absolute; right: 0; top: 0; bottom: 0; width: 300px;
-  background: radial-gradient(ellipse at 90% 50%, rgba(240,106,0,0.07) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-/* ── SECTION ── */
-.section { padding: 0 40px 40px; }
-.section-header {
-  display: flex; align-items: center;
-  justify-content: space-between; margin-bottom: 20px;
-}
-.section-title {
+.masthead-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--orange); margin-bottom: 14px;
   display: flex; align-items: center; gap: 10px;
-  font-size: 11px; font-weight: 600;
-  font-family: 'JetBrains Mono', monospace;
-  letter-spacing: 3px; text-transform: uppercase;
-  color: rgba(255,255,255,0.25);
 }
-.section-title-line {
-  height: 1px; width: 40px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.12), transparent);
+.masthead-eyebrow::before { content: ''; display: inline-block; width: 18px; height: 1px; background: var(--orange); }
+.masthead-layout { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 32px; }
+.masthead-title {
+  font-family: 'Playfair Display', serif; font-size: clamp(42px, 5.5vw, 68px);
+  font-weight: 900; color: var(--ink); line-height: 0.95; letter-spacing: -2px;
 }
-.section-count {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; letter-spacing: 1px;
-  color: rgba(255,255,255,0.15);
+.masthead-title em { font-style: italic; color: var(--orange); }
+.masthead-aside { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; padding-bottom: 4px; }
+.masthead-vol { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--ink-faint); text-transform: uppercase; }
+.masthead-price { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--green); letter-spacing: -0.5px; }
+.masthead-price-label { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-faint); text-align: right; }
+.masthead-sub {
+  margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--rule);
+  display: flex; align-items: center; gap: 24px;
 }
+.masthead-desc { font-size: 14px; line-height: 1.7; color: var(--ink-soft); max-width: 460px; font-weight: 300; }
+.masthead-desc strong { color: var(--ink); font-weight: 500; }
+.masthead-stats { display: flex; gap: 0; margin-left: auto; flex-shrink: 0; }
+.mstat { display: flex; flex-direction: column; align-items: center; padding: 10px 18px; border-left: 1px solid var(--rule); }
+.mstat-n { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1; }
+.mstat-n.orange { color: var(--orange); }
+.mstat-l { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-faint); margin-top: 3px; }
 
-/* ── PLUGINS GRID ── */
+/* SECTION */
+.section { padding: 0 48px 48px; }
+.section-header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-top: 36px; margin-bottom: 6px; padding-bottom: 8px; border-bottom: 1px solid var(--rule);
+}
+.section-title { font-family: 'Playfair Display', serif; font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--ink-soft); }
+.section-note { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1px; color: var(--ink-faint); }
+
+/* PLUGINS GRID */
 .plugins-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 12px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-top: 14px;
 }
 
-/* ── PLUGIN CARD ── */
+/* PLUGIN CARD */
 .plugin-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 10px; overflow: hidden;
-  text-decoration: none;
-  display: flex; flex-direction: column;
-  transition: border-color .25s, transform .25s, box-shadow .25s;
-  opacity: 0;
-  animation: fadeUp .6s cubic-bezier(0.16,1,0.3,1) forwards;
-  position: relative;
+  background: var(--cream); text-decoration: none; display: flex; flex-direction: column;
+  transition: background .25s; opacity: 0; animation: fadeUp .6s cubic-bezier(0.16,1,0.3,1) forwards;
+  position: relative; overflow: hidden;
 }
-.plugin-card:nth-child(1){animation-delay:.1s}
-.plugin-card:nth-child(2){animation-delay:.17s}
-.plugin-card:nth-child(3){animation-delay:.24s}
-.plugin-card:nth-child(4){animation-delay:.31s}
-.plugin-card:nth-child(5){animation-delay:.38s}
-.plugin-card:nth-child(6){animation-delay:.45s}
+.plugin-card:nth-child(1){animation-delay:.1s}.plugin-card:nth-child(2){animation-delay:.17s}
+.plugin-card:nth-child(3){animation-delay:.24s}.plugin-card:nth-child(4){animation-delay:.31s}
+.plugin-card:nth-child(5){animation-delay:.38s}.plugin-card:nth-child(6){animation-delay:.45s}
+.plugin-card.available:hover { background: var(--cream-2); }
+.plugin-card.available::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; background: var(--orange); opacity: 0; transition: opacity .3s;
+}
+.plugin-card.available:hover::before { opacity: 1; }
+.plugin-card.soon { cursor: default !important; min-height: 160px; justify-content: center; align-items: center; background: var(--cream-2); }
+.plugin-card.featured { grid-column: span 2; }
+@media (max-width: 800px) { .plugin-card.featured { grid-column: span 1; } }
 
-.plugin-card:hover {
-  border-color: rgba(255,255,255,0.12);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-}
-.plugin-card.available:hover {
-  border-color: rgba(240,106,0,0.35);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(240,106,0,0.1);
-}
-.plugin-card.soon:hover { border-color: rgba(99,102,241,0.3); }
-
-.plugin-card-top-line {
-  height: 2px; width: 100%;
-  background: linear-gradient(90deg, var(--orange), rgba(240,106,0,0));
-  opacity: 0; transition: opacity .3s;
-}
-.plugin-card.available .plugin-card-top-line { opacity: 1; }
-.plugin-card.soon .plugin-card-top-line {
-  background: linear-gradient(90deg, var(--soon), transparent);
-  opacity: 0.5;
-}
-
-.plugin-card-body {
-  padding: 20px; display: flex;
-  flex-direction: column; gap: 14px; flex: 1;
-}
-.plugin-card-header { display: flex; align-items: flex-start; gap: 14px; }
+.plugin-card-body { padding: 24px 26px 20px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
+.plugin-card-header { display: flex; align-items: flex-start; gap: 16px; }
 .plugin-icon-wrap {
-  width: 48px; height: 48px;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  overflow: hidden; flex-shrink: 0;
+  width: 52px; height: 52px; border-radius: 6px; background: var(--cream-3);
+  border: 1px solid var(--rule); overflow: hidden; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
 }
 .plugin-icon-wrap img { width: 100%; height: 100%; object-fit: cover; }
-.plugin-icon-wrap .icon-ph { font-size: 22px; opacity: 0.3; }
 .plugin-card-meta { flex: 1; min-width: 0; }
-.plugin-name {
-  font-size: 15px; font-weight: 700;
-  color: var(--white); letter-spacing: -0.2px;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.plugin-name em { font-style: normal; color: var(--orange); }
-.plugin-tags { display: flex; gap: 5px; margin-top: 5px; flex-wrap: wrap; }
+.plugin-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--ink); letter-spacing: -0.3px; line-height: 1.2; }
+.plugin-name em { font-style: italic; color: var(--orange); }
+.plugin-tags { display: flex; gap: 5px; margin-top: 6px; flex-wrap: wrap; }
 .plugin-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 8px; letter-spacing: 1px; text-transform: uppercase;
-  padding: 2px 7px; border-radius: 3px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.3);
+  font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 1px; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 2px; background: rgba(26,22,18,0.06); border: 1px solid var(--rule); color: var(--ink-soft);
 }
-.plugin-desc { font-size: 13px; line-height: 1.65; color: var(--text); }
+.plugin-desc { font-size: 13.5px; line-height: 1.7; color: var(--ink-soft); font-weight: 300; }
 .plugin-features { display: flex; flex-direction: column; gap: 5px; }
-.plugin-feature {
-  display: flex; align-items: center; gap: 8px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; color: rgba(255,255,255,0.3);
-}
-.plugin-feature::before {
-  content: ''; width: 4px; height: 4px;
-  border-radius: 50%; background: var(--orange);
-  flex-shrink: 0; opacity: 0.6;
-}
-.plugin-card.soon .plugin-feature::before { background: var(--soon); }
-
+.plugin-feature { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--ink-soft); }
+.plugin-feature::before { content: '—'; color: var(--orange); font-size: 10px; flex-shrink: 0; line-height: 1; }
 .plugin-card-footer {
-  padding: 14px 20px; border-top: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-  background: rgba(0,0,0,0.15);
+  padding: 14px 26px; border-top: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: space-between; background: rgba(26,22,18,0.025);
 }
 .plugin-price { display: flex; flex-direction: column; gap: 1px; }
-.plugin-price-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 7px; letter-spacing: 2px;
-  text-transform: uppercase; color: rgba(255,255,255,0.18);
-}
-.plugin-price-amount { font-size: 18px; font-weight: 800; color: var(--green); line-height: 1; }
-.plugin-price-amount.soon { color: rgba(99,102,241,0.6); font-size: 13px; font-weight: 500; }
+.plugin-price-label { font-family: 'DM Mono', monospace; font-size: 7.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-faint); }
+.plugin-price-amount { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--green); line-height: 1; }
+.plugin-cta-row { display: flex; gap: 8px; }
 .plugin-cta {
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 8px 16px; border-radius: 6px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 500;
-  transition: background .2s, transform .15s;
-  cursor: pointer !important; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 3px;
+  font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 500;
+  transition: background .2s, transform .15s, color .2s; cursor: pointer !important; text-decoration: none; border: 1px solid transparent;
 }
-.plugin-cta.buy { background: var(--orange); color: #fff; }
-.plugin-cta.buy:hover { background: #d45f00; transform: translateY(-1px); }
-.plugin-cta.view { background: rgba(240,106,0,0.1); border: 1px solid rgba(240,106,0,0.25); color: var(--orange); }
-.plugin-cta.view:hover { background: rgba(240,106,0,0.18); }
-.plugin-cta.notify { background: var(--soon-dim); border: 1px solid rgba(99,102,241,0.2); color: var(--soon); }
-.plugin-cta.notify:hover { background: rgba(99,102,241,0.15); }
+.plugin-cta.buy { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.plugin-cta.buy:hover { background: var(--ink-2); transform: translateY(-1px); }
+.plugin-cta.view { background: transparent; border-color: var(--rule); color: var(--ink-soft); }
+.plugin-cta.view:hover { border-color: rgba(196,77,0,0.4); color: var(--orange); background: rgba(196,77,0,0.05); }
 
-.soon-overlay {
-  position: absolute; top: 12px; right: 12px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--soon); background: rgba(99,102,241,0.1);
-  border: 1px solid rgba(99,102,241,0.2);
-  padding: 3px 8px; border-radius: 3px;
-}
+.soon-inner { display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0.4; }
+.soon-ornament { font-size: 20px; color: var(--ink-faint); font-family: 'Playfair Display', serif; }
+.soon-text { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 4px; text-transform: uppercase; color: var(--ink-soft); }
 
-/* Minimal soon card — just a centered label */
-.plugin-card.soon {
-  min-height: 140px;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+/* BAND */
+.band {
+  margin: 36px 48px 0; padding: 18px 28px; border: 1px solid var(--rule); background: var(--cream-2);
+  display: flex; align-items: center; gap: 18px;
+  opacity: 0; animation: fadeUp .6s .5s cubic-bezier(0.16,1,0.3,1) forwards;
 }
-.plugin-card.soon::after {
-  content: attr(data-soon-text);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; letter-spacing: 3px;
-  text-transform: uppercase;
-  color: rgba(99,102,241,0.4);
-  pointer-events: none;
+.band-icon { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--orange); flex-shrink: 0; line-height: 1; font-style: italic; }
+.band-text { flex: 1; }
+.band-label { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); margin-bottom: 3px; }
+.band-body { font-size: 13px; color: var(--ink-soft); font-weight: 300; line-height: 1.5; }
+.band-body strong { color: var(--ink); font-weight: 500; }
+.band-cta {
+  flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; padding: 9px 20px;
+  background: var(--ink); color: var(--cream); border-radius: 3px; text-decoration: none;
+  font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  transition: background .2s, transform .15s; cursor: pointer !important;
 }
+.band-cta:hover { background: var(--ink-2); transform: translateY(-1px); }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── FOOTER ── */
+/* FOOTER */
 .store-footer {
-  margin-top: auto; padding: 24px 40px;
-  border-top: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
+  margin-top: auto; padding: 24px 48px;
+  border-top: 2px solid var(--ink); display: flex; align-items: center; justify-content: space-between;
 }
-.store-footer-brand {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; letter-spacing: 3px;
-  text-transform: uppercase; color: rgba(255,255,255,0.1);
-}
-.store-footer-brand span { color: var(--orange); opacity: 0.6; }
-.store-footer-year {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; letter-spacing: 2px;
-  color: rgba(255,255,255,0.12);
-}
+.footer-brand { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: var(--ink); letter-spacing: -0.3px; }
+.footer-brand em { font-style: italic; color: var(--orange); }
+.footer-right { font-family: 'DM Mono', monospace; font-size: 8.5px; letter-spacing: 2px; color: var(--ink-faint); text-transform: uppercase; }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 768px) {
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 820px) {
   .layout { grid-template-columns: 1fr; }
   .sidebar { display: none; }
-  .hero-inner { flex-direction: column; align-items: flex-start; }
-  .topbar, .hero-banner, .section { padding-left: 20px; padding-right: 20px; }
-  .hero-banner { margin-left: 20px; margin-right: 20px; }
+  .masthead, .band, .section, .topbar, .store-footer { padding-left: 20px; padding-right: 20px; }
+  .masthead { margin-left: 20px; margin-right: 20px; }
+  .band { margin-left: 20px; margin-right: 20px; }
+  .masthead-layout { grid-template-columns: 1fr; }
+  .masthead-stats { margin-left: 0; }
+  .masthead-sub { flex-wrap: wrap; }
 }
 </style>
 </head>
 <body>
-
 <div id="cur"></div>
 <div id="cur-ring"></div>
 
 <div class="layout">
-
-  <!-- ══ SIDEBAR ══ -->
   <aside class="sidebar">
-    <div class="sidebar-brand">
-      <div class="brand-icon"><img src="favicon.png" alt="SDF"></div>
-      <div class="brand-text">
-        <div class="brand-name"><span>SDF</span> Plugins</div>
-        <div class="brand-sub" data-i18n="brand_sub">Plugin Store</div>
-      </div>
+    <div class="sidebar-header">
+      <div class="brand-wordmark"><em>SDF</em> Plugins</div>
+      <div class="brand-rule"></div>
+      <div class="brand-tagline" data-i18n="brand_tagline">Plugin Studio</div>
     </div>
-
     <nav class="sidebar-nav">
-      <div class="nav-section-label" data-i18n="nav_section_browse">Browse</div>
+      <div class="nav-group-label" data-i18n="nav_browse">Browse</div>
       <a class="nav-link active" href="principal.html">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
-        <span data-i18n="nav_all_plugins">All Plugins</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span data-i18n="nav_all">All Plugins</span>
       </a>
-
-      <div class="nav-section-label" style="margin-top:8px;" data-i18n="nav_section_support">Support</div>
+      <div class="nav-group-label" style="margin-top:8px;" data-i18n="nav_support">Support</div>
       <a class="nav-link" href="contact.html">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span data-i18n="nav_contact">Contact</span>
       </a>
       <a class="nav-link" href="reviews.html">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span data-i18n="nav_reviews">Reviews</span>
       </a>
     </nav>
-
-    <!-- LANGUAGE SWITCHER -->
     <div class="lang-switcher">
       <button class="lang-btn active" data-lang="en">EN</button>
       <button class="lang-btn" data-lang="es">ES</button>
       <button class="lang-btn" data-lang="fr">FR</button>
     </div>
-
     <div class="sidebar-footer">
       <div class="sidebar-footer-text">© 2026 SDF Plugins</div>
     </div>
   </aside>
 
-  <!-- ══ MAIN ══ -->
   <main class="main">
-
-    <!-- TOP BAR -->
     <div class="topbar">
-      <div class="topbar-crumb">
-        <span>SDF Plugins</span> / <span data-i18n="topbar_store">Store</span>
-      </div>
+      <div class="topbar-crumb"><span>SDF Plugins</span> / <span data-i18n="topbar_store">Store</span></div>
+      <div class="topbar-status"><div class="topbar-dot"></div><span data-i18n="topbar_status">1 Plugin Available</span></div>
     </div>
 
-    <!-- HERO BANNER -->
-    <div class="hero-banner">
-      <div class="hero-glow"></div>
-      <div class="hero-inner">
-        <div class="hero-left">
-          <div class="hero-eyebrow">
-            <div class="hero-dot"></div>
-            <div class="hero-eyebrow-text" data-i18n="hero_eyebrow">Premium Minecraft Plugins</div>
-          </div>
-          <div class="hero-title" data-i18n-html="hero_title">
-            Level up your<br><em>Minecraft</em> server.
-          </div>
-          <div class="hero-desc" data-i18n-html="hero_desc">
-            Hand-crafted plugins built for performance,<br>
-            deeply configurable, actively maintained.
-          </div>
-          <div class="hero-stats">
-            <div class="hero-stat">
-              <div class="hero-stat-n">1</div>
-              <div class="hero-stat-l" data-i18n="hero_stat_plugin">Plugin</div>
-            </div>
-            <div class="hero-stat">
-              <div class="hero-stat-n green">$19.99</div>
-              <div class="hero-stat-l" data-i18n="hero_stat_from">Starting at</div>
-            </div>
-
-          </div>
+    <div class="masthead">
+      <div class="masthead-eyebrow" data-i18n="masthead_eyebrow">Premium Minecraft Plugins</div>
+      <div class="masthead-layout">
+        <div class="masthead-title" data-i18n-html="masthead_title">Level up<br>your <em>server.</em></div>
+        <div class="masthead-aside">
+          <div class="masthead-vol" data-i18n="masthead_vol">EST. 2026</div>
+          <div class="masthead-price">$19.99</div>
+          <div class="masthead-price-label" data-i18n="masthead_from">From</div>
         </div>
-        <div class="hero-right">
-          <div class="hero-badge">
-            <div class="hero-badge-label" data-i18n="hero_badge_label">Plugins</div>
-            <div class="hero-badge-count">01</div>
-          </div>
+      </div>
+      <div class="masthead-sub">
+        <div class="masthead-desc" data-i18n-html="masthead_desc">Hand-crafted plugins built for performance, <strong>deeply configurable</strong> and actively maintained. One plugin to replace many.</div>
+        <div class="masthead-stats">
+          <div class="mstat"><div class="mstat-n orange">1</div><div class="mstat-l" data-i18n="mstat_plugin">Plugin</div></div>
+          <div class="mstat"><div class="mstat-n">15+</div><div class="mstat-l" data-i18n="mstat_systems">Systems</div></div>
+          <div class="mstat"><div class="mstat-n">1.21</div><div class="mstat-l" data-i18n="mstat_version">Version</div></div>
         </div>
       </div>
     </div>
 
-    <!-- PLUGINS SECTION -->
+    <div class="band">
+      <div class="band-icon">✦</div>
+      <div class="band-text">
+        <div class="band-label" data-i18n="band_label">Now Available</div>
+        <div class="band-body" data-i18n-html="band_body"><strong>SDF Survival Core</strong> — the complete survival server framework is live. Clans, KOTH, economy, combat and more.</div>
+      </div>
+      <a class="band-cta" href="index.html" data-i18n="band_cta">View Plugin →</a>
+    </div>
+
     <div class="section">
       <div class="section-header">
-        <div class="section-title">
-          <div class="section-title-line"></div>
-          <span data-i18n="section_plugins">Available Plugins</span>
-        </div>
-        <div class="section-count" data-i18n="section_count">1 available · 5 coming soon</div>
+        <div class="section-title" data-i18n="section_title">Available Plugins</div>
+        <div class="section-note" data-i18n="section_note">1 available · 5 coming soon</div>
       </div>
-
       <div class="plugins-grid">
-
-        <!-- ════ SDF SURVIVAL CORE — AVAILABLE ════ -->
-        <a class="plugin-card available" href="index.html">
-          <div class="plugin-card-top-line"></div>
+        <a class="plugin-card available featured" href="index.html">
           <div class="plugin-card-body">
             <div class="plugin-card-header">
-              <div class="plugin-icon-wrap">
-                <img src="favicon.png" alt="SDF Survival Core">
-              </div>
+              <div class="plugin-icon-wrap"><img src="favicon.png" alt="SDF Survival Core"></div>
               <div class="plugin-card-meta">
                 <div class="plugin-name"><em>SDF</em> Survival Core</div>
                 <div class="plugin-tags">
                   <span class="plugin-tag">Survival</span>
                   <span class="plugin-tag">All-in-one</span>
                   <span class="plugin-tag">PvP</span>
+                  <span class="plugin-tag">1.21</span>
                 </div>
               </div>
             </div>
-            <div class="plugin-desc" data-i18n="card_core_desc">
-              A complete survival server framework: clans, KOTH, economy, combat, bounties, scoreboards and much more — all in a single plugin.
-            </div>
+            <div class="plugin-desc" data-i18n="card_core_desc">A complete survival server framework: clans, KOTH, economy, combat, bounties, scoreboards and much more — all in a single plugin.</div>
             <div class="plugin-features">
               <div class="plugin-feature" data-i18n="card_core_f1">15+ integrated systems</div>
               <div class="plugin-feature" data-i18n="card_core_f2">Fully configurable YAML</div>
-              <div class="plugin-feature" data-i18n="card_core_f3">Multi-language support</div>
-              <div class="plugin-feature" data-i18n="card_core_f4">Active development</div>
+              <div class="plugin-feature" data-i18n="card_core_f3">Multi-language support (EN / ES / FR)</div>
+              <div class="plugin-feature" data-i18n="card_core_f4">Active development & updates</div>
             </div>
           </div>
           <div class="plugin-card-footer">
@@ -629,254 +398,100 @@ body::before {
               <div class="plugin-price-label" data-i18n="price_label">Launch price</div>
               <div class="plugin-price-amount">$19.99</div>
             </div>
-            <div style="display:flex;gap:8px;">
+            <div class="plugin-cta-row">
               <span class="plugin-cta view" data-i18n="cta_view">View</span>
               <span class="plugin-cta buy">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 10a4 4 0 0 1-8 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 10a4 4 0 0 1-8 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 <span data-i18n="cta_buy">Buy</span>
               </span>
             </div>
           </div>
         </a>
-
-        <!-- ════ COMING SOON × 5 (minimal) ════ -->
-        <div class="plugin-card soon"></div>
-        <div class="plugin-card soon"></div>
-        <div class="plugin-card soon"></div>
-        <div class="plugin-card soon"></div>
-        <div class="plugin-card soon"></div>
-
+        <div class="plugin-card soon"><div class="soon-inner"><div class="soon-ornament">✦</div><div class="soon-text" data-i18n="soon_badge">Coming Soon</div></div></div>
+        <div class="plugin-card soon"><div class="soon-inner"><div class="soon-ornament">✦</div><div class="soon-text" data-i18n="soon_badge">Coming Soon</div></div></div>
+        <div class="plugin-card soon"><div class="soon-inner"><div class="soon-ornament">✦</div><div class="soon-text" data-i18n="soon_badge">Coming Soon</div></div></div>
+        <div class="plugin-card soon"><div class="soon-inner"><div class="soon-ornament">✦</div><div class="soon-text" data-i18n="soon_badge">Coming Soon</div></div></div>
+        <div class="plugin-card soon"><div class="soon-inner"><div class="soon-ornament">✦</div><div class="soon-text" data-i18n="soon_badge">Coming Soon</div></div></div>
       </div>
     </div>
 
-    <!-- FOOTER -->
     <div class="store-footer">
-      <div class="store-footer-brand"><span>SDF</span> Plugins · Plugin Store</div>
-      <div class="store-footer-year">© 2026</div>
+      <div class="footer-brand"><em>SDF</em> Plugins</div>
+      <div class="footer-right" data-i18n="footer_rights">© 2026 · All rights reserved</div>
     </div>
-
   </main>
 </div>
 
 <script>
-/* ── TRANSLATIONS ── */
 const T = {
   en: {
-    brand_sub:        'Plugin Store',
-    nav_section_browse:'Browse',
-    nav_section_support:'Support',
-    nav_all_plugins:  'All Plugins',
-    nav_contact:      'Contact',
-    nav_reviews:      'Reviews',
-    topbar_store:     'Store',
-    hero_eyebrow:     'Premium Minecraft Plugins',
-    hero_title:       'Level up your<br><em>Minecraft</em> server.',
-    hero_desc:        'Hand-crafted plugins built for performance,<br>deeply configurable, actively maintained.',
-    hero_stat_plugin: 'Plugin',
-    hero_stat_from:   'Starting at',
-    hero_stat_updates:'Updates',
-    hero_badge_label: 'Plugins',
-    section_plugins:  'Available Plugins',
-    section_count:    '1 available · 5 coming soon',
-    price_label:      'Launch price',
-    cta_view:         'View',
-    cta_buy:          'Buy',
-    cta_notify:       'Notify',
-    soon_badge:       'Soon',
-    status_label:     'Status',
-    status_dev:       'In development',
-    card_core_desc:   'A complete survival server framework: clans, KOTH, economy, combat, bounties, scoreboards and much more — all in a single plugin.',
-    card_core_f1:     '15+ integrated systems',
-    card_core_f2:     'Fully configurable YAML',
-    card_core_f3:     'Multi-language support',
-    card_core_f4:     'Active development',
-    card_fac_desc:    'A modern factions plugin with territory control, raids, alliances and a custom war system.',
-    card_fac_f1:      'Territory & raiding system',
-    card_fac_f2:      'Alliance & war mechanics',
-    card_fac_f3:      'Custom land claiming',
-    card_eco_desc:    'Standalone advanced economy with player shops, auctions, market fluctuation and taxes.',
-    card_eco_f1:      'Player-driven market',
-    card_eco_f2:      'Auction house',
-    card_eco_f3:      'Tax & bank system',
-    card_combat_desc: 'Advanced combat overhaul: combatlog prevention, kill streaks, custom death messages and hit effects.',
-    card_combat_f1:   'Combatlog detection',
-    card_combat_f2:   'Kill streak system',
-    card_combat_f3:   'Custom hit & death FX',
-    card_seasons_desc:'Season management with automated resets, ranked ladders, end-of-season rewards and statistics tracking.',
-    card_seasons_f1:  'Automated season resets',
-    card_seasons_f2:  'Ranked ladder system',
-    card_seasons_f3:  'Season rewards',
-    card_events_desc: 'Standalone events system: KOTH, Conquest, Payload and custom event types with GUI editor.',
-    card_events_f1:   'Multiple event modes',
-    card_events_f2:   'GUI event editor',
-    card_events_f3:   'Scheduled auto-events',
+    brand_tagline:'Plugin Studio',nav_browse:'Browse',nav_all:'All Plugins',nav_support:'Support',nav_contact:'Contact',nav_reviews:'Reviews',
+    topbar_store:'Store',topbar_status:'1 Plugin Available',masthead_eyebrow:'Premium Minecraft Plugins',
+    masthead_title:'Level up<br>your <em>server.</em>',
+    masthead_desc:'Hand-crafted plugins built for performance, <strong>deeply configurable</strong> and actively maintained. One plugin to replace many.',
+    masthead_vol:'EST. 2026',masthead_from:'From',mstat_plugin:'Plugin',mstat_systems:'Systems',mstat_version:'Version',
+    band_label:'Now Available',
+    band_body:'<strong>SDF Survival Core</strong> — the complete survival server framework is live. Clans, KOTH, economy, combat and more.',
+    band_cta:'View Plugin →',section_title:'Available Plugins',section_note:'1 available · 5 coming soon',
+    price_label:'Launch price',cta_view:'View',cta_buy:'Buy',soon_badge:'Coming Soon',
+    card_core_desc:'A complete survival server framework: clans, KOTH, economy, combat, bounties, scoreboards and much more — all in a single plugin.',
+    card_core_f1:'15+ integrated systems',card_core_f2:'Fully configurable YAML',card_core_f3:'Multi-language support (EN / ES / FR)',card_core_f4:'Active development & updates',
+    footer_rights:'© 2026 · All rights reserved',
   },
   es: {
-    brand_sub:        'Tienda de Plugins',
-    nav_section_browse:'Explorar',
-    nav_section_support:'Soporte',
-    nav_all_plugins:  'Todos los Plugins',
-    nav_contact:      'Contacto',
-    nav_reviews:      'Reseñas',
-    topbar_store:     'Tienda',
-    hero_eyebrow:     'Plugins Premium para Minecraft',
-    hero_title:       'Lleva tu servidor<br><em>Minecraft</em> al siguiente nivel.',
-    hero_desc:        'Plugins artesanales enfocados en el rendimiento,<br>totalmente configurables y en desarrollo activo.',
-    hero_stat_plugin: 'Plugin',
-    hero_stat_from:   'Desde',
-    hero_stat_updates:'Actualizaciones',
-    hero_badge_label: 'Plugins',
-    section_plugins:  'Plugins Disponibles',
-    section_count:    '1 disponible · 5 próximamente',
-    price_label:      'Precio de lanzamiento',
-    cta_view:         'Ver',
-    cta_buy:          'Comprar',
-    cta_notify:       'Notificar',
-    soon_badge:       'Pronto',
-    status_label:     'Estado',
-    status_dev:       'En desarrollo',
-    card_core_desc:   'Un framework completo para servidores survival: clanes, KOTH, economía, combate, recompensas, marcadores y mucho más — todo en un único plugin.',
-    card_core_f1:     'Más de 15 sistemas integrados',
-    card_core_f2:     'YAML totalmente configurable',
-    card_core_f3:     'Soporte multiidioma',
-    card_core_f4:     'Desarrollo activo',
-    card_fac_desc:    'Un plugin de facciones moderno con control de territorio, asaltos, alianzas y un sistema de guerra personalizado.',
-    card_fac_f1:      'Sistema de territorio y asaltos',
-    card_fac_f2:      'Alianzas y mecánicas de guerra',
-    card_fac_f3:      'Reclamación de terreno personalizada',
-    card_eco_desc:    'Economía avanzada independiente con tiendas de jugadores, subastas, fluctuación de mercado e impuestos.',
-    card_eco_f1:      'Mercado dirigido por jugadores',
-    card_eco_f2:      'Casa de subastas',
-    card_eco_f3:      'Sistema de impuestos y banco',
-    card_combat_desc: 'Revisión avanzada del combate: prevención de combatlog, rachas de kills, mensajes de muerte personalizados y efectos de golpe.',
-    card_combat_f1:   'Detección de combatlog',
-    card_combat_f2:   'Sistema de rachas de kills',
-    card_combat_f3:   'Efectos de golpe y muerte personalizados',
-    card_seasons_desc:'Gestión de temporadas con reinicios automáticos, clasificaciones, recompensas de fin de temporada y seguimiento de estadísticas.',
-    card_seasons_f1:  'Reinicios automáticos de temporada',
-    card_seasons_f2:  'Sistema de clasificación',
-    card_seasons_f3:  'Recompensas de temporada',
-    card_events_desc: 'Sistema de eventos independiente: KOTH, Conquista, Payload y tipos de eventos personalizados con editor GUI.',
-    card_events_f1:   'Múltiples modos de evento',
-    card_events_f2:   'Editor de eventos GUI',
-    card_events_f3:   'Eventos automáticos programados',
+    brand_tagline:'Estudio de Plugins',nav_browse:'Explorar',nav_all:'Todos los Plugins',nav_support:'Soporte',nav_contact:'Contacto',nav_reviews:'Reseñas',
+    topbar_store:'Tienda',topbar_status:'1 Plugin Disponible',masthead_eyebrow:'Plugins Premium para Minecraft',
+    masthead_title:'Lleva tu <em>servidor</em><br>al siguiente nivel.',
+    masthead_desc:'Plugins artesanales enfocados en el rendimiento, <strong>totalmente configurables</strong> y en desarrollo activo.',
+    masthead_vol:'EST. 2026',masthead_from:'Desde',mstat_plugin:'Plugin',mstat_systems:'Sistemas',mstat_version:'Versión',
+    band_label:'Disponible Ahora',
+    band_body:'<strong>SDF Survival Core</strong> — el framework completo para servidores survival está disponible. Clanes, KOTH, economía, combate y más.',
+    band_cta:'Ver Plugin →',section_title:'Plugins Disponibles',section_note:'1 disponible · 5 próximamente',
+    price_label:'Precio de lanzamiento',cta_view:'Ver',cta_buy:'Comprar',soon_badge:'Próximamente',
+    card_core_desc:'Un framework completo para servidores survival: clanes, KOTH, economía, combate, recompensas, marcadores y mucho más — todo en un único plugin.',
+    card_core_f1:'Más de 15 sistemas integrados',card_core_f2:'YAML totalmente configurable',card_core_f3:'Soporte multiidioma (EN / ES / FR)',card_core_f4:'Desarrollo activo y actualizaciones',
+    footer_rights:'© 2026 · Todos los derechos reservados',
   },
   fr: {
-    brand_sub:        'Boutique de Plugins',
-    nav_section_browse:'Explorer',
-    nav_section_support:'Support',
-    nav_all_plugins:  'Tous les Plugins',
-    nav_contact:      'Contact',
-    nav_reviews:      'Avis',
-    topbar_store:     'Boutique',
-    hero_eyebrow:     'Plugins Minecraft Premium',
-    hero_title:       'Améliorez votre serveur<br><em>Minecraft</em>.',
-    hero_desc:        'Plugins créés à la main pour la performance,<br>entièrement configurables, activement maintenus.',
-    hero_stat_plugin: 'Plugin',
-    hero_stat_from:   'À partir de',
-    hero_stat_updates:'Mises à jour',
-    hero_badge_label: 'Plugins',
-    section_plugins:  'Plugins Disponibles',
-    section_count:    '1 disponible · 5 bientôt disponibles',
-    price_label:      'Prix de lancement',
-    cta_view:         'Voir',
-    cta_buy:          'Acheter',
-    cta_notify:       'Notifier',
-    soon_badge:       'Bientôt',
-    status_label:     'Statut',
-    status_dev:       'En développement',
-    card_core_desc:   'Un framework complet pour serveurs survival: clans, KOTH, économie, combat, primes, tableaux de bord et bien plus — tout en un seul plugin.',
-    card_core_f1:     'Plus de 15 systèmes intégrés',
-    card_core_f2:     'YAML entièrement configurable',
-    card_core_f3:     'Support multilingue',
-    card_core_f4:     'Développement actif',
-    card_fac_desc:    'Un plugin de factions moderne avec contrôle de territoire, raids, alliances et un système de guerre personnalisé.',
-    card_fac_f1:      'Système de territoire et raids',
-    card_fac_f2:      'Alliances et mécanique de guerre',
-    card_fac_f3:      'Revendication de terrain personnalisée',
-    card_eco_desc:    'Économie avancée autonome avec boutiques de joueurs, enchères, fluctuation du marché et taxes.',
-    card_eco_f1:      'Marché géré par les joueurs',
-    card_eco_f2:      "Hôtel des ventes",
-    card_eco_f3:      'Système de taxes et banque',
-    card_combat_desc: 'Refonte avancée du combat: prévention du combatlog, séries de kills, messages de mort personnalisés et effets de coup.',
-    card_combat_f1:   'Détection du combatlog',
-    card_combat_f2:   'Système de séries de kills',
-    card_combat_f3:   'Effets de coup et de mort personnalisés',
-    card_seasons_desc:"Gestion des saisons avec réinitialisations automatiques, classements, récompenses de fin de saison et suivi des statistiques.",
-    card_seasons_f1:  'Réinitialisations automatiques de saison',
-    card_seasons_f2:  'Système de classement',
-    card_seasons_f3:  'Récompenses de saison',
-    card_events_desc: 'Système d\'événements autonome: KOTH, Conquête, Convoi et types d\'événements personnalisés avec éditeur GUI.',
-    card_events_f1:   'Plusieurs modes d\'événement',
-    card_events_f2:   'Éditeur d\'événements GUI',
-    card_events_f3:   'Événements automatiques planifiés',
+    brand_tagline:'Studio de Plugins',nav_browse:'Explorer',nav_all:'Tous les Plugins',nav_support:'Support',nav_contact:'Contact',nav_reviews:'Avis',
+    topbar_store:'Boutique',topbar_status:'1 Plugin Disponible',masthead_eyebrow:'Plugins Minecraft Premium',
+    masthead_title:'Améliorez votre<br><em>serveur.</em>',
+    masthead_desc:'Plugins créés à la main pour la performance, <strong>entièrement configurables</strong> et activement maintenus.',
+    masthead_vol:'EST. 2026',masthead_from:'À partir de',mstat_plugin:'Plugin',mstat_systems:'Systèmes',mstat_version:'Version',
+    band_label:'Maintenant Disponible',
+    band_body:'<strong>SDF Survival Core</strong> — le framework complet pour serveurs survival est en ligne. Clans, KOTH, économie, combat et plus.',
+    band_cta:'Voir le Plugin →',section_title:'Plugins Disponibles',section_note:'1 disponible · 5 bientôt',
+    price_label:'Prix de lancement',cta_view:'Voir',cta_buy:'Acheter',soon_badge:'Bientôt',
+    card_core_desc:'Un framework complet pour serveurs survival: clans, KOTH, économie, combat, primes, tableaux de bord et bien plus — tout en un seul plugin.',
+    card_core_f1:'Plus de 15 systèmes intégrés',card_core_f2:'YAML entièrement configurable',card_core_f3:'Support multilingue (EN / ES / FR)',card_core_f4:'Développement actif & mises à jour',
+    footer_rights:'© 2026 · Tous droits réservés',
   }
 };
 
-let currentLang = localStorage.getItem('sdf_store_lang') || 'en';
+let currentLang = localStorage.getItem('sdf_principal_lang') || 'en';
 
 function applyLang(lang) {
   currentLang = lang;
-  localStorage.setItem('sdf_store_lang', lang);
+  localStorage.setItem('sdf_principal_lang', lang);
   const tr = T[lang] || T.en;
-
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.dataset.i18n;
-    if (tr[key] !== undefined) el.textContent = tr[key];
-  });
-  document.querySelectorAll('[data-i18n-html]').forEach(el => {
-    const key = el.dataset.i18nHtml;
-    if (tr[key] !== undefined) el.innerHTML = tr[key];
-  });
-
-  // Set "coming soon" text on minimal soon cards
-  document.querySelectorAll('.plugin-card.soon').forEach(card => {
-    card.setAttribute('data-soon-text', tr.soon_badge || 'Soon');
-  });
-
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.lang === lang);
-  });
-
+  document.querySelectorAll('[data-i18n]').forEach(el => { const k = el.dataset.i18n; if (tr[k] !== undefined) el.textContent = tr[k]; });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => { const k = el.dataset.i18nHtml; if (tr[k] !== undefined) el.innerHTML = tr[k]; });
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
   document.documentElement.lang = lang;
 }
-
-document.querySelectorAll('.lang-btn').forEach(btn => {
-  btn.addEventListener('click', () => applyLang(btn.dataset.lang));
-});
-
+document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => applyLang(btn.dataset.lang)));
 applyLang(currentLang);
 
-/* ── CUSTOM CURSOR ── */
 const cur = document.getElementById('cur');
 const ring = document.getElementById('cur-ring');
 let mx = -100, my = -100, rx = -100, ry = -100;
 document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
 (function loop() {
-  rx += (mx - rx) * 0.14;
-  ry += (my - ry) * 0.14;
-  cur.style.left = mx + 'px';
-  cur.style.top = my + 'px';
-  ring.style.left = rx + 'px';
-  ring.style.top = ry + 'px';
+  rx += (mx - rx) * 0.14; ry += (my - ry) * 0.14;
+  cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
   requestAnimationFrame(loop);
 })();
-
-/* ── SOON CARDS: no navigation ── */
-document.querySelectorAll('.plugin-card.soon').forEach(card => {
-  card.style.cursor = 'default';
-});
-
-/* ── NOTIFY BUTTONS ── */
-document.querySelectorAll('.plugin-cta.notify').forEach(btn => {
-  btn.addEventListener('click', e => {
-    e.preventDefault(); e.stopPropagation();
-    const notifyText = { en: '✓ Noted!', es: '✓ Anotado!', fr: '✓ Noté!' };
-    btn.textContent = notifyText[currentLang] || '✓ Noted!';
-    btn.style.opacity = '0.6';
-    btn.style.pointerEvents = 'none';
-  });
-});
 </script>
 </body>
 </html>
