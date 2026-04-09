@@ -435,6 +435,20 @@ const TRANSLATIONS = {
     cl_config2: 'Per-module enable/disable flags in config',
     cl_config3: 'Multi-language support: <strong>English, Spanish, French</strong>',
     cl_config4: 'All messages customizable in <strong>messages.yml</strong>',
+    /* PROTECTIONS CHANGELOG */
+    cl_protections: 'Land claim system with member management and admin tools',
+    /* ECONOMYSHOPGUI INTEGRATION */
+    int_eshop_name:    'EconomyShopGUI',
+    int_eshop_version: 'Shop System',
+    int_eshop_desc:    'Integrates with SDF to provide a fully featured <strong>GUI shop system</strong>. Allows players to buy and sell items using the server economy. Compatible with SellWands and the economy module.',
+    int_eshop_link:    'SpigotMC → EconomyShopGUI',
+    notice_text: 'Required Integrations — Paper &amp; Vault must be installed. The plugin will not load without them.',
+    /* SDF DEVELOPMENTS rebranding */
+    eyebrow_contact:  'SDF Developments · Support & Contact',
+    eyebrow_terms:    'SDF Developments · Legal',
+    tagline_terms:    'Please read these terms carefully before purchasing or using any SDF Developments plugin.',
+    eyebrow_reviews:  'SDF Developments · Community',
+    tagline_reviews:  'Real reviews from server owners and admins who use SDF Developments plugins in production.',
     /* NEW COMMANDS & PERMISSIONS */
     filter_protections: '🔒 Protections',
     sec_warps:       'Warp System',
@@ -903,6 +917,20 @@ const TRANSLATIONS = {
     cl_config2: 'Flags de activación/desactivación por módulo en la config',
     cl_config3: 'Soporte multiidioma: <strong>Español, Inglés, Francés</strong>',
     cl_config4: 'Todos los mensajes personalizables en <strong>messages.yml</strong>',
+    /* PROTECCIONES CHANGELOG */
+    cl_protections: 'Sistema de reclamación de terrenos con gestión de miembros y herramientas de administración',
+    /* ECONOMYSHOPGUI */
+    int_eshop_name:    'EconomyShopGUI',
+    int_eshop_version: 'Sistema de Tienda',
+    int_eshop_desc:    'Se integra con SDF para ofrecer un <strong>sistema de tienda GUI</strong> completo. Permite a los jugadores comprar y vender ítems usando la economía del servidor. Compatible con SellWands y el módulo de economía.',
+    int_eshop_link:    'SpigotMC → EconomyShopGUI',
+    notice_text: 'Integraciones Obligatorias — Paper y Vault deben estar instalados. El plugin no cargará sin ellos.',
+    /* REBRANDING SDF DEVELOPMENTS */
+    eyebrow_contact:  'SDF Developments · Soporte & Contacto',
+    eyebrow_terms:    'SDF Developments · Legal',
+    tagline_terms:    'Lee atentamente estos términos antes de adquirir o utilizar cualquier plugin de SDF Developments.',
+    eyebrow_reviews:  'SDF Developments · Comunidad',
+    tagline_reviews:  'Opiniones reales de administradores de servidores que usan los plugins de SDF Developments.',
     /* NUEVOS COMANDOS Y PERMISOS */
     filter_protections: '🔒 Protecciones',
     sec_warps:       'Sistema de Warps',
@@ -1372,6 +1400,20 @@ const TRANSLATIONS = {
     cl_config2: 'Flags d\'activation/désactivation par module dans la config',
     cl_config3: 'Support multilingue : <strong>Espagnol, Anglais, Français</strong>',
     cl_config4: 'Tous les messages personnalisables dans <strong>messages.yml</strong>',
+    /* PROTECTIONS CHANGELOG */
+    cl_protections: 'Système de revendication de terrain avec gestion des membres et outils d\'administration',
+    /* ECONOMYSHOPGUI */
+    int_eshop_name:    'EconomyShopGUI',
+    int_eshop_version: 'Système de Boutique',
+    int_eshop_desc:    'S\'intègre à SDF pour fournir un <strong>système de boutique GUI</strong> complet. Permet aux joueurs d\'acheter et vendre des objets via l\'économie du serveur. Compatible avec les SellWands et le module économie.',
+    int_eshop_link:    'SpigotMC → EconomyShopGUI',
+    notice_text: 'Intégrations Requises — Paper et Vault doivent être installés. Le plugin ne se chargera pas sans eux.',
+    /* REBRANDING SDF DEVELOPMENTS */
+    eyebrow_contact:  'SDF Developments · Support & Contact',
+    eyebrow_terms:    'SDF Developments · Légal',
+    tagline_terms:    'Veuillez lire attentivement ces conditions avant d\'acheter ou d\'utiliser un plugin SDF Developments.',
+    eyebrow_reviews:  'SDF Developments · Communauté',
+    tagline_reviews:  'Avis réels de propriétaires de serveurs qui utilisent les plugins SDF Developments en production.',
     /* NOUVEAUX COMMANDES ET PERMISSIONS */
     filter_protections: '🔒 Protections',
     sec_warps:       'Système de Warps',
