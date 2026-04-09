@@ -6,7 +6,7 @@
 <title>SDF Survival Core — Integrations</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<script src="sdf-core.js" defer></script>
+<script src="sdf-core.js?v=4" defer></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -173,7 +173,7 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
     <div class="notice-icon">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 8v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="16" r="0.5" fill="currentColor" stroke="currentColor" stroke-width="1"/></svg>
     </div>
-    <div class="notice-text" data-i18n="notice_text">Required Integrations — Apollo &amp; Paper must be installed. The plugin will not load without them.</div>
+    <div class="notice-text" data-i18n="notice_text">Required Integrations — Paper &amp; Vault must be installed. The plugin will not load without them.</div>
   </div>
 
   <!-- REQUIRED -->
@@ -185,32 +185,6 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
 
   <div class="integrations-wrap reveal reveal-delay-2">
     <div class="integrations-grid">
-
-      <!-- Apollo -->
-      <div class="int-card required">
-        <div class="int-card-head">
-          <div class="int-name-wrap">
-            <div class="int-icon">🌙</div>
-            <div>
-              <div class="int-name" data-i18n="int_apollo_name">Apollo</div>
-              <div class="int-version" data-i18n="int_apollo_version">Lunar Client API</div>
-            </div>
-          </div>
-          <div class="int-badge required" data-i18n="badge_required">Required</div>
-        </div>
-        <div class="int-desc" data-i18n-html="int_apollo_desc" data-i18n-html="int_apollo_desc">The <strong>Lunar Client API</strong> used by SDF Survival Core to deliver enhanced player experiences — custom waypoints, team indicators, rich title overlays and Lunar-native HUD elements.</div>
-        <div class="int-features">
-          <span class="int-feature" data-i18n="feat_rich_title">Rich Title API</span>
-          <span class="int-feature" data-i18n="feat_waypoints">Waypoints</span>
-          <span class="int-feature" data-i18n="feat_team_display">Team Display</span>
-          <span class="int-feature" data-i18n="feat_custom_hud">Custom HUD</span>
-          <span class="int-feature" data-i18n="feat_combat_tags">Combat Tags</span>
-        </div>
-        <a class="int-link" href="https://github.com/LunarClient/Apollo" target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6H10M10 6L7 3M10 6L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span data-i18n="int_apollo_link">GitHub → LunarClient/Apollo</span>
-        </a>
-      </div>
 
       <!-- Paper -->
       <div class="int-card required">
@@ -235,6 +209,31 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
         <a class="int-link" href="https://papermc.io/downloads/paper" target="_blank" rel="noopener">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6H10M10 6L7 3M10 6L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span data-i18n="int_paper_link">papermc.io/downloads</span>
+        </a>
+      </div>
+
+      <!-- Vault (Required) -->
+      <div class="int-card required">
+        <div class="int-card-head">
+          <div class="int-name-wrap">
+            <div class="int-icon">💰</div>
+            <div>
+              <div class="int-name" data-i18n="int_vault_name">Vault</div>
+              <div class="int-version" data-i18n="int_vault_version">Economy API</div>
+            </div>
+          </div>
+          <div class="int-badge required" data-i18n="badge_required">Required</div>
+        </div>
+        <div class="int-desc" data-i18n-html="int_vault_desc">Required only if you want to use <strong>economy features</strong> — balances, shops, bounties and economy commands. Without Vault the economy module will be automatically disabled.</div>
+        <div class="int-features">
+          <span class="int-feature" data-i18n="feat_economy_api">Economy API</span>
+          <span class="int-feature" data-i18n="feat_balances">Balances</span>
+          <span class="int-feature" data-i18n="feat_bounty_system">Bounty System</span>
+          <span class="int-feature" data-i18n="feat_shop_int">Shop Integration</span>
+        </div>
+        <a class="int-link" href="https://www.spigotmc.org/resources/vault.34315/" target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6H10M10 6L7 3M10 6L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="int_vault_link">SpigotMC → Vault</span>
         </a>
       </div>
 
@@ -276,28 +275,53 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
         </a>
       </div>
 
-      <!-- Vault -->
+      <!-- Apollo (Optional) -->
       <div class="int-card optional">
         <div class="int-card-head">
           <div class="int-name-wrap">
-            <div class="int-icon">💰</div>
+            <div class="int-icon">🌙</div>
             <div>
-              <div class="int-name" data-i18n="int_vault_name">Vault</div>
-              <div class="int-version" data-i18n="int_vault_version">Economy API</div>
+              <div class="int-name" data-i18n="int_apollo_name">Apollo</div>
+              <div class="int-version" data-i18n="int_apollo_version">Lunar Client API</div>
             </div>
           </div>
           <div class="int-badge optional" data-i18n="badge_optional">Optional</div>
         </div>
-        <div class="int-desc" data-i18n-html="int_vault_desc">Required only if you want to use <strong>economy features</strong> — balances, shops, bounties and economy commands. Without Vault the economy module will be automatically disabled.</div>
+        <div class="int-desc" data-i18n-html="int_apollo_desc">The <strong>Lunar Client API</strong> used by SDF Survival Core to deliver enhanced player experiences — custom waypoints, team indicators, rich title overlays and Lunar-native HUD elements.</div>
         <div class="int-features">
+          <span class="int-feature" data-i18n="feat_rich_title">Rich Title API</span>
+          <span class="int-feature" data-i18n="feat_waypoints">Waypoints</span>
+          <span class="int-feature" data-i18n="feat_team_display">Team Display</span>
+          <span class="int-feature" data-i18n="feat_custom_hud">Custom HUD</span>
+          <span class="int-feature" data-i18n="feat_combat_tags">Combat Tags</span>
+        </div>
+        <a class="int-link" href="https://github.com/LunarClient/Apollo" target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6H10M10 6L7 3M10 6L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="int_apollo_link">GitHub → LunarClient/Apollo</span>
+        </a>
+      </div>
+
+      <!-- EconomyShopGUI -->
+      <div class="int-card optional">
+        <div class="int-card-head">
+          <div class="int-name-wrap">
+            <div class="int-icon">🛒</div>
+            <div>
+              <div class="int-name" data-i18n="int_eshop_name">EconomyShopGUI</div>
+              <div class="int-version" data-i18n="int_eshop_version">Shop System</div>
+            </div>
+          </div>
+          <div class="int-badge optional" data-i18n="badge_optional">Optional</div>
+        </div>
+        <div class="int-desc" data-i18n-html="int_eshop_desc">Integrates with SDF to provide a fully featured <strong>GUI shop system</strong>. Allows players to buy and sell items using the server economy. Compatible with SellWands and the economy module.</div>
+        <div class="int-features">
+          <span class="int-feature" data-i18n="feat_shop_int">Shop Integration</span>
           <span class="int-feature" data-i18n="feat_economy_api">Economy API</span>
           <span class="int-feature" data-i18n="feat_balances">Balances</span>
-          <span class="int-feature" data-i18n="feat_bounty_system">Bounty System</span>
-          <span class="int-feature" data-i18n="feat_shop_int">Shop Integration</span>
         </div>
-        <a class="int-link" href="https://www.spigotmc.org/resources/vault.34315/" target="_blank" rel="noopener">
+        <a class="int-link" href="https://www.spigotmc.org/resources/economyshopgui.69927/" target="_blank" rel="noopener">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6H10M10 6L7 3M10 6L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span data-i18n="int_vault_link">SpigotMC → Vault</span>
+          <span data-i18n="int_eshop_link">SpigotMC → EconomyShopGUI</span>
         </a>
       </div>
 
@@ -348,6 +372,30 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
         <a class="int-link" href="https://dev.bukkit.org/projects/worldguard" target="_blank" rel="noopener">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6H10M10 6L7 3M10 6L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span data-i18n="int_wg_link">BukkitDev → WorldGuard</span>
+        </a>
+      </div>
+
+      <!-- WorldEdit -->
+      <div class="int-card optional">
+        <div class="int-card-head">
+          <div class="int-name-wrap">
+            <div class="int-icon">⛏️</div>
+            <div>
+              <div class="int-name" data-i18n="int_we_name">WorldEdit</div>
+              <div class="int-version" data-i18n="int_we_version">Selection API</div>
+            </div>
+          </div>
+          <div class="int-badge optional" data-i18n="badge_optional">Optional</div>
+        </div>
+        <div class="int-desc" data-i18n-html="int_we_desc">Used by SDF to define <strong>zone boundaries</strong> via WorldEdit selections — spawn zones, AFK zones and protected areas. Without WorldEdit, zones must be set manually.</div>
+        <div class="int-features">
+          <span class="int-feature" data-i18n="feat_spawn_shield">Spawn Shield</span>
+          <span class="int-feature" data-i18n="feat_safe_zones">Safe Zones</span>
+          <span class="int-feature" data-i18n="feat_koth_zones">KOTH Zones</span>
+        </div>
+        <a class="int-link" href="https://dev.bukkit.org/projects/worldedit" target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6H10M10 6L7 3M10 6L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="int_we_link">BukkitDev → WorldEdit</span>
         </a>
       </div>
 
