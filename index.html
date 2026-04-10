@@ -804,43 +804,6 @@ body.modal-open {
 /* ══════════════════════════════════
    DEPENDENCIES
 ══════════════════════════════════ */
-.deps-section {
-  margin: 0 48px;
-  margin-top: 2px;
-  border: 1px solid var(--border);
-  border-top: none;
-  background: var(--bg-2);
-  padding: 20px 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.deps-label {
-  font-family: 'Space Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.2);
-  margin-right: 8px;
-}
-.dep-pill {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 5px 12px 5px 8px;
-  border-radius: 3px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border);
-}
-.dep-dot { width: 7px; height: 7px; border-radius: 50%; }
-.dep-name {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--text-bright);
-}
 
 /* ══════════════════════════════════
    BOTTOM STRIPE
@@ -1369,8 +1332,78 @@ body.modal-open {
 }
 
 /* ══════════════════════════════════
-   STAT COMMANDS — FULL ROW HIGHLIGHT
+   DEPENDENCIES SECTION
 ══════════════════════════════════ */
+.deps-section {
+  margin: 0 48px 0;
+  padding: 22px 28px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
+.deps-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+.deps-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.deps-divider {
+  width: 1px;
+  background: var(--border);
+  align-self: stretch;
+  margin: 0 24px;
+  flex-shrink: 0;
+}
+.deps-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+}
+.dep-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+.dep-pill-required {
+  border-color: rgba(239,68,68,0.2);
+  background: rgba(239,68,68,0.04);
+}
+.dep-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dep-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+@media (max-width: 640px) {
+  .deps-section {
+    flex-direction: column;
+    margin: 0 0;
+    gap: 18px;
+  }
+  .deps-divider {
+    width: 100%; height: 1px;
+    margin: 0;
+    align-self: auto;
+  }
+}
 @keyframes cmdPulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(240,106,0,0); border-color: rgba(240,106,0,0.35); }
   50%       { box-shadow: 0 0 28px 4px rgba(240,106,0,0.18); border-color: rgba(240,106,0,0.7); }
@@ -1969,12 +2002,25 @@ body.modal-open {
 
   <!-- DEPENDENCIES -->
   <div class="deps-section reveal reveal-delay-2">
-    <div class="deps-label" data-i18n="deps_label">Requires</div>
-    <div class="dep-pill"><div class="dep-dot" style="background:#7c3aed;"></div><div class="dep-name" style="color:#a78bfa;">Apollo</div></div>
-    <div class="dep-pill"><div class="dep-dot" style="background:#ffaa22;"></div><div class="dep-name" style="color:#ffbb44;">Vault</div></div>
-    <div class="dep-pill"><div class="dep-dot" style="background:#44cc44;"></div><div class="dep-name" style="color:#55dd55;">LuckPerms</div></div>
-    <div class="dep-pill"><div class="dep-dot" style="background:#6699ff;"></div><div class="dep-name" style="color:#7aabff;">PlaceholderAPI</div></div>
-    <div class="dep-pill"><div class="dep-dot" style="background:#5577ee;"></div><div class="dep-name" style="color:#6688ff;">WorldGuard</div></div>
+    <div class="deps-group">
+      <div class="deps-label" data-i18n="deps_required_label">Required</div>
+      <div class="deps-pills">
+        <div class="dep-pill dep-pill-required"><div class="dep-dot" style="background:#ef4444;box-shadow:0 0 6px rgba(239,68,68,0.5);"></div><div class="dep-name" style="color:#fca5a5;">Paper</div></div>
+        <div class="dep-pill dep-pill-required"><div class="dep-dot" style="background:#ffaa22;"></div><div class="dep-name" style="color:#ffbb44;">Vault</div></div>
+      </div>
+    </div>
+    <div class="deps-divider"></div>
+    <div class="deps-group">
+      <div class="deps-label" data-i18n="deps_optional_label">Optional</div>
+      <div class="deps-pills">
+        <div class="dep-pill"><div class="dep-dot" style="background:#7c3aed;"></div><div class="dep-name" style="color:#a78bfa;">Apollo</div></div>
+        <div class="dep-pill"><div class="dep-dot" style="background:#44cc44;"></div><div class="dep-name" style="color:#55dd55;">LuckPerms</div></div>
+        <div class="dep-pill"><div class="dep-dot" style="background:#6699ff;"></div><div class="dep-name" style="color:#7aabff;">PlaceholderAPI</div></div>
+        <div class="dep-pill"><div class="dep-dot" style="background:#5577ee;"></div><div class="dep-name" style="color:#6688ff;">WorldGuard</div></div>
+        <div class="dep-pill"><div class="dep-dot" style="background:#8855cc;"></div><div class="dep-name" style="color:#aa77ee;">WorldEdit</div></div>
+        <div class="dep-pill"><div class="dep-dot" style="background:#22aa88;"></div><div class="dep-name" style="color:#33cc99;">EconomyShopGUI</div></div>
+      </div>
+    </div>
   </div>
 
   <div class="bottom-stripe reveal reveal-delay-3"></div>
