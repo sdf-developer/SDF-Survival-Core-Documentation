@@ -175,26 +175,7 @@ body.modal-open {
   line-height: 1;
   text-shadow: 0 0 24px rgba(34,197,94,0.45);
 }
-.btn-buy-hero {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--orange);
-  color: #fff;
-  font-family: 'Space Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 12px 22px;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer !important;
-  text-decoration: none;
-  transition: background .2s, transform .15s, box-shadow .2s;
-  box-shadow: 0 0 20px rgba(240,106,0,0.3);
-}
-.btn-buy-hero:hover { background: #d45f00; transform: translateY(-2px); box-shadow: 0 4px 28px rgba(240,106,0,0.45); }
-.btn-buy-hero svg { width: 13px; height: 13px; }
+
 
 .header-eyebrow {
   display: flex;
@@ -1680,10 +1661,7 @@ body.modal-open {
           <div class="price-label" data-i18n="price_label_hero">Launch price</div>
           <div class="price-amount">$19.99</div>
         </div>
-        <a class="btn-buy-hero" href="buy.html">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-          <span data-i18n="btn_get_hero">Get SDF Core</span>
-        </a>
+
       </div>
       <!-- CENTER: título + tagline -->
       <div class="hero-center">
@@ -1919,13 +1897,13 @@ body.modal-open {
         <div class="sys-desc" data-i18n="sys_afk_desc">100% configurable AFK Zone system.</div>
       </div>
 
-      <div class="sys-card" data-system="updates">
+      <div class="sys-card" data-system="protections">
         <span class="preview-hint">click ↗</span>
         <div class="sys-header">
-          <div class="sys-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" fill="none" stroke="#f06a00" stroke-width="1.5"/><circle cx="14" cy="14" r="5" fill="none" stroke="#f06a00" stroke-width="1.5" opacity="0.4"/><circle cx="14" cy="14" r="2.5" fill="#f06a00"/><path d="M14 4 Q16 9 14 14" stroke="#f06a00" stroke-width="1.5" fill="none"/><circle cx="14" cy="4" r="1.5" fill="#f06a00"/></svg></div>
-          <div class="sys-name" data-i18n="sys_updates_name">Extra Add-ons</div>
+          <div class="sys-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><path d="M14 3 L24 7 V14 C24 20 19 25 14 26 C9 25 4 20 4 14 V7 Z" fill="rgba(240,106,0,0.15)" stroke="#f06a00" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 14 L13 17 L18 11" stroke="#f06a00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="sys-name" data-i18n="sys_protections_name">Protections</div>
         </div>
-        <div class="sys-desc" data-i18n="sys_updates_desc">Bonus modules and extras included out of the box.</div>
+        <div class="sys-desc" data-i18n="sys_protections_desc">Land claim system with flags and member management.</div>
       </div>
 
     </div>
@@ -2221,7 +2199,7 @@ const systemData = {
   mobstack:     { title: 'MOBSTACK',       badgeKey: 'sys_modal_mobstack_badge',     descKey: 'sys_modal_mobstack_desc',     featKeys: ['sys_modal_mobstack_f1','sys_modal_mobstack_f2','sys_modal_mobstack_f3','sys_modal_mobstack_f4','sys_modal_mobstack_f5'],     terminal: [{t:'out',v:'[MobStack] Apilados 12x Zombie → x12 Zombie'},{t:'out',v:'[MobStack] Apilados 8x Skeleton → x8 Skeleton'},{t:'green',v:'[MobStack] TPS mejorado: 18.2 → 19.8'}] },
   tabulator:    { title: 'TABULATOR',      badgeKey: 'sys_modal_tabulator_badge',    descKey: 'sys_modal_tabulator_desc',    featKeys: ['sys_modal_tabulator_f1','sys_modal_tabulator_f2','sys_modal_tabulator_f3','sys_modal_tabulator_f4','sys_modal_tabulator_f5'],    terminal: [{t:'out',v:'┌─────── Online (3/50) ───────┐'},{t:'green',v:'  [Admin] Steve'},{t:'out',v:'  [VIP] Alex'},{t:'out',v:'  [Member] Notch'},{t:'out',v:'└─────────────────────────────┘'}] },
   afkzone:      { title: 'ZONA AFK',       badgeKey: 'sys_modal_afkzone_badge',      descKey: 'sys_modal_afkzone_desc',      featKeys: ['sys_modal_afkzone_f1','sys_modal_afkzone_f2','sys_modal_afkzone_f3','sys_modal_afkzone_f4','sys_modal_afkzone_f5'],      terminal: [{t:'out',v:'[AFK] Steve está ahora AFK'},{t:'out',v:'[AFK] Teletransportando a Steve a la Zona AFK...'},{t:'green',v:'[AFK] Steve ha vuelto — 00:12:34 AFK'},{t:'out',v:'[AFK] Steve ganó 120 monedas AFK'}] },
-  updates:      { title: 'EXTRAS',         badgeKey: 'sys_modal_updates_badge',      descKey: 'sys_modal_updates_desc',      featKeys: ['sys_modal_updates_f1','sys_modal_updates_f2','sys_modal_updates_f3','sys_modal_updates_f4','sys_modal_updates_f5'],      terminal: [{t:'green',v:'[SDF] ¡Actualización v2.4.1 disponible!'},{t:'out',v:'[SDF] + Soporte MySQL añadido'},{t:'out',v:'[SDF] + Nuevo sistema de recompensas AFK'},{t:'out',v:'[SDF] ~ Parpadeo del scoreboard corregido'}] },
+  protections:  { title: 'PROTECCIONES',   badgeKey: 'sys_modal_protections_badge',  descKey: 'sys_modal_protections_desc',  featKeys: ['sys_modal_protections_f1','sys_modal_protections_f2','sys_modal_protections_f3','sys_modal_protections_f4','sys_modal_protections_f5'],  terminal: [{t:'prompt',v:'/'},{t:'cmd',v:'ps get Basic'},{t:'green',v:'[PS] ✓ Bloque de protección obtenido'},{t:'out',v:'[PS] Colócalo en el suelo para proteger la zona'},{t:'prompt',v:'/'},{t:'cmd',v:'ps add Steve'},{t:'green',v:'[PS] ✓ Steve añadido como miembro'}] },
 };
 
 /* ══════════════════════════════
@@ -2242,7 +2220,7 @@ const systemImages = {
   scoreboard:  ['images/scoreboard1.png','images/scoreboard2.png','images/scoreboard3.png','images/scoreboard4.png'],
   tabulator:   ['images/tabulator1.png','images/tabulator2.png','images/tabulator3.png','images/tabulator4.png'],
   homes:       ['images/homes1.png','images/homes2.png','images/homes3.png'],
-  updates:     ['images/extra1.png','images/extra2.png','images/extra3.png'],
+
 };
 
 // ── SLIDER STATE ──
