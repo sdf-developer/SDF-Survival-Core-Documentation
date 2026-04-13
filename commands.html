@@ -791,10 +791,20 @@
         <div class="cmd-perm"><span class="perm-node">core.delhome</span></div>
       </div>
 
+      <div class="cmd-card usuario" data-cat="homes usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>homes <span style="color:#94a3b8;font-weight:300">[player]</span></div>
+          <div class="badge usuario" data-i18n="badge_player">Player</div>
+        </div>
+        <div class="cmd-desc" data-i18n="cmd_homes">Opens the homes GUI menu showing all saved homes with clickable teleport. Alias of /home without argument. Staff can pass a player name.</div>
+        <div class="cmd-aliases">Alias: <em>/home</em></div>
+        <div class="cmd-perm"><span class="perm-node">core.home</span></div>
+      </div>
+
       <div class="cmd-card admin" data-cat="homes staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>homescheck <span style="color:#94a3b8;font-weight:300">[player]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_adminhome">Allows staff to view and manage any player's homes from a GUI menu.</div>
         <div class="cmd-perm"><span class="perm-node">core.homescheck</span></div>
@@ -825,7 +835,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>createkit <span style="color:#94a3b8;font-weight:300">[name]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_createkit">Creates a new kit using the administrator's current inventory.</div>
         <div class="cmd-perm"><span class="perm-node">core.createkit</span></div>
@@ -834,7 +844,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>deletekit <span style="color:#94a3b8;font-weight:300">[name]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_deletekit">Deletes an existing kit from the system.</div>
         <div class="cmd-perm"><span class="perm-node">core.deletekit</span></div>
@@ -893,7 +903,7 @@
       <div class="cmd-card admin" data-cat="economy staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>eco <span style="color:#94a3b8;font-weight:300">[give|set|take] [player] [amount]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_eco">Manages player money. Allows giving, removing or setting balance directly.</div>
         <div class="cmd-perm"><span class="perm-node">core.eco</span></div>
@@ -970,7 +980,7 @@
       <div class="cmd-card usuario" data-cat="chat usuario">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>seereports <span style="color:#94a3b8;font-weight:300">[player] [reason]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_reports">Allows you to review all reports for a player.</div>
         <div class="cmd-perm"><span class="perm-node">core.staff.seereports</span></div>
@@ -979,7 +989,7 @@
       <div class="cmd-card admin" data-cat="chat staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>broadcast <span style="color:#94a3b8;font-weight:300">[message]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_broadcast">Sends a global message to all server players with special formatting.</div>
         <div class="cmd-aliases">Alias: <em>/alert</em></div>
@@ -988,8 +998,18 @@
 
       <div class="cmd-card admin" data-cat="chat staff">
         <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>alert <span style="color:#94a3b8;font-weight:300">&lt;message&gt;</span></div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
+        </div>
+        <div class="cmd-desc" data-i18n="cmd_alert">Alias of /broadcast. Sends a highlighted announcement to all players on the server.</div>
+        <div class="cmd-aliases">Alias: <em>/broadcast</em></div>
+        <div class="cmd-perm"><span class="perm-node">core.broadcast</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="chat staff">
+        <div class="cmd-top">
           <div class="cmd-name"><span>/</span>clearchat</div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_clearchat">Clears the chat for all server players.</div>
         <div class="cmd-perm"><span class="perm-node">core.clearchat</span></div>
@@ -998,7 +1018,7 @@
       <div class="cmd-card admin" data-cat="chat staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>mutechat</div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_mutechat">Silences or enables the global server chat. Only staff can write while it's muted.</div>
         <div class="cmd-perm"><span class="perm-node">core.mutechat</span></div>
@@ -1007,7 +1027,7 @@
       <div class="cmd-card admin" data-cat="chat staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>delaychat <span style="color:#94a3b8;font-weight:300">[seconds]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_slowchat">Sets the cooldown between chat messages for players.</div>
         <div class="cmd-perm"><span class="perm-node">core.delaychat</span></div>
@@ -1016,7 +1036,7 @@
       <div class="cmd-card admin" data-cat="chat staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>staffchat <span style="color:#94a3b8;font-weight:300">[message]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_staffchat">Private chat channel exclusive to staff members.</div>
         <div class="cmd-aliases">Alias: <em>/sc</em></div>
@@ -1074,7 +1094,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>tpall</div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_tpall">Teleports all server players to the executor's position.</div>
         <div class="cmd-perm"><span class="perm-node">core.tpall</span></div>
@@ -1083,7 +1103,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>s <span style="color:#94a3b8;font-weight:300">[player]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_tphere">Teleports a player to your position.</div>
         <div class="cmd-aliases">Alias: <em>/tphere</em></div>
@@ -1093,7 +1113,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>otp <span style="color:#94a3b8;font-weight:300">[player]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_tpoffline">Teleports you to an offline player's last known position.</div>
         <div class="cmd-aliases">Alias: <em>/offlinetp</em></div>
@@ -1124,7 +1144,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>afkzone create</div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_createafk">Creates a new AFK zone with the given name at the current position. Players inside receive benefits for being inactive.</div>
         <div class="cmd-perm"><span class="perm-node">core.afkzone.admin</span></div>
@@ -1133,7 +1153,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>afkzone delete</div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_deleteafk">Permanently deletes an existing AFK zone from the server.</div>
         <div class="cmd-perm"><span class="perm-node">core.afkzone.admin</span></div>
@@ -1142,7 +1162,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>afkzone rewards</div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_rewardsafk">Opens the reward editor for the AFK zone. Allows configuring the items and benefits players receive for staying inside.</div>
         <div class="cmd-perm"><span class="perm-node">core.afkzone.admin</span></div>
@@ -1364,7 +1384,7 @@
       <div class="cmd-card admin" data-cat="llaves staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>crate create <span style="color:#94a3b8;font-weight:300">[name]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_createcrate">Creates a crate to set up all the prizes inside.</div>
         <div class="cmd-perm"><span class="perm-node">core.crate.admin</span></div>
@@ -1373,7 +1393,7 @@
       <div class="cmd-card admin" data-cat="llaves staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>crate delete <span style="color:#94a3b8;font-weight:300">[name]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_deletecrate">Deletes a crate.</div>
         <div class="cmd-perm"><span class="perm-node">core.crate.admin</span></div>
@@ -1382,7 +1402,7 @@
       <div class="cmd-card admin" data-cat="llaves staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>crate setkey <span style="color:#94a3b8;font-weight:300">[name]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_setcratekey">Sets the item required to open the crate.</div>
         <div class="cmd-perm"><span class="perm-node">core.crate.admin</span></div>
@@ -1391,7 +1411,7 @@
       <div class="cmd-card admin" data-cat="llaves staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>crate setcolor <span style="color:#94a3b8;font-weight:300">[name] [color]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_setcratecolor">Sets the crate's color.</div>
         <div class="cmd-perm"><span class="perm-node">core.crate.admin</span></div>
@@ -1400,7 +1420,7 @@
       <div class="cmd-card admin" data-cat="llaves staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>crate setloot <span style="color:#94a3b8;font-weight:300">[name]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_setcrateloot">Sets the loot for the crate.</div>
         <div class="cmd-perm"><span class="perm-node">core.crate.admin</span></div>
@@ -1409,7 +1429,7 @@
       <div class="cmd-card admin" data-cat="llaves staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>crate setplace <span style="color:#94a3b8;font-weight:300">[name]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_setcrateloc">Marks the location of the crate.</div>
         <div class="cmd-perm"><span class="perm-node">core.crate.admin</span></div>
@@ -1418,7 +1438,7 @@
       <div class="cmd-card admin" data-cat="llaves staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>crate removeplace <span style="color:#94a3b8;font-weight:300">[name]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_removecratblocks">Removes the assigned blocks from the crate.</div>
         <div class="cmd-perm"><span class="perm-node">core.crate.admin</span></div>
@@ -1427,7 +1447,7 @@
       <div class="cmd-card admin" data-cat="llaves staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>crate list</div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_listcrates">Shows all available crates.</div>
         <div class="cmd-perm"><span class="perm-node">core.crate.admin</span></div>
@@ -1436,7 +1456,7 @@
       <div class="cmd-card admin" data-cat="llaves staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>crate setanimation <span style="color:#94a3b8;font-weight:300">[name] [type]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_cratepreview">Views rewards by type: Wheel - CSGO - SPIN - DROP - FLICKER.</div>
         <div class="cmd-perm"><span class="perm-node">core.crate.admin</span></div>
@@ -1445,7 +1465,7 @@
       <div class="cmd-card admin" data-cat="llaves staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>crate key give <span style="color:#94a3b8;font-weight:300">[name] [all]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_givekey">Gives a key to a player or to all players.</div>
         <div class="cmd-perm"><span class="perm-node">core.crate.admin</span></div>
@@ -1493,7 +1513,7 @@
       <div class="cmd-card admin" data-cat="combat staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>koth create <span style="color:#94a3b8;font-weight:300">[name]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_kothcreate">Creates a new KOTH event with the given name. The capture zone and loot are configured afterwards.</div>
         <div class="cmd-perm"><span class="perm-node">core.koth.admin</span></div>
@@ -1502,7 +1522,7 @@
       <div class="cmd-card admin" data-cat="combat staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>koth delete <span style="color:#94a3b8;font-weight:300">[name]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_kothdelete">Permanently deletes an existing KOTH event and all its configuration.</div>
         <div class="cmd-perm"><span class="perm-node">core.koth.admin</span></div>
@@ -1511,7 +1531,7 @@
       <div class="cmd-card admin" data-cat="combat staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>koth setcapzone <span style="color:#94a3b8;font-weight:300">[name]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_kothzone">Defines the KOTH capture zone at the admin's current position. Players must stay inside to win.</div>
         <div class="cmd-perm"><span class="perm-node">core.koth.admin</span></div>
@@ -1520,7 +1540,7 @@
       <div class="cmd-card admin" data-cat="combat staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>koth settime <span style="color:#94a3b8;font-weight:300">[name] [seconds]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_kothtime">Sets the total capture time required to win the KOTH event in seconds.</div>
         <div class="cmd-perm"><span class="perm-node">core.koth.admin</span></div>
@@ -1529,7 +1549,7 @@
       <div class="cmd-card admin" data-cat="combat staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>koth setloot <span style="color:#94a3b8;font-weight:300">[name]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_kothreward">Opens the KOTH reward editor. Configures items and money the winner will receive.</div>
         <div class="cmd-perm"><span class="perm-node">core.koth.admin</span></div>
@@ -1538,7 +1558,7 @@
       <div class="cmd-card admin" data-cat="combat staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>koth schedule add <span style="color:#94a3b8;font-weight:300">[name] [time]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_kothschedule">Schedules an automatic KOTH start at a specific time of day. Allows multiple schedules per event.</div>
         <div class="cmd-perm"><span class="perm-node">core.koth.admin</span></div>
@@ -1547,7 +1567,7 @@
       <div class="cmd-card admin" data-cat="combat staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>koth schedule <span style="color:#94a3b8;font-weight:300">[name]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_kothschedules">Shows the scheduled times for a specific KOTH event.</div>
         <div class="cmd-perm"><span class="perm-node">core.koth.admin</span></div>
@@ -1568,7 +1588,7 @@
       <div class="cmd-card admin" data-cat="staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>staffmode</div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_staffmode">Toggles staff mode. Provides special moderation tools and visibility.</div>
         <div class="cmd-perm"><span class="perm-node">core.staff.mode</span></div>
@@ -1577,7 +1597,7 @@
       <div class="cmd-card admin" data-cat="staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>vanish</div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_vanish">Makes the staff member invisible to regular players. Ideal for covert moderation.</div>
         <div class="cmd-aliases">Alias: <em>/v</em></div>
@@ -1587,7 +1607,7 @@
       <div class="cmd-card admin" data-cat="staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>freeze <span style="color:#94a3b8;font-weight:300">[player]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_freeze">Freezes a player, preventing them from moving. Useful for investigations or screenshares.</div>
         <div class="cmd-aliases">Alias: <em>/ss</em></div>
@@ -1615,7 +1635,7 @@
       <div class="cmd-card admin" data-cat="staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>gm <span style="color:#94a3b8;font-weight:300">[0|1|2|3] [player]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_gm">Changes gamemode. Shortcuts: /gms (survival), /gmc (creative), /gma (adventure), /gmspec (spectator).</div>
         <div class="cmd-aliases">Alias: <em>/gms /gmc /gma /gmspec</em></div>
@@ -1634,7 +1654,7 @@
       <div class="cmd-card admin" data-cat="staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>slots</div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_slots">Manages the number of server slots or shows current capacity information.</div>
         <div class="cmd-perm"><span class="perm-node">core.slots</span></div>
@@ -1643,7 +1663,7 @@
       <div class="cmd-card admin" data-cat="staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>spawner <span style="color:#94a3b8;font-weight:300">[type]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_spawner">Gives a spawner of the specified mob type to the player. For economy and shop management.</div>
         <div class="cmd-perm"><span class="perm-node">core.spawner.give</span></div>
@@ -1652,7 +1672,7 @@
       <div class="cmd-card admin" data-cat="staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>enchant <span style="color:#94a3b8;font-weight:300">[enchantment] [level]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_enchant">Enchants the held item to the specified level.</div>
         <div class="cmd-perm"><span class="perm-node">core.enchant</span></div>
@@ -1682,7 +1702,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>setspawn</div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_setspawn">Sets the server spawn point at the administrator's current position.</div>
         <div class="cmd-perm"><span class="perm-node">core.setspawn</span></div>
@@ -1792,7 +1812,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>ci</div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_clearinv">Clears the complete inventory of the player executing the command.</div>
         <div class="cmd-perm"><span class="perm-node">core.ci</span></div>
@@ -1885,7 +1905,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>warpcreate <span style="color:#94a3b8;font-weight:300">[name]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_warpcreate">Creates a warp at the administrator's current position with the given name.</div>
         <div class="cmd-perm"><span class="perm-node">core.warp.admin</span></div>
@@ -1894,7 +1914,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>warpdelete <span style="color:#94a3b8;font-weight:300">[name]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_warpdelete">Permanently deletes an existing warp from the server.</div>
         <div class="cmd-perm"><span class="perm-node">core.warp.admin</span></div>
@@ -2050,7 +2070,7 @@
       <div class="cmd-card admin" data-cat="protecciones staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>ps give <span style="color:#94a3b8;font-weight:300">&lt;type&gt; &lt;player&gt;</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_psgive">Gives a protection block of the specified type to the target player. Admin-only command.</div>
         <div class="cmd-perm"><span class="perm-node">core.ps.admin</span></div>
@@ -2059,7 +2079,7 @@
       <div class="cmd-card admin" data-cat="protecciones staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>ps viewhome <span style="color:#94a3b8;font-weight:300">&lt;player&gt;</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_psviewhome">Shows all protections of the specified player with clickable teleport links.</div>
         <div class="cmd-perm"><span class="perm-node">core.ps.admin</span></div>
@@ -2068,7 +2088,7 @@
       <div class="cmd-card admin" data-cat="protecciones staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>ps setowner <span style="color:#94a3b8;font-weight:300">&lt;player&gt;</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_pssetowner">Transfers ownership of the current protection to another player. Admin action.</div>
         <div class="cmd-perm"><span class="perm-node">core.ps.admin</span></div>
@@ -2089,7 +2109,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>spawnzone create</div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_spawnzonecreate">Creates the protected spawn zone using the current WorldEdit selection. Blocks PvP and griefing inside the area.</div>
         <div class="cmd-perm"><span class="perm-node">core.spawnzone.admin</span></div>
@@ -2098,7 +2118,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>spawnzone delete</div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_spawnzonedelete">Removes the spawn zone protection completely.</div>
         <div class="cmd-perm"><span class="perm-node">core.spawnzone.admin</span></div>
@@ -2107,7 +2127,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>spawnzone info</div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_spawnzoneinfo">Shows information about the current spawn zone: boundaries, size and active status.</div>
         <div class="cmd-perm"><span class="perm-node">core.spawnzone.admin</span></div>
@@ -2146,7 +2166,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>rtp <span style="color:#94a3b8;font-weight:300">[world]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_rtp">Teleports the player to a random safe location. Supports normal world, nether and end. Has configurable cooldown.</div>
         <div class="cmd-perm"><span class="perm-node">core.rtp</span><span class="perm-node">core.rtp.nether</span><span class="perm-node">core.rtp.end</span><span class="perm-node">core.rtp.bypass-cooldown</span></div>
@@ -2155,7 +2175,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>sellwand give <span style="color:#94a3b8;font-weight:300">[type] [player] [uses] [mult]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_sellwand">Gives a SellWand to a player. Allows configuring type, number of uses and sale multiplier. Used to quickly sell chest contents.</div>
         <div class="cmd-perm"><span class="perm-node">core.sellwand.admin</span></div>
@@ -2164,7 +2184,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>invrestore <span style="color:#94a3b8;font-weight:300">[player]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_invrestore">Opens a GUI to view and restore a player's death inventories. Useful for recovering items after unfair deaths.</div>
         <div class="cmd-perm"><span class="perm-node">core.invrestore</span></div>
@@ -2173,7 +2193,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>setstat <span style="color:#94a3b8;font-weight:300">[stat] [player] [value]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_setstat">Directly modifies a specific statistic of a player (kills, deaths, etc.).</div>
         <div class="cmd-perm"><span class="perm-node">core.setstat</span></div>
@@ -2182,7 +2202,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>setclanstat <span style="color:#94a3b8;font-weight:300">[stat] [clan] [value]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_setclanstat">Directly modifies a specific statistic of a clan (points, kills, deaths, etc.).</div>
         <div class="cmd-perm"><span class="perm-node">core.setclanstat</span></div>
@@ -2191,7 +2211,7 @@
       <div class="cmd-card admin" data-cat="staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>seen <span style="color:#94a3b8;font-weight:300">[player]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_seen">Shows detailed information about a player: last login, last logout, IP, play time and current status.</div>
         <div class="cmd-perm"><span class="perm-node">core.staff.seen</span></div>
@@ -2200,7 +2220,7 @@
       <div class="cmd-card admin" data-cat="staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>ip <span style="color:#94a3b8;font-weight:300">[player]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_ip">Shows the current or last known IP address of a player. Useful for detecting alts.</div>
         <div class="cmd-perm"><span class="perm-node">core.staff.seen</span></div>
@@ -2209,7 +2229,7 @@
       <div class="cmd-card admin" data-cat="staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>alts <span style="color:#94a3b8;font-weight:300">[player]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_alts">Shows all accounts that have connected from the same IP as the specified player.</div>
         <div class="cmd-perm"><span class="perm-node">core.staff.seen</span></div>
@@ -2218,7 +2238,7 @@
       <div class="cmd-card admin" data-cat="staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>uuid <span style="color:#94a3b8;font-weight:300">[player]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_uuid">Shows the Minecraft UUID of a player. Useful for permission and ban management.</div>
         <div class="cmd-perm"><span class="perm-node">core.staff.seen</span></div>
@@ -2227,7 +2247,7 @@
       <div class="cmd-card admin" data-cat="staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>top</div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_top">Teleports the player to the nearest solid block directly above their current position. Useful for getting out of underground areas.</div>
         <div class="cmd-perm"><span class="perm-node">core.staff.top</span></div>
@@ -2236,7 +2256,7 @@
       <div class="cmd-card admin" data-cat="staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>lore <span style="color:#94a3b8;font-weight:300">[line] [message]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_lore">Adds or modifies a lore line on the held item. Supports color codes.</div>
         <div class="cmd-perm"><span class="perm-node">core.staff.lore</span></div>
@@ -2245,7 +2265,7 @@
       <div class="cmd-card admin" data-cat="staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>sdf reload</div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_sdf">Main plugin command. Reloads all SurvivalSDFCore configuration files without restarting the server.</div>
         <div class="cmd-perm"><span class="perm-node">core.reload</span></div>
@@ -2254,7 +2274,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>ci <span style="color:#94a3b8;font-weight:300">[player]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_ciothers">With a player argument, clears another player's inventory. Requires extra permission.</div>
         <div class="cmd-perm"><span class="perm-node">core.ci</span><span class="perm-node">core.ci.others</span></div>
@@ -2263,7 +2283,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>feed <span style="color:#94a3b8;font-weight:300">[player]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_feedothers">With a player argument, restores another player's hunger. Requires the extra permission <em>core.feed.others</em>.</div>
         <div class="cmd-perm"><span class="perm-node">core.feed.others</span></div>
@@ -2273,7 +2293,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>kitreset <span style="color:#94a3b8;font-weight:300">&lt;kit&gt; &lt;player&gt;</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_kitreset">Resets the cooldown of a specific kit for the target player, allowing them to claim it again immediately.</div>
         <div class="cmd-perm"><span class="perm-node">core.kitreset</span></div>
@@ -2282,7 +2302,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>geoip <span style="color:#94a3b8;font-weight:300">&lt;player&gt;</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_geoip">Shows the country of origin of a player's connection. Useful for detecting VPN abuse or alt accounts.</div>
         <div class="cmd-perm"><span class="perm-node">core.geoip</span></div>
@@ -2291,7 +2311,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>day <span style="color:#94a3b8;font-weight:300">[world]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_day">Sets the time to day in the current world or the specified world.</div>
         <div class="cmd-perm"><span class="perm-node">core.weather</span></div>
@@ -2300,7 +2320,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>night <span style="color:#94a3b8;font-weight:300">[world]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_night">Sets the time to night in the current world or the specified world.</div>
         <div class="cmd-perm"><span class="perm-node">core.weather</span></div>
@@ -2309,7 +2329,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>sun <span style="color:#94a3b8;font-weight:300">[world]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_sun">Clears the weather in the current world or the specified world.</div>
         <div class="cmd-perm"><span class="perm-node">core.weather</span></div>
@@ -2318,7 +2338,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>rain <span style="color:#94a3b8;font-weight:300">[world]</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_rain">Sets the weather to rain in the current world or the specified world.</div>
         <div class="cmd-perm"><span class="perm-node">core.weather</span></div>
@@ -2456,7 +2476,7 @@
       <div class="cmd-card usuario" data-cat="utility usuario">
         <div class="cmd-top">
           <div class="cmd-name" style="font-size:13px"><span class="perm-node" style="font-size:11px;display:inline-block">core.helpop.ver</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="perm_helpopver">Allows staff to receive and see /helpop messages sent by players. Without this permission, help requests are not displayed.</div>
         <div class="cmd-perm"></div>
@@ -2465,7 +2485,7 @@
       <div class="cmd-card usuario" data-cat="utility usuario">
         <div class="cmd-top">
           <div class="cmd-name" style="font-size:13px"><span class="perm-node" style="font-size:11px;display:inline-block">core.report.ver</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="perm_reportver">Allows staff to receive and see /report messages sent by players. Without this permission, player reports are not displayed.</div>
         <div class="cmd-perm"></div>
@@ -2492,7 +2512,7 @@
       <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name" style="font-size:13px"><span class="perm-node" style="font-size:11px;display:inline-block">core.staff.ver-vanish</span></div>
-          <div class="badge admin">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="perm_vervanish">Allows staff to see players who are in vanish mode. Without this permission, vanished players are completely invisible even for other staff.</div>
         <div class="cmd-perm"></div>
