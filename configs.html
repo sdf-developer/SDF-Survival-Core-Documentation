@@ -242,7 +242,7 @@ body {
   overflow: hidden;
   transition: max-height 0.45s cubic-bezier(0.16,1,0.3,1);
 }
-.config-body.open { max-height: 6000px; }
+.config-body.open { max-height: 99999px; }
 
 /* ── CODE VIEW ── */
 .code-wrap {
@@ -2241,6 +2241,21 @@ find-result: "&f{jugador} &7is in &f{mundo}&7."
 ping-self: "&7Your ping is: &f{ping}ms&7."
 ping-other: "&7The ping of &f{jugador} &7is: &f{ping}ms&7."
 reload-done: "&aPlugin reloaded correctly."
+
+# ─── GeoIP ────────────────────────────────────────────────────────────────────
+geoip-usage: "&cUsage: &f/geoip <player>"
+geoip-not-found: "&cNo IP data found for &f{player}&c."
+geoip-result: "&7&f{player} &7is connecting from: &f{country}"
+geoip-error: "&cCould not retrieve location data. Try again later."
+geoip-local: "&7&f{player} &7is connecting from a &flocal/private &7network."
+
+# ─── Weather / Time ───────────────────────────────────────────────────────────
+weather-day: "&aSet time to day."
+weather-night: "&aSet time to night."
+weather-sun: "&aWeather set to clear."
+weather-rain: "&aWeather set to rain."
+weather-usage: "&cUsage: &f/{cmd} [world]"
+weather-world-not-found: "&cWorld &f{world} &cnot found."
 
 # ─── Menus ────────────────────────────────────────────────────────────────────
 menu-button-back: "&e← Back"
