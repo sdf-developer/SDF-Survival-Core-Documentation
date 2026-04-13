@@ -1,0 +1,2477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDF Survival Core</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<script src="sdf-core.js?v=1776090481" defer></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --orange:       #f06a00;
+  --orange-glow:  #ff8c2a;
+  --bg:           #111113;
+  --bg-2:         #18181b;
+  --bg-3:         #1f1f23;
+  --border:       rgba(255,255,255,0.07);
+  --border-o:     rgba(240,106,0,0.35);
+  --text:         #b0b0b8;
+  --text-bright:  #e8e8ec;
+  --white:        #ffffff;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-o); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--orange); }
+
+/* ── CURSOR ── */
+* { cursor: none !important; }
+#cursor {
+  position: fixed;
+  width: 10px; height: 10px;
+  background: var(--orange);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s, width 0.2s, height 0.2s, opacity 0.2s;
+  mix-blend-mode: screen;
+}
+#cursor-ring {
+  position: fixed;
+  width: 32px; height: 32px;
+  border: 1px solid rgba(240,106,0,0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.12s ease, width 0.2s, height 0.2s, border-color 0.2s;
+}
+body:has(.sys-card:hover) #cursor { width: 18px; height: 18px; }
+body:has(.sys-card:hover) #cursor-ring { border-color: rgba(240,106,0,0.9); width: 44px; height: 44px; }
+
+/* ── NOISE ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.5;
+}
+
+body {
+  background: var(--bg);
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 0 80px;
+  position: relative;
+}
+
+/* ══════════════════════════════════
+   PARTICLE CANVAS
+══════════════════════════════════ */
+#particle-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+}
+
+/* ══════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+
+/* ══════════════════════════════════
+   HEADER
+══════════════════════════════════ */
+.header {
+  position: relative;
+  padding: 60px 48px 0;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* ── HERO TOP ROW: logo a la izquierda, precio/botón a la derecha ── */
+.hero-top-row { display: none; }
+.hero-logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 14px;
+  border: 2px solid rgba(240,106,0,0.55);
+  box-shadow: 0 0 40px rgba(240,106,0,0.28), 0 8px 24px rgba(0,0,0,0.6);
+  flex-shrink: 0;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.hero-logo:hover {
+  box-shadow: 0 0 56px rgba(240,106,0,0.45), 0 8px 28px rgba(0,0,0,0.75);
+  transform: scale(1.04);
+}
+.hero-logo-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.hero-logo-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 4px;
+  color: var(--white);
+  line-height: 1;
+  white-space: nowrap;
+}
+.hero-logo-name .accent { color: var(--orange); }
+.hero-price-row { display: none; } /* replaced by hero-left */
+.price-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(240,106,0,0.10);
+  border: 1px solid rgba(240,106,0,0.45);
+  border-radius: 4px;
+  padding: 8px 18px;
+  box-shadow: 0 0 18px rgba(240,106,0,0.12);
+}
+.price-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+.price-amount {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: #22c55e;
+  letter-spacing: 2px;
+  line-height: 1;
+  text-shadow: 0 0 24px rgba(34,197,94,0.45);
+}
+
+
+.header-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 22px;
+  opacity: 0;
+  animation: fadeDown 0.8s 0.1s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.eyebrow-line {
+  flex: 1; height: 1px; max-width: 60px;
+}
+.eyebrow-line:first-child { background: linear-gradient(90deg, var(--orange), var(--border-o)); }
+.eyebrow-line:last-child  { background: linear-gradient(270deg, transparent, var(--border-o)); max-width: 120px; }
+
+.eyebrow-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.main-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(64px, 10vw, 96px);
+  line-height: 0.9;
+  letter-spacing: 2px;
+  color: var(--white);
+  margin-bottom: 6px;
+  text-align: center;
+  opacity: 0;
+  animation: titleIn 1s 0.2s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+@keyframes titleIn {
+  from { opacity: 0; transform: scale(0.96) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.main-title .accent { color: var(--orange); }
+.main-title .sub {
+  display: block;
+  font-size: clamp(32px, 5vw, 48px);
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 6px;
+}
+
+.tagline {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1.8;
+  max-width: 560px;
+  margin: 22px auto 0;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.tagline strong { color: var(--orange-glow); font-weight: 500; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── HERO LAYOUT ── */
+.hero-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  margin-bottom: 40px;
+}
+
+/* LEFT CARD: logo + name + price + button */
+.hero-left {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 20px 28px 20px 0;
+  border-right: 1px solid rgba(240,106,0,0.2);
+  margin-right: 36px;
+  min-width: 180px;
+  opacity: 0;
+  animation: fadeUp .8s .05s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+/* CENTER: eyebrow + big title + tagline */
+.hero-center {
+  flex: 1;
+  text-align: center;
+}
+
+/* ── STATS ROW ── *//* ── STATS ROW ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto auto;
+  margin-top: 44px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.55s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.stats-row::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-o), var(--orange), var(--border-o), transparent);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 22px 12px;
+  border-right: 1px solid var(--border);
+  gap: 4px;
+}
+.stat:last-child { border-right: none; }
+
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 38px;
+  color: var(--orange);
+  line-height: 1;
+  letter-spacing: 1px;
+}
+.stat-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+}
+.stat-icon-wrap { color: var(--orange); opacity: 0.85; }
+
+/* ══════════════════════════════════
+   SECTION LABEL
+══════════════════════════════════ */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 38px 48px 20px;
+}
+.section-label-line { height: 1px; flex: 1; background: var(--border); }
+.section-label-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  white-space: nowrap;
+}
+.section-label-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--orange);
+  flex-shrink: 0;
+  box-shadow: 0 0 6px var(--orange);
+}
+
+/* ══════════════════════════════════
+   SYSTEMS GRID
+══════════════════════════════════ */
+.systems { padding: 0 48px; }
+
+.systems-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.sys-card {
+  background: var(--bg-2);
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.25s, transform 0.25s;
+  cursor: pointer !important;
+}
+
+.sys-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(240,106,0,0.08) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.sys-card:hover { background: var(--bg-3); transform: translateY(-1px); }
+.sys-card:hover::before { opacity: 1; }
+
+.sys-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-o), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.sys-card:hover::after { opacity: 1; }
+
+/* Preview hint */
+.sys-card .preview-hint {
+  position: absolute;
+  top: 6px; right: 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 1px;
+  color: rgba(240,106,0,0.4);
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.sys-card:hover .preview-hint { opacity: 1; }
+
+.sys-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.sys-icon { flex-shrink: 0; display: flex; align-items: center; }
+.sys-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-bright);
+  letter-spacing: 0.2px;
+  line-height: 1.2;
+}
+.sys-desc {
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.3);
+  line-height: 1.5;
+}
+
+/* ══════════════════════════════════
+   MODAL OVERLAY
+══════════════════════════════════ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(12px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal {
+  background: var(--bg-2);
+  border: 1px solid var(--border-o);
+  border-radius: 6px;
+  max-width: 720px;
+  width: 90%;
+  position: relative;
+  transform: scale(0.94) translateY(16px);
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  overflow: hidden;
+}
+.modal-overlay.open .modal { transform: scale(1) translateY(0); }
+
+.modal-top-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--orange), var(--orange-glow), var(--orange), transparent);
+}
+
+.modal-header {
+  padding: 20px 24px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-title-wrap { display: flex; align-items: center; gap: 12px; }
+
+.modal-icon { flex-shrink: 0; }
+
+.modal-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  letter-spacing: 2px;
+  color: var(--white);
+}
+.modal-title span { color: var(--orange); }
+
+.modal-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(240,106,0,0.7);
+  background: rgba(240,106,0,0.1);
+  border: 1px solid rgba(240,106,0,0.25);
+  padding: 3px 8px;
+  border-radius: 3px;
+  margin-top: 2px;
+  display: inline-block;
+}
+
+.modal-back {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  padding: 7px 14px;
+  border-radius: 3px;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  cursor: pointer !important;
+  flex-shrink: 0;
+}
+.modal-back:hover {
+  color: var(--white);
+  border-color: var(--border-o);
+  background: rgba(240,106,0,0.06);
+}
+.modal-back svg { transition: transform 0.2s; }
+.modal-back:hover svg { transform: translateX(-3px); }
+
+.modal-body {
+  padding: 0 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Preview area — full width */
+.modal-preview {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  width: 100%;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-preview-inner {
+  width: 100%;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Info row below the image/terminal */
+.modal-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: none;
+}
+
+.modal-desc-col {
+  padding: 18px 24px;
+  border-right: 1px solid var(--border);
+}
+
+.modal-features-col {
+  padding: 18px 24px;
+}
+
+.modal-col-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(240,106,0,0.5);
+  margin-bottom: 10px;
+}
+
+.modal-desc {
+  font-size: 12.5px;
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1.75;
+}
+.modal-desc strong { color: var(--text-bright); font-weight: 500; }
+
+.modal-features {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.modal-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.4;
+}
+.modal-feature::before {
+  content: '';
+  width: 4px; height: 4px;
+  background: var(--orange);
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+/* ══════════════════════════════════
+   INTEGRATIONS
+══════════════════════════════════ */
+.integrations-row {
+  margin: 0 48px;
+  margin-top: 2px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-top: none;
+}
+
+.integration-card {
+  background: var(--bg-2);
+  padding: 30px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.25s;
+}
+
+.integration-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+}
+.integration-card.lunar::before { background: linear-gradient(90deg, transparent, rgba(240,106,0,0.5), transparent); }
+.integration-card.mysql::before { background: linear-gradient(90deg, transparent, rgba(61,142,240,0.5), transparent); }
+
+.integration-card::after {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.integration-card.lunar::after { background: radial-gradient(ellipse, rgba(240,106,0,0.06) 0%, transparent 70%); }
+.integration-card.mysql::after { background: radial-gradient(ellipse, rgba(61,142,240,0.06) 0%, transparent 70%); }
+.integration-card.lunar:hover { background: var(--bg-2); }
+.integration-card.mysql:hover { background: var(--bg-2); }
+
+.integration-icon { flex-shrink: 0; }
+
+.integration-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  letter-spacing: 4px;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+.integration-title .accent-orange { color: var(--orange); }
+.integration-title .accent-blue   { color: #3d8ef0; }
+
+.integration-desc {
+  font-size: 12.5px;
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1.7;
+}
+.integration-desc strong { color: var(--text-bright); font-weight: 500; }
+
+.integration-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.integration-badge.orange {
+  background: rgba(240,106,0,0.1);
+  border: 1px solid rgba(240,106,0,0.3);
+  color: rgba(240,106,0,0.8);
+}
+.integration-badge.blue {
+  background: rgba(61,142,240,0.1);
+  border: 1px solid rgba(61,142,240,0.3);
+  color: rgba(61,142,240,0.8);
+}
+
+/* ══════════════════════════════════
+   INSTALLATION
+══════════════════════════════════ */
+.install-section { padding: 0 48px; }
+.install-header { margin-bottom: 24px; text-align: center; }
+.install-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  letter-spacing: 3px;
+  color: var(--white);
+  line-height: 1;
+}
+.install-title span { color: var(--orange); }
+.install-sub {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  margin-top: 4px;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.step-card {
+  background: var(--bg-2);
+  padding: 20px 18px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step-num-bg {
+  position: absolute;
+  bottom: -14px; right: -4px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 80px;
+  color: rgba(255,255,255,0.03);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.step-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(240,106,0,0.12);
+  border: 1px solid var(--border-o);
+  padding: 3px 8px 3px 3px;
+  border-radius: 3px;
+  margin-bottom: 14px;
+}
+.step-badge-dot {
+  width: 18px; height: 18px;
+  background: var(--orange);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  color: #fff;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.step-badge-dot.red  { background: #c0404a; }
+.step-badge-dot.blue { background: #4466cc; }
+
+.step-badge-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange-glow);
+}
+.step-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-bright);
+  letter-spacing: 0.2px;
+  margin-bottom: 6px;
+}
+.step-desc {
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.3);
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════
+   DEPENDENCIES
+══════════════════════════════════ */
+
+/* ══════════════════════════════════
+   BOTTOM STRIPE
+══════════════════════════════════ */
+.bottom-stripe {
+  height: 2px;
+  margin: 40px 48px 0;
+  background: linear-gradient(90deg, transparent, var(--orange), var(--orange-glow), var(--orange), transparent);
+  opacity: 0.4;
+}
+
+/* Mock terminal preview */
+.mock-terminal {
+  background: #0d0d0f;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 4px;
+  padding: 14px 16px;
+  width: 100%;
+  max-width: 380px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  line-height: 1.9;
+}
+.t-line { display: flex; gap: 6px; }
+.t-prompt { color: var(--orange); }
+.t-cmd    { color: #e8e8ec; }
+.t-out    { color: rgba(255,255,255,0.35); padding-left: 12px; }
+.t-green  { color: #55dd55; }
+.t-blue   { color: #6699ff; }
+
+/* ══════════════════════════════════
+   IMAGE SLIDER — UPGRADED
+══════════════════════════════════ */
+
+/* Slider container */
+.modal-slider {
+  position: relative;
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+/* Main image viewport — height adapts to content */
+.slider-viewport {
+  position: relative;
+  width: 100%;
+  min-height: 120px;
+  max-height: 340px;
+  overflow: hidden;
+  cursor: zoom-in !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+}
+
+/* Slides with fade transition */
+.slider-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 52px; /* room for arrows + breathing space */
+  opacity: 0;
+  transition: opacity 0.45s cubic-bezier(0.16,1,0.3,1), transform 0.45s cubic-bezier(0.16,1,0.3,1);
+  transform: translateX(30px);
+  pointer-events: none;
+}
+.slider-slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: all;
+}
+.slider-slide.exit-left {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.slider-slide img {
+  display: block;
+  max-width: 100%;
+  max-height: 308px; /* max-height minus padding */
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+  image-rendering: pixelated; /* keeps MC pixel art crisp */
+}
+
+/* Prev / Next arrow buttons */
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px; height: 32px;
+  background: rgba(10,10,12,0.75);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  color: rgba(255,255,255,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+  cursor: pointer !important;
+  z-index: 10;
+  backdrop-filter: blur(6px);
+}
+.slider-btn:hover {
+  background: rgba(240,106,0,0.25);
+  border-color: var(--border-o);
+  color: var(--orange);
+}
+.slider-prev { left: 10px; }
+.slider-next { right: 10px; }
+.slider-prev:hover { transform: translateY(-50%) translateX(-2px); }
+.slider-next:hover { transform: translateY(-50%) translateX(2px); }
+
+/* Counter badge */
+.slider-counter {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.4);
+  background: rgba(0,0,0,0.6);
+  padding: 3px 8px;
+  border-radius: 3px;
+  backdrop-filter: blur(4px);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Expand icon hint */
+.slider-expand-hint {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.3);
+  background: rgba(0,0,0,0.55);
+  padding: 3px 8px;
+  border-radius: 3px;
+  backdrop-filter: blur(4px);
+  z-index: 10;
+  pointer-events: none;
+  transition: color 0.2s;
+}
+.slider-viewport:hover .slider-expand-hint {
+  color: rgba(240,106,0,0.8);
+}
+
+/* Thumbnail strip */
+.slider-thumbs {
+  display: flex;
+  gap: 6px;
+  padding: 8px 10px;
+  background: rgba(0,0,0,0.3);
+  border-top: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.slider-thumbs::-webkit-scrollbar { display: none; }
+
+.slider-thumb {
+  flex: 0 0 56px;
+  height: 38px;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1.5px solid transparent;
+  transition: border-color 0.2s, opacity 0.2s, transform 0.2s;
+  cursor: pointer !important;
+  opacity: 0.45;
+}
+.slider-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+.slider-thumb:hover { opacity: 0.75; transform: scaleY(1.04); }
+.slider-thumb.active {
+  border-color: var(--orange);
+  opacity: 1;
+}
+
+/* ── LIGHTBOX ── */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  cursor: zoom-out !important;
+}
+.lightbox-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.lightbox-img {
+  max-width: 92vw;
+  max-height: 88vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 0 80px rgba(0,0,0,0.8);
+  transform: scale(0.96);
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  pointer-events: none;
+  user-select: none;
+}
+.lightbox-overlay.open .lightbox-img {
+  transform: scale(1);
+}
+.lightbox-close {
+  position: absolute;
+  top: 20px; right: 20px;
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 4px;
+  color: rgba(255,255,255,0.6);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer !important;
+  transition: background 0.2s, color 0.2s;
+}
+.lightbox-close:hover {
+  background: rgba(240,106,0,0.2);
+  color: var(--orange);
+}
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px; height: 44px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  color: rgba(255,255,255,0.5);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer !important;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.lightbox-nav:hover {
+  background: rgba(240,106,0,0.2);
+  border-color: var(--border-o);
+  color: var(--orange);
+}
+.lightbox-nav.lb-prev { left: 20px; }
+.lightbox-nav.lb-next { right: 20px; }
+.lightbox-nav.lb-prev:hover { transform: translateY(-50%) translateX(-3px); }
+.lightbox-nav.lb-next:hover { transform: translateY(-50%) translateX(3px); }
+.lightbox-counter {
+  position: absolute;
+  bottom: 20px; left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.3);
+}
+
+/* ══════════════════════════════════
+   CLICKABLE STAT - COMMANDS
+══════════════════════════════════ */
+#stat-commands {
+  position: relative;
+  overflow: hidden;
+  transition: background 0.25s;
+}
+#stat-commands::after-badge {
+  display: none;
+}
+#stat-commands:hover {
+  background: rgba(240,106,0,0.1) !important;
+}
+#stat-commands:hover .stat-num {
+  color: var(--orange-glow);
+  text-shadow: 0 0 24px rgba(240,106,0,0.7);
+}
+#stat-commands .stat-link-hint {
+  position: absolute;
+  bottom: 4px;
+  right: 6px;
+  font-family: 'Space Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 1px;
+  color: rgba(240,106,0,0.4);
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+#stat-commands:hover .stat-link-hint {
+  opacity: 1;
+}
+#stat-commands .stat-link-arrow {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  opacity: 0;
+  transition: opacity 0.25s, transform 0.25s;
+  color: var(--orange);
+}
+#stat-commands:hover .stat-link-arrow {
+  opacity: 1;
+  transform: translate(2px, -2px);
+}
+
+/* ══════════════════════════════════
+   LANGUAGES SECTION
+══════════════════════════════════ */
+.languages-section {
+  padding: 0 48px;
+  margin-bottom: 2px;
+}
+
+.languages-inner {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.languages-row {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 0;
+  width: 100%;
+  max-width: 600px;
+}
+
+.languages-inner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(240,106,0,0.3), transparent);
+}
+
+.lang-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+}
+
+.lang-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex: 1;
+  padding: 20px 16px;
+  border-right: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+  transition: background 0.2s;
+}
+.lang-item:last-child { border-right: none; }
+.lang-item:hover { background: rgba(255,255,255,0.02); }
+
+.lang-flag {
+  width: 56px;
+  height: 38px;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+}
+
+.lang-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-bright);
+}
+
+.lang-code {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(240,106,0,0.6);
+  background: rgba(240,106,0,0.08);
+  padding: 2px 8px;
+  border-radius: 2px;
+  border: 1px solid rgba(240,106,0,0.15);
+}
+
+/* ══════════════════════════════════
+   SIDEBAR NAV
+══════════════════════════════════ */
+#sidebar-nav {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 0 12px 0;
+  background: rgba(17,17,19,0.92);
+  border-right: 1px solid var(--border-o);
+  backdrop-filter: blur(10px);
+  border-radius: 0 6px 6px 0;
+  box-shadow: 2px 0 24px rgba(0,0,0,0.4);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 44px;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: width 0.32s cubic-bezier(0.16,1,0.3,1), background 0.2s, border-color 0.2s;
+  cursor: pointer !important;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  position: relative;
+}
+.nav-item:hover {
+  width: 160px;
+  background: rgba(240,106,0,0.08);
+  border-color: var(--border-o);
+  border-left: none;
+}
+
+.nav-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.25);
+  transition: color 0.2s;
+}
+.nav-item:hover .nav-icon { color: var(--orange); }
+
+.nav-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text);
+  padding-right: 14px;
+  opacity: 0;
+  transition: opacity 0.22s 0.08s;
+}
+.nav-item:hover .nav-label { opacity: 1; }
+
+.nav-active-bar {
+  position: absolute;
+  left: 0; top: 8px; bottom: 8px;
+  width: 2px;
+  background: var(--orange);
+  border-radius: 0 2px 2px 0;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.nav-item.active .nav-active-bar { opacity: 1; }
+.nav-item.active .nav-icon { color: var(--orange); }
+
+/* ══════════════════════════════════
+   FOOTER
+══════════════════════════════════ */
+.site-footer {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+  padding: 22px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.site-footer-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.18);
+}
+.site-footer-brand {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--orange);
+  opacity: 0.7;
+}
+.site-footer-dot {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--border-o);
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════
+   DEPENDENCIES SECTION
+══════════════════════════════════ */
+.deps-section {
+  margin: 0 48px 0;
+  padding: 22px 28px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
+.deps-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+.deps-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.deps-divider {
+  width: 1px;
+  background: var(--border);
+  align-self: stretch;
+  margin: 0 24px;
+  flex-shrink: 0;
+}
+.deps-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+}
+.dep-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+.dep-pill-required {
+  border-color: rgba(239,68,68,0.2);
+  background: rgba(239,68,68,0.04);
+}
+.dep-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dep-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+@media (max-width: 640px) {
+  .deps-section {
+    flex-direction: column;
+    margin: 0 0;
+    gap: 18px;
+  }
+  .deps-divider {
+    width: 100%; height: 1px;
+    margin: 0;
+    align-self: auto;
+  }
+}
+@keyframes cmdPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(240,106,0,0); border-color: rgba(240,106,0,0.35); }
+  50%       { box-shadow: 0 0 28px 4px rgba(240,106,0,0.18); border-color: rgba(240,106,0,0.7); }
+}
+@keyframes cmdArrowBounce {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(5px); }
+}
+@keyframes cmdGlowLine {
+  0%   { left: -100%; }
+  100% { left: 200%; }
+}
+
+#stat-commands-wrapper {
+  grid-column: 1 / -1;
+  border: 1px solid rgba(240,106,0,0.35);
+  border-left: none;
+  border-right: none;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 24px;
+  transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
+  background: rgba(240,106,0,0.04);
+  gap: 20px;
+  text-decoration: none;
+  animation: cmdPulse 3s ease-in-out infinite;
+}
+#stat-commands-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(240,106,0,0.06), transparent);
+  animation: cmdGlowLine 3s ease-in-out infinite;
+  pointer-events: none;
+}
+#stat-commands-wrapper:hover {
+  background: rgba(240,106,0,0.12);
+  box-shadow: 0 0 40px rgba(240,106,0,0.2);
+  border-color: var(--orange);
+  animation: none;
+}
+#stat-commands-wrapper:hover .stat-num {
+  color: var(--orange-glow);
+  text-shadow: 0 0 28px rgba(240,106,0,0.9);
+}
+#stat-commands-wrapper:hover .cmd-arrow-icon {
+  animation: cmdArrowBounce 0.6s ease-in-out infinite;
+}
+#stat-commands-wrapper .cmd-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+#stat-commands-wrapper .cmd-cta {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--orange);
+  opacity: 0.85;
+  transition: opacity 0.2s, letter-spacing 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#stat-commands-wrapper:hover .cmd-cta {
+  opacity: 1;
+  letter-spacing: 4px;
+}
+#stat-commands-wrapper .stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 52px;
+  color: var(--orange);
+  line-height: 1;
+  letter-spacing: 2px;
+  transition: text-shadow 0.25s, color 0.25s;
+  text-shadow: 0 0 20px rgba(240,106,0,0.4);
+}
+#stat-commands-wrapper .stat-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+}
+#stat-commands-wrapper .cmd-divider {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(180deg, transparent, rgba(240,106,0,0.4), transparent);
+  flex-shrink: 0;
+}
+#stat-commands-wrapper .cmd-right {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+#stat-commands-wrapper .cmd-right-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 3px;
+  color: var(--text-bright);
+}
+#stat-commands-wrapper .cmd-right-sub {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.3);
+  text-transform: uppercase;
+}
+.cmd-arrow-icon {
+  display: inline-flex;
+  color: var(--orange);
+  vertical-align: middle;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* nav-store: orange icon only, same size as all other items */
+.nav-store .nav-active-bar { opacity: 1; }
+.nav-store .nav-icon { color: var(--orange); }
+.nav-store .nav-label { color: var(--orange); }
+</style>
+</head>
+<body>
+
+<script>
+// Clear any cached popup state
+try { localStorage.removeItem('sdf_popup_shown'); localStorage.removeItem('sdf_cs_shown'); } catch(e){}
+</script>
+<!-- Custom cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- Sidebar Nav -->
+<nav id="sidebar-nav">
+  <a class="nav-item nav-store" href="index.html">
+    <div class="nav-active-bar"></div>
+    <div class="nav-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12l7 7M5 12l7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <span class="nav-label">Store</span>
+  </a>
+  <a class="nav-item active" href="sdfcore.html">
+    <div class="nav-active-bar"></div>
+    <div class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="9,22 9,12 15,12 15,22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <span class="nav-label" id="nav-home">Home</span>
+  </a>
+  <a class="nav-item" href="commands.html">
+    <div class="nav-active-bar"></div>
+    <div class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><polyline points="4,17 10,11 4,5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="19" x2="20" y2="19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    <span class="nav-label" id="nav-commands">Commands</span>
+  </a>
+  <a class="nav-item" href="changelog.html">
+    <div class="nav-active-bar"></div>
+    <div class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/></svg></div>
+    <span class="nav-label" id="nav-changelog">Changelog</span>
+  </a>
+  <a class="nav-item" href="configs.html">
+    <div class="nav-active-bar"></div>
+    <div class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" stroke="currentColor" stroke-width="1.5"/></svg></div>
+    <span class="nav-label" id="nav-configs">Configs</span>
+  </a>
+  <a class="nav-item" href="integrations.html">
+    <div class="nav-active-bar"></div>
+    <div class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="5" cy="19" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="19" cy="19" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M12 7v4M12 11l-5 6M12 11l5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <span class="nav-label" id="nav-integrations">Integrations</span>
+  </a>
+  <a class="nav-item" href="buy.html">
+    <div class="nav-active-bar"></div>
+    <div class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M16 10a4 4 0 0 1-8 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <span class="nav-label" id="nav-buy">Buy</span>
+  </a>
+</nav>
+
+<!-- Particle canvas -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- ══════════════════════════════════
+     MODAL
+══════════════════════════════════ -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-top-line"></div>
+    <div class="modal-header">
+      <div class="modal-title-wrap">
+        <div class="modal-icon" id="modal-icon"></div>
+        <div>
+          <div class="modal-title" id="modal-title">KOTH</div>
+          <div class="modal-badge" id="modal-badge">100% Configurable</div>
+        </div>
+      </div>
+      <button class="modal-back" id="modal-close">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M8 6H4M4 6L6.5 3.5M4 6L6.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-preview" id="modal-preview-wrap">
+        <!-- Image slider (shown when images exist) -->
+        <div class="modal-slider" id="modal-slider" style="display:none;">
+          <div class="slider-viewport" id="slider-viewport">
+            <div id="slider-track"></div>
+            <button class="slider-btn slider-prev" id="slider-prev" aria-label="Previous">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="slider-btn slider-next" id="slider-next" aria-label="Next">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2L10 7L5 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="slider-counter" id="slider-counter">1 / 1</div>
+            <div class="slider-expand-hint">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 4V1H4M6 1H9V4M9 6V9H6M4 9H1V6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              EXPAND
+            </div>
+          </div>
+          <div class="slider-thumbs" id="slider-thumbs"></div>
+        </div>
+        <!-- Terminal fallback (shown when no images) -->
+        <div class="modal-preview-inner" id="modal-terminal"></div>
+      </div>
+      <div class="modal-info">
+        <div class="modal-desc-col">
+          <div class="modal-col-label">About</div>
+          <div class="modal-desc" id="modal-desc"></div>
+        </div>
+        <div class="modal-features-col">
+          <div class="modal-col-label">Features</div>
+          <div class="modal-features" id="modal-features"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE
+══════════════════════════════════ -->
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <!-- Layout: price card a la izquierda, título centrado en el resto -->
+    <div class="hero-layout">
+      <!-- LEFT: logo + precio + botón -->
+      <div class="hero-left">
+        <img src="favicon.png" alt="SDF Survival Core" class="hero-logo">
+        <div class="hero-logo-name"><span class="accent">SDF</span> SURVIVAL CORE</div>
+        <div class="price-badge">
+          <div class="price-label" data-i18n="price_label_hero">Launch price</div>
+          <div class="price-amount">$19.99</div>
+        </div>
+
+      </div>
+      <!-- CENTER: título + tagline -->
+      <div class="hero-center">
+        <div class="header-eyebrow">
+          <div class="eyebrow-line"></div>
+          <div class="eyebrow-text" data-i18n="eyebrow_index">Minecraft Plugin · Survival 1.21.X · All-in-One</div>
+          <div class="eyebrow-line"></div>
+        </div>
+        <div class="main-title">
+          <span class="accent">SDF</span> SURVIVAL<span class="sub">CORE</span>
+        </div>
+        <p class="tagline" data-i18n-html="tagline_index">
+          A <strong>lightweight, modular and fully integrated</strong> plugin designed for modern Survival servers —
+          delivering performance, stability and a professional experience without relying on multiple external plugins.
+        </p>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat">
+        <div class="stat-num" data-target="400" data-suffix="+">0</div>
+        <div class="stat-label" data-i18n="stat_features">Features</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">1.21.X</div>
+        <div class="stat-label" data-i18n="stat_version">Version</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" data-target="1" data-suffix="">0</div>
+        <div class="stat-label" data-i18n="stat_solo">Solo Plugin</div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon-wrap">
+          <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+            <path d="M33 7.5L27 13.5l-3.5-3.5 6-6A9 9 0 0 0 12 15l-8 8a2.5 2.5 0 0 0 3.5 3.5l8-8A9 9 0 0 0 33 7.5Z" fill="currentColor" opacity="0.9"/>
+            <rect x="22" y="22" width="9" height="3.5" rx="1" transform="rotate(45 22 22)" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="stat-label" data-i18n="stat_modular">Modular</div>
+      </div>
+      <a id="stat-commands-wrapper" href="commands.html">
+        <div class="cmd-left">
+          <div class="stat-num" data-target="150" data-suffix="+">0</div>
+          <div class="stat-label" data-i18n="stat_commands">Commands</div>
+        </div>
+        <div class="cmd-divider"></div>
+        <div class="cmd-right">
+          <div class="cmd-right-title" data-i18n="stat_view_all">View all commands</div>
+          <div class="cmd-right-sub" data-i18n="stat_ref">Complete reference · All systems</div>
+          <div class="cmd-cta">
+            <span class="cmd-arrow-icon">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6H10M10 6L7 3M10 6L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span data-i18n="stat_explore">Explore now</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- LANGUAGES -->
+  <div class="section-label reveal">
+    <div class="section-label-dot"></div>
+    <div class="section-label-text" data-i18n="lang_label">Supported Languages</div>
+    <div class="section-label-line"></div>
+  </div>
+
+  <div class="languages-section reveal reveal-delay-1">
+    <div class="languages-inner">
+      <span class="lang-label" data-i18n="lang_label">Supports multiple languages</span>
+      <div class="languages-row">
+        <div class="lang-item">
+          <img class="lang-flag" src="images/en.png" alt="English">
+          <span class="lang-name">English</span>
+          <span class="lang-code">EN</span>
+        </div>
+        <div class="lang-item">
+          <img class="lang-flag" src="images/es.png" alt="Español">
+          <span class="lang-name">Español</span>
+          <span class="lang-code">ES</span>
+        </div>
+        <div class="lang-item">
+          <img class="lang-flag" src="images/fr.png" alt="Français">
+          <span class="lang-name">Français</span>
+          <span class="lang-code">FR</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SYSTEMS -->
+  <div class="section-label reveal" style="margin-top: 32px;">
+    <div class="section-label-dot"></div>
+    <div class="section-label-text" data-i18n="systems_label">Systems Included — click to explore</div>
+    <div class="section-label-line"></div>
+  </div>
+
+  <div class="systems reveal reveal-delay-1">
+    <div class="systems-grid">
+
+      <div class="sys-card" data-system="koth">
+        <span class="preview-hint">click ↗</span>
+        <div class="sys-header">
+          <div class="sys-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><path d="M4 8h4V4h4V0h4v4h4v4h4v4h-4v4h-4v4h-4v-4H8v-4H4V8Z" fill="#f06a00" opacity="0.9"/><rect x="8" y="20" width="12" height="3" rx="1" fill="#f06a00" opacity="0.5"/><rect x="10" y="24" width="8" height="3" rx="1" fill="#f06a00" opacity="0.3"/></svg></div>
+          <div class="sys-name" data-i18n="sys_koth_name">KOTH</div>
+        </div>
+        <div class="sys-desc" data-i18n="sys_koth_desc">100% configurable King of the Hill system.</div>
+      </div>
+
+      <div class="sys-card" data-system="clans">
+        <span class="preview-hint">click ↗</span>
+        <div class="sys-header">
+          <div class="sys-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><polygon points="14,2 18,10 27,11 20,18 22,27 14,22 6,27 8,18 1,11 10,10" fill="none" stroke="#8899bb" stroke-width="2"/></svg></div>
+          <div class="sys-name" data-i18n="sys_clans_name">Clans</div>
+        </div>
+        <div class="sys-desc" data-i18n="sys_clans_desc">100% configurable clans system.</div>
+      </div>
+
+      <div class="sys-card" data-system="combat">
+        <span class="preview-hint">click ↗</span>
+        <div class="sys-header">
+          <div class="sys-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" fill="#f06a00" opacity="0.1" stroke="#f06a00" stroke-width="1.5"/><ellipse cx="14" cy="11" rx="5" ry="6" fill="#f06a00" opacity="0.8"/><circle cx="11" cy="9" r="1.5" fill="#fff"/><path d="M8 20 Q14 16 20 20" stroke="#f06a00" stroke-width="2" fill="none"/></svg></div>
+          <div class="sys-name" data-i18n="sys_combat_name">Combat PvP</div>
+        </div>
+        <div class="sys-desc" data-i18n="sys_combat_desc">Advanced combat PvP system.</div>
+      </div>
+
+      <div class="sys-card" data-system="economy">
+        <span class="preview-hint">click ↗</span>
+        <div class="sys-header">
+          <div class="sys-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><rect x="4" y="8" width="20" height="16" rx="2" fill="#f06a00" opacity="0.15" stroke="#f06a00" stroke-width="1.5"/><path d="M4 13h20" stroke="#f06a00" stroke-width="1.5"/><circle cx="8" cy="18" r="1.5" fill="#f06a00"/><text x="12" y="20" font-size="7" fill="#f06a00" font-weight="bold">$</text></svg></div>
+          <div class="sys-name" data-i18n="sys_economy_name">Economy</div>
+        </div>
+        <div class="sys-desc" data-i18n="sys_economy_desc">Integrated economy system with Vault.</div>
+      </div>
+
+      <div class="sys-card" data-system="crates">
+        <span class="preview-hint">click ↗</span>
+        <div class="sys-header">
+          <div class="sys-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><rect x="4" y="10" width="20" height="16" rx="2" fill="#f06a00" opacity="0.7"/><rect x="3" y="7" width="22" height="5" rx="1" fill="#f06a00"/><path d="M14 7 V26" stroke="#a04400" stroke-width="1.5"/><rect x="11" y="5" width="6" height="4" rx="1" fill="#ffaa55"/></svg></div>
+          <div class="sys-name" data-i18n="sys_crates_name">Crates</div>
+        </div>
+        <div class="sys-desc" data-i18n="sys_crates_desc">Loot boxes with animations and rewards.</div>
+      </div>
+
+      <div class="sys-card" data-system="bounties">
+        <span class="preview-hint">click ↗</span>
+        <div class="sys-header">
+          <div class="sys-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="11" fill="none" stroke="#cc3344" stroke-width="2"/><circle cx="14" cy="14" r="5" fill="#cc3344" opacity="0.5"/><circle cx="14" cy="14" r="2" fill="#cc3344"/></svg></div>
+          <div class="sys-name" data-i18n="sys_bounties_name">Bounties</div>
+        </div>
+        <div class="sys-desc" data-i18n="sys_bounties_desc">Rewards system for hunting players.</div>
+      </div>
+
+      <div class="sys-card" data-system="homes">
+        <span class="preview-hint">click ↗</span>
+        <div class="sys-header">
+          <div class="sys-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><path d="M14 3 L26 14 H22 V26 H16 V19 H12 V26 H6 V14 H2 Z" fill="#f06a00" opacity="0.85"/></svg></div>
+          <div class="sys-name">Homes & TPA</div>
+        </div>
+        <div class="sys-desc" data-i18n="sys_homes_desc">Homes and teleport/warp system.</div>
+      </div>
+
+      <div class="sys-card" data-system="leaderboards">
+        <span class="preview-hint">click ↗</span>
+        <div class="sys-header">
+          <div class="sys-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><rect x="2" y="18" width="6" height="8" rx="1" fill="#e8a50a"/><rect x="11" y="12" width="6" height="14" rx="1" fill="#e8a50a" opacity="0.8"/><rect x="20" y="15" width="6" height="11" rx="1" fill="#e8a50a" opacity="0.6"/></svg></div>
+          <div class="sys-name" data-i18n="sys_leaderboards_name">Leaderboards</div>
+        </div>
+        <div class="sys-desc" data-i18n="sys_leaderboards_desc">Ranking for players and clans.</div>
+      </div>
+
+      <div class="sys-card" data-system="kits">
+        <span class="preview-hint">click ↗</span>
+        <div class="sys-header">
+          <div class="sys-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><rect x="4" y="10" width="20" height="14" rx="2" fill="#f06a00" opacity="0.7"/><path d="M10 10 V7 Q14 4 18 7 V10" stroke="#f06a00" stroke-width="2" fill="none"/><rect x="11" y="14" width="6" height="4" rx="1" fill="#fff" opacity="0.4"/></svg></div>
+          <div class="sys-name" data-i18n="sys_kits_name">Kits</div>
+        </div>
+        <div class="sys-desc" data-i18n="sys_kits_desc">Complete 100% configurable kits system.</div>
+      </div>
+
+      <div class="sys-card" data-system="staff">
+        <span class="preview-hint">click ↗</span>
+        <div class="sys-header">
+          <div class="sys-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><path d="M22 6L18 10l-2-2 4-4a6 6 0 0 0-8 8l-6 6a2 2 0 0 0 2.8 2.8l6-6a6 6 0 0 0 5.2-4.8Z" fill="#b0b0c0"/></svg></div>
+          <div class="sys-name" data-i18n="sys_staff_name">Staff Tools</div>
+        </div>
+        <div class="sys-desc" data-i18n="sys_staff_desc">Administration tools.</div>
+      </div>
+
+      <div class="sys-card" data-system="scoreboard">
+        <span class="preview-hint">click ↗</span>
+        <div class="sys-header">
+          <div class="sys-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><rect x="3" y="3" width="22" height="22" rx="2" fill="none" stroke="#f06a00" stroke-width="1.5"/><rect x="7" y="8" width="14" height="2" rx="1" fill="#f06a00"/><rect x="7" y="13" width="10" height="2" rx="1" fill="#f06a00" opacity="0.6"/><rect x="7" y="18" width="12" height="2" rx="1" fill="#f06a00" opacity="0.4"/></svg></div>
+          <div class="sys-name" data-i18n="sys_scoreboard_name">Scoreboard</div>
+        </div>
+        <div class="sys-desc" data-i18n="sys_scoreboard_desc">Animated and configurable scoreboards.</div>
+      </div>
+
+      <div class="sys-card" data-system="clearlag">
+        <span class="preview-hint">click ↗</span>
+        <div class="sys-header">
+          <div class="sys-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><polygon points="14,2 17,11 26,11 19,17 22,26 14,20 6,26 9,17 2,11 11,11" fill="#f5c800" opacity="0.85"/></svg></div>
+          <div class="sys-name" data-i18n="sys_clearlag_name">ClearLag</div>
+        </div>
+        <div class="sys-desc" data-i18n="sys_clearlag_desc">Periodically removes entities to optimize performance.</div>
+      </div>
+
+      <div class="sys-card" data-system="mobstack">
+        <span class="preview-hint">click ↗</span>
+        <div class="sys-header">
+          <div class="sys-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><circle cx="10" cy="14" r="5" fill="#9090a8" opacity="0.5"/><circle cx="18" cy="14" r="5" fill="#9090a8" opacity="0.7"/><path d="M6 22 Q14 18 22 22" stroke="#9090a8" stroke-width="1.5" fill="none"/></svg></div>
+          <div class="sys-name" data-i18n="sys_mobstack_name">MobStack</div>
+        </div>
+        <div class="sys-desc" data-i18n="sys_mobstack_desc">Automatic mob stacking system.</div>
+      </div>
+
+      <div class="sys-card" data-system="tabulator">
+        <span class="preview-hint">click ↗</span>
+        <div class="sys-header">
+          <div class="sys-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><rect x="3" y="4" width="22" height="20" rx="2" fill="none" stroke="#f06a00" stroke-width="1.5"/><rect x="3" y="4" width="22" height="5" rx="2" fill="#f06a00" opacity="0.25"/><rect x="7" y="13" width="10" height="2" rx="1" fill="#f06a00" opacity="0.6"/><rect x="7" y="18" width="8" height="2" rx="1" fill="#f06a00" opacity="0.4"/></svg></div>
+          <div class="sys-name" data-i18n="sys_tabulator_name">Tabulator / Nicknames</div>
+        </div>
+        <div class="sys-desc" data-i18n="sys_tabulator_desc">Complete tab and nickname customization.</div>
+      </div>
+
+      <div class="sys-card" data-system="afkzone">
+        <span class="preview-hint">click ↗</span>
+        <div class="sys-header">
+          <div class="sys-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><path d="M6 8 L22 8 L14 18 Z" fill="#f06a00" opacity="0.9"/><path d="M6 14 L14 14 L8 22 Z" fill="#f06a00" opacity="0.5"/></svg></div>
+          <div class="sys-name" data-i18n="sys_afk_name">AFK Zone</div>
+        </div>
+        <div class="sys-desc" data-i18n="sys_afk_desc">100% configurable AFK Zone system.</div>
+      </div>
+
+      <div class="sys-card" data-system="protections">
+        <span class="preview-hint">click ↗</span>
+        <div class="sys-header">
+          <div class="sys-icon"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><path d="M14 3 L24 7 V14 C24 20 19 25 14 26 C9 25 4 20 4 14 V7 Z" fill="rgba(240,106,0,0.15)" stroke="#f06a00" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 14 L13 17 L18 11" stroke="#f06a00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="sys-name" data-i18n="sys_protections_name">Protections</div>
+        </div>
+        <div class="sys-desc" data-i18n="sys_protections_desc">Land claim system with flags and member management.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- INTEGRATIONS -->
+  <div class="integrations-row reveal reveal-delay-2">
+    <div class="integration-card lunar">
+      <div class="integration-icon">
+        <svg width="64" height="64" viewBox="0 0 90 90" fill="none">
+          <polygon points="45,5 80,25 80,65 45,85 10,65 10,25" fill="none" stroke="#f06a00" stroke-width="1.5" opacity="0.45"/>
+          <path d="M55 28 A22 22 0 1 0 55 62 A15 15 0 1 1 55 28Z" fill="#f06a00" opacity="0.85"/>
+          <circle cx="63" cy="33" r="2" fill="#fff" opacity="0.9"/>
+          <circle cx="69" cy="44" r="1.5" fill="#fff" opacity="0.6"/>
+          <circle cx="61" cy="51" r="1" fill="#fff" opacity="0.5"/>
+        </svg>
+      </div>
+      <div>
+        <div class="integration-title" data-i18n-html="lunar_title"><span class="accent-orange">Lunar</span> Client</div>
+        <div class="integration-desc" data-i18n-html="lunar_desc">Integration with <strong>Lunar Client</strong> for an improved gaming experience.<br>Full API support for exclusive client-side functions.</div>
+      </div>
+      <div class="integration-badge orange" data-i18n="lunar_badge">Full API Support</div>
+    </div>
+
+    <div class="integration-card mysql">
+      <div class="integration-icon">
+        <svg width="64" height="64" viewBox="0 0 90 90" fill="none">
+          <ellipse cx="45" cy="22" rx="28" ry="10" fill="none" stroke="#3d8ef0" stroke-width="1.5" opacity="0.6"/>
+          <line x1="17" y1="22" x2="17" y2="68" stroke="#3d8ef0" stroke-width="1.5" opacity="0.6"/>
+          <line x1="73" y1="22" x2="73" y2="68" stroke="#3d8ef0" stroke-width="1.5" opacity="0.6"/>
+          <ellipse cx="45" cy="68" rx="28" ry="10" fill="none" stroke="#3d8ef0" stroke-width="1.5" opacity="0.6"/>
+          <ellipse cx="45" cy="22" rx="28" ry="10" fill="#3d8ef0" opacity="0.15"/>
+          <path d="M17 38 Q45 45 73 38" stroke="#3d8ef0" stroke-width="1" opacity="0.35" fill="none"/>
+          <path d="M17 53 Q45 60 73 53" stroke="#3d8ef0" stroke-width="1" opacity="0.25" fill="none"/>
+          <circle cx="45" cy="22" r="4" fill="#3d8ef0" opacity="0.7"/>
+        </svg>
+      </div>
+      <div>
+        <div class="integration-title" data-i18n-html="mysql_title"><span class="accent-blue">MySQL</span> Support</div>
+        <div class="integration-desc" data-i18n-html="mysql_desc">Full <strong>MySQL database</strong> integration for persistent data storage.<br>Compatible with any external database provider.</div>
+      </div>
+      <div class="integration-badge blue" data-i18n="mysql_badge">Database Ready</div>
+    </div>
+  </div>
+
+  <!-- INSTALLATION -->
+  <div class="section-label reveal" id="installation">
+    <div class="section-label-dot"></div>
+    <div class="section-label-text" data-i18n="install_label">Installation Guide</div>
+    <div class="section-label-line"></div>
+  </div>
+
+  <div class="install-section reveal reveal-delay-1">
+    <div class="install-header">
+      <div class="install-title">INSTALL<span>A</span>TION</div>
+      <div class="install-sub" data-i18n="install_sub">Quick setup · 4 steps · auto-generated configs</div>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num-bg">01</div>
+        <div class="step-badge">
+          <div class="step-badge-dot"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><rect x="1" y="5.5" width="10" height="1.5" fill="#fff"/><rect x="5.5" y="1" width="1.5" height="10" fill="#fff"/></svg></div>
+          <div class="step-badge-text" data-i18n="step1_badge">Step 01</div>
+        </div>
+        <div class="step-title" data-i18n="step1_title">Drag the Plugin</div>
+        <div class="step-desc" data-i18n="step1_desc">Move the .jar file into your server's /plugins folder.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num-bg">02</div>
+        <div class="step-badge" style="background:rgba(192,64,74,0.1);border-color:rgba(192,64,74,0.4)">
+          <div class="step-badge-dot red"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><rect x="1" y="5" width="10" height="2" fill="#fff"/><rect x="1" y="2" width="10" height="2" fill="#fff" opacity="0.6"/><rect x="1" y="8" width="7" height="2" fill="#fff" opacity="0.4"/></svg></div>
+          <div class="step-badge-text" style="color:#e07078;" data-i18n="step2_badge">Step 02</div>
+        </div>
+        <div class="step-title" data-i18n="step2_title">Enter the License</div>
+        <div class="step-desc" data-i18n="step2_desc">Enter the license key provided upon purchase in config.yml.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num-bg">03</div>
+        <div class="step-badge">
+          <div class="step-badge-dot"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="4" fill="none" stroke="#fff" stroke-width="1.5"/><path d="M6 4 V6 L7.5 7.5" stroke="#fff" stroke-width="1.5"/></svg></div>
+          <div class="step-badge-text" data-i18n="step3_badge">Step 03</div>
+        </div>
+        <div class="step-title" data-i18n="step3_title">Start the Server</div>
+        <div class="step-desc" data-i18n="step3_desc">Boot or restart your server. Config files will be auto-generated.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num-bg">04</div>
+        <div class="step-badge" style="background:rgba(68,102,204,0.1);border-color:rgba(68,102,204,0.4)">
+          <div class="step-badge-dot blue"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6 L4.5 8.5 L10 3" stroke="#fff" stroke-width="1.5" fill="none"/></svg></div>
+          <div class="step-badge-text" style="color:#7799ee;" data-i18n="step4_badge">Step 04</div>
+        </div>
+        <div class="step-title" data-i18n="step4_title">Configure Files</div>
+        <div class="step-desc" data-i18n="step4_desc">Edit the generated config files to match your server needs.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEPENDENCIES -->
+  <div class="deps-section reveal reveal-delay-2">
+    <div class="deps-group">
+      <div class="deps-label" data-i18n="deps_required_label">Required</div>
+      <div class="deps-pills">
+        <div class="dep-pill dep-pill-required"><div class="dep-dot" style="background:#ef4444;box-shadow:0 0 6px rgba(239,68,68,0.5);"></div><div class="dep-name" style="color:#fca5a5;">Paper</div></div>
+        <div class="dep-pill dep-pill-required"><div class="dep-dot" style="background:#ffaa22;"></div><div class="dep-name" style="color:#ffbb44;">Vault</div></div>
+      </div>
+    </div>
+    <div class="deps-divider"></div>
+    <div class="deps-group">
+      <div class="deps-label" data-i18n="deps_optional_label">Optional</div>
+      <div class="deps-pills">
+        <div class="dep-pill"><div class="dep-dot" style="background:#7c3aed;"></div><div class="dep-name" style="color:#a78bfa;">Apollo</div></div>
+        <div class="dep-pill"><div class="dep-dot" style="background:#44cc44;"></div><div class="dep-name" style="color:#55dd55;">LuckPerms</div></div>
+        <div class="dep-pill"><div class="dep-dot" style="background:#6699ff;"></div><div class="dep-name" style="color:#7aabff;">PlaceholderAPI</div></div>
+        <div class="dep-pill"><div class="dep-dot" style="background:#5577ee;"></div><div class="dep-name" style="color:#6688ff;">WorldGuard</div></div>
+        <div class="dep-pill"><div class="dep-dot" style="background:#8855cc;"></div><div class="dep-name" style="color:#aa77ee;">WorldEdit</div></div>
+        <div class="dep-pill"><div class="dep-dot" style="background:#22aa88;"></div><div class="dep-name" style="color:#33cc99;">EconomyShopGUI</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-stripe reveal reveal-delay-3"></div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="site-footer-text">© 2026</div>
+    <div class="site-footer-dot"></div>
+    <div class="site-footer-brand">SDF Development</div>
+    <div class="site-footer-dot"></div>
+    <div class="site-footer-text" data-i18n="footer_rights">All rights reserved</div>
+  </footer>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox-overlay">
+  <img class="lightbox-img" id="lightbox-img" src="" alt="">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+  </button>
+  <button class="lightbox-nav lb-prev" id="lb-prev">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 2L4 8L10 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <button class="lightbox-nav lb-next" id="lb-next">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 2L12 8L6 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div class="lightbox-counter" id="lb-counter">1 / 1</div>
+</div>
+
+<script>
+/* ══════════════════════════════
+   CURSOR
+══════════════════════════════ */
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursor-ring');
+let mx = -100, my = -100, rx = -100, ry = -100;
+
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+function animCursor() {
+  cursor.style.left = mx + 'px';
+  cursor.style.top  = my + 'px';
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  cursorRing.style.left = rx + 'px';
+  cursorRing.style.top  = ry + 'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+
+/* ══════════════════════════════
+   SIDEBAR SCROLL - INSTALLATION
+══════════════════════════════ */
+const _navInst = document.getElementById('nav-install'); if(_navInst) _navInst.addEventListener('click', function(e) {
+  e.preventDefault();
+  const el = document.getElementById('installation');
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+});
+
+/* ══════════════════════════════
+   PARTICLES
+══════════════════════════════ */
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', () => { resize(); initParticles(); });
+
+function initParticles() {
+  particles = [];
+  const count = Math.floor((W * H) / 18000);
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.2 + 0.3,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      o: Math.random() * 0.6 + 0.1,
+    });
+  }
+}
+initParticles();
+
+function drawParticles() {
+  ctx.clearRect(0, 0, W, H);
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+    if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(240,106,0,${p.o})`;
+    ctx.fill();
+  });
+  // draw lines between close particles
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 90) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(240,106,0,${0.08 * (1 - dist/90)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+/* ══════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════ */
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.12 });
+revealEls.forEach(el => revealObserver.observe(el));
+
+/* ══════════════════════════════
+   COUNTER ANIMATION
+══════════════════════════════ */
+const counters = document.querySelectorAll('[data-target]');
+let countersStarted = false;
+
+const counterObserver = new IntersectionObserver((entries) => {
+  if (countersStarted) return;
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      countersStarted = true;
+      counters.forEach(el => {
+        const target = +el.dataset.target;
+        const suffix = el.dataset.suffix || '';
+        let current = 0;
+        const step = Math.ceil(target / 40);
+        const t = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = current + suffix;
+          if (current >= target) clearInterval(t);
+        }, 28);
+      });
+    }
+  });
+}, { threshold: 0.5 });
+
+counters.forEach(el => counterObserver.observe(el));
+
+/* ══════════════════════════════
+   SYSTEM DATA
+══════════════════════════════ */
+const systemData = {
+  koth:         { title: 'KOTH',           badgeKey: 'sys_modal_koth_badge',         descKey: 'sys_modal_koth_desc',         featKeys: ['sys_modal_koth_f1','sys_modal_koth_f2','sys_modal_koth_f3','sys_modal_koth_f4','sys_modal_koth_f5'],         terminal: [{t:'prompt',v:'/'},{t:'cmd',v:'koth start'},{t:'out',v:'[KOTH] Iniciando evento en zona: Hill_1'},{t:'green',v:'[KOTH] ✓ Evento iniciado — 5 jugadores unidos'},{t:'out',v:'[KOTH] Capturando... 00:03:42 restantes'}] },
+  clans:        { title: 'CLANES',         badgeKey: 'sys_modal_clans_badge',        descKey: 'sys_modal_clans_desc',        featKeys: ['sys_modal_clans_f1','sys_modal_clans_f2','sys_modal_clans_f3','sys_modal_clans_f4','sys_modal_clans_f5'],        terminal: [{t:'prompt',v:'/'},{t:'cmd',v:'clan create FireSquad'},{t:'green',v:'[Clanes] ✓ Clan "FireSquad" creado'},{t:'prompt',v:'/'},{t:'cmd',v:'clan invite Steve'},{t:'out',v:'[Clanes] Invitación enviada a Steve'}] },
+  combat:       { title: 'COMBAT PVP',     badgeKey: 'sys_modal_combat_badge',       descKey: 'sys_modal_combat_desc',       featKeys: ['sys_modal_combat_f1','sys_modal_combat_f2','sys_modal_combat_f3','sys_modal_combat_f4','sys_modal_combat_f5'],       terminal: [{t:'out',v:'[Combate] Steve ha taggeado a Alex'},{t:'out',v:'[Combate] Tag expira en 15s'},{t:'prompt',v:'/'},{t:'cmd',v:'combat status'},{t:'green',v:'[Combate] Estado: EN COMBATE (12s restantes)'}] },
+  economy:      { title: 'ECONOMÍA',       badgeKey: 'sys_modal_economy_badge',      descKey: 'sys_modal_economy_desc',      featKeys: ['sys_modal_economy_f1','sys_modal_economy_f2','sys_modal_economy_f3','sys_modal_economy_f4','sys_modal_economy_f5'],      terminal: [{t:'prompt',v:'/'},{t:'cmd',v:'balance'},{t:'green',v:'Saldo: $24,500.00'},{t:'prompt',v:'/'},{t:'cmd',v:'pay Steve 1000'},{t:'out',v:'[Economía] ✓ $1,000 enviados a Steve'}] },
+  crates:       { title: 'CRATES',         badgeKey: 'sys_modal_crates_badge',       descKey: 'sys_modal_crates_desc',       featKeys: ['sys_modal_crates_f1','sys_modal_crates_f2','sys_modal_crates_f3','sys_modal_crates_f4','sys_modal_crates_f5'],       terminal: [{t:'prompt',v:'/'},{t:'cmd',v:'crate give Steve Legendary 1'},{t:'green',v:'[Crates] ✓ Entregada 1x llave Legendary a Steve'},{t:'out',v:'[Crates] ¡Steve abrió una caja Legendary!'},{t:'green',v:'[Crates] Steve ganó: Espada de Diamante x1'}] },
+  bounties:     { title: 'RECOMPENSAS',    badgeKey: 'sys_modal_bounties_badge',     descKey: 'sys_modal_bounties_desc',     featKeys: ['sys_modal_bounties_f1','sys_modal_bounties_f2','sys_modal_bounties_f3','sys_modal_bounties_f4','sys_modal_bounties_f5'],     terminal: [{t:'prompt',v:'/'},{t:'cmd',v:'bounty set Steve 5000'},{t:'out',v:'[Recompensas] Recompensa de $5,000 sobre Steve'},{t:'out',v:'[Recompensas] ¡Alex cobró la recompensa de Steve!'},{t:'green',v:'[Recompensas] ✓ Alex recibió $5,000'}] },
+  homes:        { title: 'HOMES & TPA',    badgeKey: 'sys_modal_homes_badge',        descKey: 'sys_modal_homes_desc',        featKeys: ['sys_modal_homes_f1','sys_modal_homes_f2','sys_modal_homes_f3','sys_modal_homes_f4','sys_modal_homes_f5'],        terminal: [{t:'prompt',v:'/'},{t:'cmd',v:'sethome base'},{t:'green',v:'[Homes] ✓ Casa "base" establecida'},{t:'prompt',v:'/'},{t:'cmd',v:'home base'},{t:'out',v:'[Homes] Teletransportando en 3s... no te muevas'}] },
+  leaderboards: { title: 'CLASIFICACIONES',badgeKey: 'sys_modal_leaderboards_badge', descKey: 'sys_modal_leaderboards_desc', featKeys: ['sys_modal_leaderboards_f1','sys_modal_leaderboards_f2','sys_modal_leaderboards_f3','sys_modal_leaderboards_f4','sys_modal_leaderboards_f5'], terminal: [{t:'prompt',v:'/'},{t:'cmd',v:'leaderboard top kills'},{t:'green',v:'#1 Steve — 2,341 kills'},{t:'out',v:'#2 Alex  — 1,892 kills'},{t:'out',v:'#3 Notch — 1,204 kills'}] },
+  kits:         { title: 'KITS',           badgeKey: 'sys_modal_kits_badge',         descKey: 'sys_modal_kits_desc',         featKeys: ['sys_modal_kits_f1','sys_modal_kits_f2','sys_modal_kits_f3','sys_modal_kits_f4','sys_modal_kits_f5'],         terminal: [{t:'prompt',v:'/'},{t:'cmd',v:'kit'},{t:'out',v:'[Kits] Abriendo selección de kits...'},{t:'prompt',v:'/'},{t:'cmd',v:'kit Warrior'},{t:'green',v:'[Kits] ✓ Kit "Warrior" reclamado'}] },
+  staff:        { title: 'STAFF TOOLS',    badgeKey: 'sys_modal_staff_badge',        descKey: 'sys_modal_staff_desc',        featKeys: ['sys_modal_staff_f1','sys_modal_staff_f2','sys_modal_staff_f3','sys_modal_staff_f4','sys_modal_staff_f5'],        terminal: [{t:'prompt',v:'/'},{t:'cmd',v:'vanish'},{t:'green',v:'[Staff] ✓ Ahora eres invisible'},{t:'prompt',v:'/'},{t:'cmd',v:'freeze Steve'},{t:'out',v:'[Staff] Steve ha sido congelado'}] },
+  scoreboard:   { title: 'SCOREBOARD',     badgeKey: 'sys_modal_scoreboard_badge',   descKey: 'sys_modal_scoreboard_desc',   featKeys: ['sys_modal_scoreboard_f1','sys_modal_scoreboard_f2','sys_modal_scoreboard_f3','sys_modal_scoreboard_f4','sys_modal_scoreboard_f5'],   terminal: [{t:'out',v:'─────────────────'},{t:'green',v:'  SDF Survival'},{t:'out',v:'  Kills: 42'},{t:'out',v:'  Dinero: $1,200'},{t:'out',v:'  Ping: 34ms'},{t:'out',v:'─────────────────'}] },
+  clearlag:     { title: 'CLEARLAG',       badgeKey: 'sys_modal_clearlag_badge',     descKey: 'sys_modal_clearlag_desc',     featKeys: ['sys_modal_clearlag_f1','sys_modal_clearlag_f2','sys_modal_clearlag_f3','sys_modal_clearlag_f4','sys_modal_clearlag_f5'],     terminal: [{t:'out',v:'[ClearLag] Limpiando en 30 segundos...'},{t:'out',v:'[ClearLag] Limpiando en 10 segundos...'},{t:'out',v:'[ClearLag] Limpiando en  5 segundos...'},{t:'green',v:'[ClearLag] ✓ Eliminadas 1,842 entidades'}] },
+  mobstack:     { title: 'MOBSTACK',       badgeKey: 'sys_modal_mobstack_badge',     descKey: 'sys_modal_mobstack_desc',     featKeys: ['sys_modal_mobstack_f1','sys_modal_mobstack_f2','sys_modal_mobstack_f3','sys_modal_mobstack_f4','sys_modal_mobstack_f5'],     terminal: [{t:'out',v:'[MobStack] Apilados 12x Zombie → x12 Zombie'},{t:'out',v:'[MobStack] Apilados 8x Skeleton → x8 Skeleton'},{t:'green',v:'[MobStack] TPS mejorado: 18.2 → 19.8'}] },
+  tabulator:    { title: 'TABULATOR',      badgeKey: 'sys_modal_tabulator_badge',    descKey: 'sys_modal_tabulator_desc',    featKeys: ['sys_modal_tabulator_f1','sys_modal_tabulator_f2','sys_modal_tabulator_f3','sys_modal_tabulator_f4','sys_modal_tabulator_f5'],    terminal: [{t:'out',v:'┌─────── Online (3/50) ───────┐'},{t:'green',v:'  [Admin] Steve'},{t:'out',v:'  [VIP] Alex'},{t:'out',v:'  [Member] Notch'},{t:'out',v:'└─────────────────────────────┘'}] },
+  afkzone:      { title: 'ZONA AFK',       badgeKey: 'sys_modal_afkzone_badge',      descKey: 'sys_modal_afkzone_desc',      featKeys: ['sys_modal_afkzone_f1','sys_modal_afkzone_f2','sys_modal_afkzone_f3','sys_modal_afkzone_f4','sys_modal_afkzone_f5'],      terminal: [{t:'out',v:'[AFK] Steve está ahora AFK'},{t:'out',v:'[AFK] Teletransportando a Steve a la Zona AFK...'},{t:'green',v:'[AFK] Steve ha vuelto — 00:12:34 AFK'},{t:'out',v:'[AFK] Steve ganó 120 monedas AFK'}] },
+  protections:  { title: 'PROTECCIONES',   badgeKey: 'sys_modal_protections_badge',  descKey: 'sys_modal_protections_desc',  featKeys: ['sys_modal_protections_f1','sys_modal_protections_f2','sys_modal_protections_f3','sys_modal_protections_f4','sys_modal_protections_f5'],  terminal: [{t:'prompt',v:'/'},{t:'cmd',v:'ps get Basic'},{t:'green',v:'[PS] ✓ Bloque de protección obtenido'},{t:'out',v:'[PS] Colócalo en el suelo para proteger la zona'},{t:'prompt',v:'/'},{t:'cmd',v:'ps add Steve'},{t:'green',v:'[PS] ✓ Steve añadido como miembro'}] },
+};
+
+/* ══════════════════════════════
+   MODAL LOGIC
+══════════════════════════════ */
+const overlay   = document.getElementById('modal-overlay');
+const modalClose = document.getElementById('modal-close');
+
+// Map each system key to its images (paths relative to where flags are, e.g. images/)
+const systemImages = {
+  koth:        ['images/koth1.png','images/koth2.png','images/koth3.png','images/koth4.png','images/koth5.png'],
+  clans:       ['images/clan1.png','images/clan2.png','images/clan3.png','images/clan4.png'],
+  combat:      ['images/coimbat1.png','images/combat2.png','images/combat3.png'],
+  economy:     ['images/economy1.png','images/economy2.png','images/economy 3.png'],
+  bounties:    ['images/bounty1.png','images/bounty2.png','images/bounty3.png'],
+  clearlag:    ['images/clearlag1.png','images/clearlag2.png'],
+  mobstack:    ['images/mobstack1.png','images/mobstack2.png','images/mobstack3.png'],
+  scoreboard:  ['images/scoreboard1.png','images/scoreboard2.png','images/scoreboard3.png','images/scoreboard4.png'],
+  tabulator:   ['images/tabulator1.png','images/tabulator2.png','images/tabulator3.png','images/tabulator4.png'],
+  homes:       ['images/homes1.png','images/homes2.png','images/homes3.png'],
+
+};
+
+// ── SLIDER STATE ──
+let sliderIndex = 0;
+let sliderImages = [];
+let sliderDims = [];
+
+function adaptViewport(i) {
+  const viewport = document.getElementById('slider-viewport');
+  const d = sliderDims[i];
+  if (!d || !d.w || !d.h) return;
+
+  const usableW = viewport.offsetWidth - 104; // minus arrow space + padding
+  const maxH = 320;
+
+  // For tiny images (chat messages, scoreboards etc), scale up to be readable
+  let scale;
+  if (d.w < 250 && d.h < 80) {
+    scale = Math.min(4, usableW / d.w, maxH / d.h);       // ultra-tiny: up to 4x
+  } else if (d.w < 450 && d.h < 180) {
+    scale = Math.min(2.5, usableW / d.w, maxH / d.h);     // small: up to 2.5x
+  } else {
+    scale = Math.min(1, usableW / d.w, maxH / d.h);       // normal: never upscale
+  }
+
+  const displayH = Math.round(d.h * scale);
+  const clampedH = Math.max(80, Math.min(maxH, displayH + 32));
+  viewport.style.height = clampedH + 'px';
+
+  // Apply crisp rendering for pixel art (small MC screenshots)
+  const img = viewport.querySelector(`.slider-slide[data-i="${i}"] img`);
+  if (img) {
+    img.style.imageRendering = (d.w < 600) ? 'pixelated' : 'auto';
+    // Explicit size so it renders at the scaled dimensions
+    img.style.width = Math.round(d.w * scale) + 'px';
+    img.style.height = Math.round(d.h * scale) + 'px';
+    img.style.maxWidth = 'none';
+    img.style.maxHeight = 'none';
+  }
+}
+
+function buildSlider(images) {
+  sliderIndex = 0;
+  sliderImages = images;
+  sliderDims = new Array(images.length).fill(null);
+
+  // Reset viewport height
+  document.getElementById('slider-viewport').style.height = '180px';
+
+  // Build slides
+  const track = document.getElementById('slider-track');
+  track.innerHTML = images.map((src, i) =>
+    `<div class="slider-slide${i === 0 ? ' active' : ''}" data-i="${i}">
+       <img src="${src}" alt="preview ${i+1}" loading="${i === 0 ? 'eager' : 'lazy'}">
+     </div>`
+  ).join('');
+
+  // Measure dimensions and adapt viewport for each image
+  track.querySelectorAll('.slider-slide').forEach((slide, i) => {
+    const img = slide.querySelector('img');
+    const measure = () => {
+      sliderDims[i] = { w: img.naturalWidth, h: img.naturalHeight };
+      if (i === 0) adaptViewport(0);
+    };
+    if (img.complete && img.naturalWidth) measure();
+    else img.addEventListener('load', measure);
+  });
+
+  // Build thumbs
+  const thumbs = document.getElementById('slider-thumbs');
+  thumbs.innerHTML = images.map((src, i) =>
+    `<div class="slider-thumb${i === 0 ? ' active' : ''}" data-i="${i}">
+       <img src="${src}" alt="thumb ${i+1}" loading="lazy">
+     </div>`
+  ).join('');
+  thumbs.querySelectorAll('.slider-thumb').forEach(t => {
+    t.addEventListener('click', () => goSlide(+t.dataset.i));
+  });
+
+  const showArrows = images.length > 1;
+  document.getElementById('slider-prev').style.display = showArrows ? '' : 'none';
+  document.getElementById('slider-next').style.display = showArrows ? '' : 'none';
+  thumbs.style.display = images.length > 1 ? '' : 'none';
+
+  updateCounter();
+}
+
+function goSlide(next) {
+  if (next === sliderIndex) return;
+  const slides = document.querySelectorAll('.slider-slide');
+  const thumbEls = document.querySelectorAll('.slider-thumb');
+
+  const direction = next > sliderIndex ? 'exit-left' : 'exit-right';
+  slides[sliderIndex].classList.remove('active');
+  slides[sliderIndex].classList.add(direction);
+  thumbEls[sliderIndex].classList.remove('active');
+
+  sliderIndex = (next + sliderImages.length) % sliderImages.length;
+
+  const incoming = slides[sliderIndex];
+  incoming.classList.add('active');
+  thumbEls[sliderIndex].classList.add('active');
+  thumbEls[sliderIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+
+  // Adapt viewport to the new image
+  if (sliderDims[sliderIndex]) {
+    adaptViewport(sliderIndex);
+  } else {
+    const img = incoming.querySelector('img');
+    const measure = () => {
+      sliderDims[sliderIndex] = { w: img.naturalWidth, h: img.naturalHeight };
+      adaptViewport(sliderIndex);
+    };
+    if (img.complete && img.naturalWidth) measure();
+    else img.addEventListener('load', measure);
+  }
+
+  setTimeout(() => {
+    document.querySelectorAll('.slider-slide').forEach(s => s.classList.remove('exit-left','exit-right'));
+  }, 480);
+
+  updateCounter();
+}
+
+function updateCounter() {
+  document.getElementById('slider-counter').textContent = `${sliderIndex + 1} / ${sliderImages.length}`;
+  // lightbox counter too
+  document.getElementById('lb-counter').textContent = `${sliderIndex + 1} / ${sliderImages.length}`;
+}
+
+document.getElementById('slider-prev').addEventListener('click', (e) => { e.stopPropagation(); goSlide(sliderIndex - 1); });
+document.getElementById('slider-next').addEventListener('click', (e) => { e.stopPropagation(); goSlide(sliderIndex + 1); });
+
+// ── LIGHTBOX ──
+const lightbox = document.getElementById('lightbox-overlay');
+const lbImg    = document.getElementById('lightbox-img');
+
+function openLightbox() {
+  lbImg.src = sliderImages[sliderIndex];
+  document.getElementById('lb-counter').textContent = `${sliderIndex + 1} / ${sliderImages.length}`;
+  lightbox.classList.add('open');
+}
+function closeLightbox() {
+  lightbox.classList.remove('open');
+}
+function lbNav(dir) {
+  goSlide(sliderIndex + dir);
+  lbImg.src = sliderImages[sliderIndex];
+}
+
+document.getElementById('slider-viewport').addEventListener('click', openLightbox);
+document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => { if (e.target === lightbox || e.target === lbImg) closeLightbox(); });
+document.getElementById('lb-prev').addEventListener('click', (e) => { e.stopPropagation(); lbNav(-1); });
+document.getElementById('lb-next').addEventListener('click', (e) => { e.stopPropagation(); lbNav(1); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft' && lightbox.classList.contains('open')) lbNav(-1);
+  if (e.key === 'ArrowRight' && lightbox.classList.contains('open')) lbNav(1);
+});
+
+function openModal(key) {
+  const d = systemData[key];
+  if (!d) return;
+
+  const T = (typeof TRANSLATIONS !== 'undefined') ? (TRANSLATIONS[localStorage.getItem('sdf_lang') || 'en'] || TRANSLATIONS['en']) : null;
+  const tr = (k) => T ? (T[k] || k) : k;
+
+  const titleParts = d.title.split(' ');
+  document.getElementById('modal-title').innerHTML =
+    `<span style="color:var(--orange)">${titleParts[0]}</span>${titleParts.length > 1 ? ' ' + titleParts.slice(1).join(' ') : ''}`;
+  document.getElementById('modal-badge').textContent = tr(d.badgeKey);
+
+  // Decide: images or terminal
+  const imgs = systemImages[key];
+  const slider  = document.getElementById('modal-slider');
+  const termWrap = document.getElementById('modal-terminal');
+
+  if (imgs && imgs.length > 0) {
+    overlay.classList.add('has-images');
+    slider.style.display = '';
+    termWrap.style.display = 'none';
+    buildSlider(imgs);
+  } else {
+    overlay.classList.remove('has-images');
+    slider.style.display = 'none';
+    termWrap.style.display = '';
+    termWrap.innerHTML = `<div class="mock-terminal">${
+      d.terminal.map((l, i) => {
+        if (l.t === 'prompt') return `<div class="t-line"><span class="t-prompt">/</span><span class="t-cmd">${d.terminal[i+1]?.v || ''}</span></div>`;
+        if (l.t === 'cmd') return '';
+        const cls = l.t === 'green' ? 't-green' : l.t === 'blue' ? 't-blue' : 't-out';
+        return `<div class="${cls}">${l.v}</div>`;
+      }).filter(Boolean).join('')
+    }</div>`;
+  }
+
+  document.getElementById('modal-desc').innerHTML = tr(d.descKey);
+  document.getElementById('modal-features').innerHTML =
+    d.featKeys.map(fk => `<div class="modal-feature">${tr(fk)}</div>`).join('');
+
+  overlay.classList.add('open');
+  document.body.classList.add('modal-open');
+}
+
+function closeModal() {
+  overlay.classList.remove('open');
+  overlay.classList.remove('has-images');
+  overlay.style.pointerEvents = 'none';
+  document.body.classList.remove('modal-open');
+  setTimeout(() => { overlay.style.pointerEvents = ''; }, 350);
+}
+
+document.querySelectorAll('.sys-card[data-system]').forEach(card => {
+  card.addEventListener('click', () => openModal(card.dataset.system));
+});
+
+modalClose.addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (lightbox.classList.contains('open')) {
+      closeLightbox();
+    } else if (overlay.classList.contains('open')) {
+      closeModal();
+    }
+  }
+});
+</script>
+</body>
+</html>
