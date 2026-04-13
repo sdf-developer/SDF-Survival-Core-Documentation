@@ -864,6 +864,15 @@
 
       <div class="cmd-card usuario" data-cat="economy usuario">
         <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>balancetop</div>
+          <div class="badge usuario" data-i18n="badge_player">Player</div>
+        </div>
+        <div class="cmd-desc" data-i18n="cmd_balancetop">Shows the ranking of the richest players on the server. Alias of /baltop.</div>
+        <div class="cmd-perm"><span class="perm-node">core.baltop</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="economy usuario">
+        <div class="cmd-top">
           <div class="cmd-name"><span>/</span>baltop</div>
           <div class="badge usuario" data-i18n="badge_player">Player</div>
         </div>
@@ -1905,82 +1914,163 @@
 
       <div class="cmd-card usuario" data-cat="protecciones usuario">
         <div class="cmd-top">
-          <div class="cmd-name"><span>/</span>ps create <span style="color:#94a3b8;font-weight:300">[name]</span></div>
+          <div class="cmd-name"><span>/</span>ps <span style="color:#94a3b8;font-weight:300">[subcommand]</span></div>
           <div class="badge usuario" data-i18n="badge_player">Player</div>
         </div>
-        <div class="cmd-desc" data-i18n="cmd_pscreate">Creates a new land protection at the player's current position. Prevents other players from building or interacting inside.</div>
+        <div class="cmd-desc" data-i18n="cmd_psmain">Opens the protection help menu. Lists all available subcommands for the land protection system.</div>
         <div class="cmd-perm"><span class="perm-node">core.ps</span></div>
       </div>
 
       <div class="cmd-card usuario" data-cat="protecciones usuario">
         <div class="cmd-top">
-          <div class="cmd-name"><span>/</span>ps delete <span style="color:#94a3b8;font-weight:300">[name]</span></div>
+          <div class="cmd-name"><span>/</span>ps get <span style="color:#94a3b8;font-weight:300">&lt;type&gt;</span></div>
           <div class="badge usuario" data-i18n="badge_player">Player</div>
         </div>
-        <div class="cmd-desc" data-i18n="cmd_psdelete">Permanently removes one of the player's own protections.</div>
+        <div class="cmd-desc" data-i18n="cmd_psget">Obtains a protection block of the specified type. Required to place a new protection zone.</div>
         <div class="cmd-perm"><span class="perm-node">core.ps</span></div>
       </div>
 
       <div class="cmd-card usuario" data-cat="protecciones usuario">
         <div class="cmd-top">
-          <div class="cmd-name"><span>/</span>ps expand <span style="color:#94a3b8;font-weight:300">[name] [size]</span></div>
+          <div class="cmd-name"><span>/</span>ps home <span style="color:#94a3b8;font-weight:300">[number]</span></div>
           <div class="badge usuario" data-i18n="badge_player">Player</div>
         </div>
-        <div class="cmd-desc" data-i18n="cmd_psexpand">Expands an existing protection by the specified number of blocks in all directions.</div>
+        <div class="cmd-desc" data-i18n="cmd_pshome">Teleports the player to one of their protections. If they have multiple, shows a clickable list.</div>
         <div class="cmd-perm"><span class="perm-node">core.ps</span></div>
       </div>
 
       <div class="cmd-card usuario" data-cat="protecciones usuario">
         <div class="cmd-top">
-          <div class="cmd-name"><span>/</span>ps addmember <span style="color:#94a3b8;font-weight:300">[name] [player]</span></div>
+          <div class="cmd-name"><span>/</span>ps info</div>
           <div class="badge usuario" data-i18n="badge_player">Player</div>
         </div>
-        <div class="cmd-desc" data-i18n="cmd_psaddmember">Adds a player as a member of the protection, allowing them to build and interact inside it.</div>
+        <div class="cmd-desc" data-i18n="cmd_psinfo">Shows detailed information about the protection you are standing in: owner, members, flags and size.</div>
         <div class="cmd-perm"><span class="perm-node">core.ps</span></div>
       </div>
 
       <div class="cmd-card usuario" data-cat="protecciones usuario">
         <div class="cmd-top">
-          <div class="cmd-name"><span>/</span>ps removemember <span style="color:#94a3b8;font-weight:300">[name] [player]</span></div>
+          <div class="cmd-name"><span>/</span>ps list</div>
           <div class="badge usuario" data-i18n="badge_player">Player</div>
         </div>
-        <div class="cmd-desc" data-i18n="cmd_psremovemember">Removes a player's access from the protection.</div>
+        <div class="cmd-desc" data-i18n="cmd_pslist">Lists all protections belonging to the player with their location and type.</div>
         <div class="cmd-perm"><span class="perm-node">core.ps</span></div>
       </div>
 
       <div class="cmd-card usuario" data-cat="protecciones usuario">
         <div class="cmd-top">
-          <div class="cmd-name"><span>/</span>ps info <span style="color:#94a3b8;font-weight:300">[name]</span></div>
+          <div class="cmd-name"><span>/</span>ps add <span style="color:#94a3b8;font-weight:300">&lt;player&gt;</span></div>
           <div class="badge usuario" data-i18n="badge_player">Player</div>
         </div>
-        <div class="cmd-desc" data-i18n="cmd_psinfo">Shows detailed information about a protection: owner, members, size and location.</div>
+        <div class="cmd-desc" data-i18n="cmd_psaddmember">Adds a player as a member of your current protection, allowing them to build and interact inside it.</div>
         <div class="cmd-perm"><span class="perm-node">core.ps</span></div>
       </div>
 
       <div class="cmd-card usuario" data-cat="protecciones usuario">
         <div class="cmd-top">
-          <div class="cmd-name"><span>/</span>ps list <span style="color:#94a3b8;font-weight:300">[player]</span></div>
+          <div class="cmd-name"><span>/</span>ps remove <span style="color:#94a3b8;font-weight:300">&lt;player&gt;</span></div>
           <div class="badge usuario" data-i18n="badge_player">Player</div>
         </div>
-        <div class="cmd-desc" data-i18n="cmd_pslist">Lists all protections belonging to the player. Staff can view another player's protections.</div>
+        <div class="cmd-desc" data-i18n="cmd_psremovemember">Removes a player's member access from your current protection.</div>
+        <div class="cmd-perm"><span class="perm-node">core.ps</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="protecciones usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>ps addowner <span style="color:#94a3b8;font-weight:300">&lt;player&gt;</span></div>
+          <div class="badge usuario" data-i18n="badge_player">Player</div>
+        </div>
+        <div class="cmd-desc" data-i18n="cmd_psaddowner">Adds a player as co-owner of the current protection with full management rights.</div>
+        <div class="cmd-perm"><span class="perm-node">core.ps</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="protecciones usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>ps removeowner <span style="color:#94a3b8;font-weight:300">&lt;player&gt;</span></div>
+          <div class="badge usuario" data-i18n="badge_player">Player</div>
+        </div>
+        <div class="cmd-desc" data-i18n="cmd_psremoveowner">Removes a player's co-owner rights from the current protection.</div>
+        <div class="cmd-perm"><span class="perm-node">core.ps</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="protecciones usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>ps flag</div>
+          <div class="badge usuario" data-i18n="badge_player">Player</div>
+        </div>
+        <div class="cmd-desc" data-i18n="cmd_psflag">Opens the flag panel for the current protection. Allows toggling PvP, mob kills, item drops and other zone rules.</div>
+        <div class="cmd-perm"><span class="perm-node">core.ps</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="protecciones usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>ps sethome</div>
+          <div class="badge usuario" data-i18n="badge_player">Player</div>
+        </div>
+        <div class="cmd-desc" data-i18n="cmd_pssethome">Sets the teleport home point inside your protection. Used by /ps home.</div>
+        <div class="cmd-perm"><span class="perm-node">core.ps</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="protecciones usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>ps lock</div>
+          <div class="badge usuario" data-i18n="badge_player">Player</div>
+        </div>
+        <div class="cmd-desc" data-i18n="cmd_pslock">Locks or unlocks the protection so nobody except the owner and co-owners can enter.</div>
+        <div class="cmd-perm"><span class="perm-node">core.ps</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="protecciones usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>ps view</div>
+          <div class="badge usuario" data-i18n="badge_player">Player</div>
+        </div>
+        <div class="cmd-desc" data-i18n="cmd_psview">Visualizes nearby protections using particle borders, making zone boundaries visible.</div>
+        <div class="cmd-perm"><span class="perm-node">core.ps</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="protecciones usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>ps hide</div>
+          <div class="badge usuario" data-i18n="badge_player">Player</div>
+        </div>
+        <div class="cmd-desc" data-i18n="cmd_pshide">Hides or shows the physical protection block. The protection remains active even when hidden.</div>
+        <div class="cmd-perm"><span class="perm-node">core.ps</span></div>
+      </div>
+
+      <div class="cmd-card usuario" data-cat="protecciones usuario">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>ps merge</div>
+          <div class="badge usuario" data-i18n="badge_player">Player</div>
+        </div>
+        <div class="cmd-desc" data-i18n="cmd_psmerge">Merges two adjacent protections that you own into a single larger zone.</div>
         <div class="cmd-perm"><span class="perm-node">core.ps</span></div>
       </div>
 
       <div class="cmd-card admin" data-cat="protecciones staff">
         <div class="cmd-top">
-          <div class="cmd-name"><span>/</span>ps admin delete <span style="color:#94a3b8;font-weight:300">[name]</span></div>
+          <div class="cmd-name"><span>/</span>ps give <span style="color:#94a3b8;font-weight:300">&lt;type&gt; &lt;player&gt;</span></div>
           <div class="badge admin">Staff</div>
         </div>
-        <div class="cmd-desc" data-i18n="cmd_psadmindelete">Allows staff to delete any player's protection regardless of ownership.</div>
+        <div class="cmd-desc" data-i18n="cmd_psgive">Gives a protection block of the specified type to the target player. Admin-only command.</div>
         <div class="cmd-perm"><span class="perm-node">core.ps.admin</span></div>
       </div>
 
       <div class="cmd-card admin" data-cat="protecciones staff">
         <div class="cmd-top">
-          <div class="cmd-name"><span>/</span>ps admin info <span style="color:#94a3b8;font-weight:300">[name]</span></div>
+          <div class="cmd-name"><span>/</span>ps viewhome <span style="color:#94a3b8;font-weight:300">&lt;player&gt;</span></div>
           <div class="badge admin">Staff</div>
         </div>
-        <div class="cmd-desc" data-i18n="cmd_psadmininfo">Allows staff to inspect any protection on the server regardless of ownership.</div>
+        <div class="cmd-desc" data-i18n="cmd_psviewhome">Shows all protections of the specified player with clickable teleport links.</div>
+        <div class="cmd-perm"><span class="perm-node">core.ps.admin</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="protecciones staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>ps setowner <span style="color:#94a3b8;font-weight:300">&lt;player&gt;</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc" data-i18n="cmd_pssetowner">Transfers ownership of the current protection to another player. Admin action.</div>
         <div class="cmd-perm"><span class="perm-node">core.ps.admin</span></div>
       </div>
 
@@ -2177,6 +2267,61 @@
         </div>
         <div class="cmd-desc" data-i18n="cmd_feedothers">With a player argument, restores another player's hunger. Requires the extra permission <em>core.feed.others</em>.</div>
         <div class="cmd-perm"><span class="perm-node">core.feed.others</span></div>
+      </div>
+
+
+      <div class="cmd-card admin" data-cat="utility staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>kitreset <span style="color:#94a3b8;font-weight:300">&lt;kit&gt; &lt;player&gt;</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc" data-i18n="cmd_kitreset">Resets the cooldown of a specific kit for the target player, allowing them to claim it again immediately.</div>
+        <div class="cmd-perm"><span class="perm-node">core.kitreset</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="utility staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>geoip <span style="color:#94a3b8;font-weight:300">&lt;player&gt;</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc" data-i18n="cmd_geoip">Shows the country of origin of a player's connection. Useful for detecting VPN abuse or alt accounts.</div>
+        <div class="cmd-perm"><span class="perm-node">core.geoip</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="utility staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>day <span style="color:#94a3b8;font-weight:300">[world]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc" data-i18n="cmd_day">Sets the time to day in the current world or the specified world.</div>
+        <div class="cmd-perm"><span class="perm-node">core.weather</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="utility staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>night <span style="color:#94a3b8;font-weight:300">[world]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc" data-i18n="cmd_night">Sets the time to night in the current world or the specified world.</div>
+        <div class="cmd-perm"><span class="perm-node">core.weather</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="utility staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>sun <span style="color:#94a3b8;font-weight:300">[world]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc" data-i18n="cmd_sun">Clears the weather in the current world or the specified world.</div>
+        <div class="cmd-perm"><span class="perm-node">core.weather</span></div>
+      </div>
+
+      <div class="cmd-card admin" data-cat="utility staff">
+        <div class="cmd-top">
+          <div class="cmd-name"><span>/</span>rain <span style="color:#94a3b8;font-weight:300">[world]</span></div>
+          <div class="badge admin">Staff</div>
+        </div>
+        <div class="cmd-desc" data-i18n="cmd_rain">Sets the weather to rain in the current world or the specified world.</div>
+        <div class="cmd-perm"><span class="perm-node">core.weather</span></div>
       </div>
 
     </div>
