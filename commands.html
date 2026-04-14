@@ -91,7 +91,7 @@
     position: relative;
   }
 
-  .wrapper { position: relative; z-index: 1; max-width: 1300px; margin: 0 auto; padding: 40px 24px 40px 60px; }
+  .wrapper { position: relative; z-index: 1; max-width: 1300px; margin: 0 auto; padding: 40px 24px; padding-left: 60px; }
 
   /* HEADER */
   header {
@@ -872,9 +872,7 @@
         <div class="cmd-aliases">Alias: <em>/bal</em></div>
         <div class="cmd-perm"><span class="perm-node">core.balance</span><span class="perm-node">core.balance.others</span></div>
       </div>
-        <div class="cmd-desc" data-i18n="cmd_balancetop">Shows the ranking of the richest players on the server. Alias of /baltop.</div>
-        <div class="cmd-perm"><span class="perm-node">core.baltop</span></div>
-      </div>
+
 
       <div class="cmd-card usuario" data-cat="economy usuario">
         <div class="cmd-top">
@@ -1161,15 +1159,15 @@
         </div>
         <div class="cmd-desc" data-i18n="cmd_rewardsafk">Opens the reward editor for the AFK zone. Allows configuring the items and benefits players receive for staying inside.</div>
         <div class="cmd-perm"><span class="perm-node">core.afkzone.admin</span></div>
+      </div>
 
-      <div class="cmd-card staff" data-cat="utility afkzone staff">
+      <div class="cmd-card admin" data-cat="utility afkzone staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>afkzone view</div>
-          <div class="badge staff" data-i18n="badge_staff">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_afkzoneview">Shows information and status of the configured AFK zones.</div>
         <div class="cmd-perm"><span class="perm-node">core.afkzone.view</span></div>
-      </div
       </div>
 
     </div>
@@ -1578,14 +1576,14 @@
       </div>
 
 
-      <div class="cmd-card staff" data-cat="combat koth staff">
+      <div class="cmd-card admin" data-cat="combat koth staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>koth view</div>
-          <div class="badge staff" data-i18n="badge_staff">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_kothview">Shows information and status of the configured KOTH zones.</div>
         <div class="cmd-perm"><span class="perm-node">core.koth.admin</span></div>
-      </div
+      </div>
     </div>
   </div>
 
@@ -2144,15 +2142,16 @@
         </div>
         <div class="cmd-desc" data-i18n="cmd_spawnzoneinfo">Shows information about the current spawn zone: boundaries, size and active status.</div>
         <div class="cmd-perm"><span class="perm-node">core.spawnzone.admin</span></div>
+      </div>
 
-      <div class="cmd-card staff" data-cat="utility staff">
+      <div class="cmd-card admin" data-cat="utility staff">
         <div class="cmd-top">
           <div class="cmd-name"><span>/</span>spawnzone view</div>
-          <div class="badge staff" data-i18n="badge_staff">Staff</div>
+          <div class="badge admin" data-i18n="badge_staff">Staff</div>
         </div>
         <div class="cmd-desc" data-i18n="cmd_spawnzoneview">Shows information and status of the configured spawn protection zone.</div>
         <div class="cmd-perm"><span class="perm-node">core.spawnzone.admin</span></div>
-      </div
+      </div>
       </div>
 
     </div>
