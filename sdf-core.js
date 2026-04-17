@@ -259,6 +259,7 @@ const TRANSLATIONS = {
     v1_title:        'Initial Release — SDF Survival Core',
     v1_date:         'Coming Soon · 2025',
     /* CHANGELOG */
+    badge_patch:     'Patch',
     badge_latest:    'Latest',
     badge_initial:   'Initial Release',
     prerelease_text: 'Plugin not yet released. <span>v1.0.0</span> is the initial launch version — future updates will be documented here. Join our <span>Discord</span> to stay up to date.',
@@ -897,6 +898,7 @@ const TRANSLATIONS = {
     versions_label:  'Todas las versiones',
     v1_title:        'Lanzamiento Inicial — SDF Survival Core',
     v1_date:         'Próximamente · 2025',
+    badge_patch:     'Parche',
     badge_latest:    'Último',
     badge_initial:   'Lanzamiento Inicial',
     prerelease_text: 'Plugin aún no lanzado. <span>v1.0.0</span> es la versión de lanzamiento inicial — las futuras actualizaciones se documentarán aquí. Únete a nuestro <span>Discord</span> para estar al día.',
@@ -1537,6 +1539,7 @@ const TRANSLATIONS = {
     versions_label:  'Toutes les versions',
     v1_title:        'Version Initiale — SDF Survival Core',
     v1_date:         'Bientôt · 2025',
+    badge_patch:     'Patch',
     badge_latest:    'Dernier',
     badge_initial:   'Version Initiale',
     prerelease_text: 'Plugin pas encore lancé. <span>v1.0.0</span> est la version de lancement initiale — les futures mises à jour seront documentées ici. Rejoignez notre <span>Discord</span> pour rester informé.',
